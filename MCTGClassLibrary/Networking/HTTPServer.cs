@@ -32,11 +32,27 @@ namespace MCTGClassLibrary
 
         public void HandleClient(TcpClient client)
         {
-            Request request = new Request(client.GetStream());
-            request.Display();
+            try
+            {
+                Request request = new Request(client.GetStream());
+                request.Display(ConsoleColor.Yellow);
 
-            Response response = RequestHandler.HandleRequest(request);
-            response.Send(client.GetStream());
+                RequestHandler handler = new RequestHandler();
+                Response response = handler.HandleRequest(request);
+
+                response.AddHeader("Content-Type", "text");
+                response.AddHeader("Server", "my shitty laptop");
+                response.AddHeader("Date", DateTime.Today.ToString());
+
+                response.Display(ConsoleColor.Green);
+
+                response.Send(client.GetStream());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

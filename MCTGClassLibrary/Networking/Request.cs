@@ -7,45 +7,35 @@ using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class Request
+    public class Request : ResponseRequestBase
     {
         private string request;
-        public Dictionary<string, string> Values { get; private set; }
         public Request(NetworkStream clientStream)
         {
             StreamReader reader = new StreamReader(clientStream);
 
-            while (reader.Peek() != -1)
-                request += reader.ReadLine() + "\r\n";
+            // read single chars
+            // readLine() will block at the empty line
+            while (reader.Peek() >= 0)
+                request += (char)reader.Read();
 
             Values = new Dictionary<string, string>();
             ParseRequest();
         }
 
-        public void Display()
-        {
-            Console.Write('\n');
-
-            foreach (KeyValuePair<string, string> kvp in Values)
-                PrintInColor(kvp.Key, kvp.Value);
-            
-            Console.Write('\n');
-        }
-
-        private void PrintInColor(string key, string value, ConsoleColor color = ConsoleColor.Green)
-        {
-            Console.Write(key + ": ");
-            Console.ForegroundColor = color;
-            Console.WriteLine(value);
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
         private void ParseRequest()
         {
+            if (string.IsNullOrEmpty(request))
+                throw new InvalidDataException();
+
             string[] lines = request.Split("\r\n");
 
             // first line has format METHOD ROUTE PROTOCOL
             string[] tokens = lines[0].Split(' ');
+
+            if (tokens.Length != 3)
+                throw new InvalidDataException();
+
             Values.Add("Method", tokens[0]);
             Values.Add("Route", tokens[1]);
             Values.Add("Protocol", tokens[2]);

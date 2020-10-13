@@ -4,11 +4,8 @@ using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class Player
+    public interface IMonster
     {
-
-
-        public Player() { }
-
+        bool Attack(Card enemy);
     }
 }

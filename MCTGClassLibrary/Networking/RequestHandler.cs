@@ -7,25 +7,33 @@ namespace MCTGClassLibrary
 {
     public class RequestHandler
     {
-        private RequestHandler(){}
+        public RequestHandler(){}
 
-        public static Response HandleRequest(Request request)
+        public Response HandleRequest(Request request)
         {
             Response response = new Response("200", "OK");
 
-            response.AddHeader("Content-Type", "text");
-            response.AddHeader("Server", "my shitty laptop");
-            response.AddHeader("Date", DateTime.Today.ToString());
+            /*IRequestHandler handler = GetRequestHandler(request);
 
+            Response response = handler.HandleRequest(request); */
 
 
             response.AddPayload("hello world\n");
-
-
             OnRequestHandled(new RequestEventArgs());
 
             return response;
         }
+
+        /*private static IRequestHandler GetRequestHandler(Request request)
+        {
+            //string Handlername = request
+            switch(request)
+            {
+
+            }
+
+            return new GameHandler();
+        } */
 
 
         //fire event every time a request is handled

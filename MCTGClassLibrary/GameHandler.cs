@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class GameHandler
+    public class GameHandler //: IRequestHandler
     {
         public GameHandler() { }
 
@@ -23,9 +23,15 @@ namespace MCTGClassLibrary
         public void EventListener(object publisher, RequestEventArgs args)
         {
             Console.WriteLine(args.Test);
-
         }
 
+        public void HandleRequest(Request request)
+        {
+            switch(request.Values[""])
+            {
 
+            }
+
+        }
     }
 }

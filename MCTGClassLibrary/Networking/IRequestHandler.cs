@@ -4,11 +4,10 @@ using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class Player
+    public interface IRequestHandler
     {
 
-
-        public Player() { }
-
+        Response HandleRequest(Request request);
+        
     }
 }

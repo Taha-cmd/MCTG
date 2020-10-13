@@ -7,10 +7,9 @@ using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class Response
+    public class Response : ResponseRequestBase
     {
 
-        public Dictionary<string, string> Values { get; private set; }
         private string payload = "";
         
         public string Protocol { get; set; }
@@ -27,7 +26,10 @@ namespace MCTGClassLibrary
 
         public void AddHeader(string key, string value)
         {
-            Values.Add(key, value);
+            if (Values.ContainsKey(key))
+                Values[key] = value;
+            else
+                Values.Add(key, value);
         }
 
         public void AddPayload(string payload)
@@ -35,8 +37,17 @@ namespace MCTGClassLibrary
             this.payload += payload;
         }
 
+        public override void Display(ConsoleColor color)
+        {
+            PrintInColor("Protocol", Protocol, color);
+            PrintInColor("Status", Status, color);
+            PrintInColor("Status Message", StatusMessage, color);
+            base.Display(color);
+        }
+
         public void Send(NetworkStream client)
         {
+            // using statement auto disposes and flushes the stream
             using(StreamWriter writer = new StreamWriter(client))
             {
                 writer.Write($"{Protocol} {Status} {StatusMessage}\r\n");
@@ -48,7 +59,6 @@ namespace MCTGClassLibrary
                 writer.Write("\r\n");
                 writer.Write(payload);
                 writer.Write("\r\n\r\n");
-                writer.Flush();
             }
         }
     }

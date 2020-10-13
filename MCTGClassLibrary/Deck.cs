@@ -4,11 +4,7 @@ using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class Player
+    class Deck
     {
-
-
-        public Player() { }
-
     }
 }
