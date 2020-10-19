@@ -21,13 +21,18 @@ namespace MCTGClassLibrary
     {
         public string Name { get; protected set; }
         public double Damage { get; set; }
-        public ElementType ElementType { get; set; }
-        public CardType CardType { get; set; }
+        public ElementType ElementType { get; protected set; }
+        public CardType CardType { get; protected set; }
 
+        public Card(ElementType element, CardType cardType)
+        {
+            ElementType = element;
+            CardType = cardType;
+        }
 
         protected bool Effective(ElementType attacker, ElementType defender)
         {
-            //  rules:
+            //  rules: 
             //  water -> fire
             //  fire -> normal
             //  normal -> water
@@ -58,6 +63,7 @@ namespace MCTGClassLibrary
         }
 
 
+        public abstract string Describe();
         public abstract bool Attack(Card enemy);
         protected abstract bool AttackMonster(Card enemy);
         protected abstract bool AttackSpell(Card enemy);

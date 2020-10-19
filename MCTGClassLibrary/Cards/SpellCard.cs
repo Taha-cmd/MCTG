@@ -6,10 +6,27 @@ namespace MCTGClassLibrary
 {
     public class SpellCard : Card
     {
-        public SpellCard()
+        public SpellCard(ElementType element) : base(element, CardType.Spell)
         {
-            CardType = CardType.Spell;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Card card = obj as Card;
+
+            if (card == null) return false;
+            if (card.CardType == CardType.Monster) return false;
+            if (card.ElementType != ElementType) return false;
+
+            return true;
+        }
+
+        public override string Describe()
+        {
+            return $"({ElementType.ToString()}, {CardType.ToString()})";
+        }
+
         public override bool Attack(Card enemy)
         {
             return enemy.CardType == CardType.Monster ? AttackMonster(enemy) : AttackSpell(enemy);
@@ -23,10 +40,8 @@ namespace MCTGClassLibrary
             if (enemy.MonsterType == MonsterType.Kraken)
                 return false;
 
-            if (enemy.MonsterType == MonsterType.Knight)
-                if (ElementType == ElementType.Water)
-                    return true;
-
+            if (enemy.MonsterType == MonsterType.Knight && ElementType == ElementType.Water)
+                return true;
 
             Damage = CalcualteDamageBasedOnElementTypeEffectiveness(ElementType, enemy.ElementType, Damage);
 

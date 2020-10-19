@@ -24,20 +24,25 @@ namespace MCTGUnitTests
 
             // attacker must win
 
-            Card attacker = new SpellCard();
-            Card defender = new SpellCard();
+            {
+                Card attacker = new SpellCard(ElementType.Water);
+                Card defender = new SpellCard(ElementType.Fire);
+                Assert.IsTrue(attacker.Attack(defender));
+            }
 
-            attacker.ElementType = ElementType.Water;
-            defender.ElementType = ElementType.Fire;
-            Assert.IsTrue(attacker.Attack(defender));
+            {
+                Card attacker = new SpellCard(ElementType.Fire);
+                Card defender = new SpellCard(ElementType.Normal);
+                Assert.IsTrue(attacker.Attack(defender));
+            }
 
-            attacker.ElementType = ElementType.Fire;
-            defender.ElementType = ElementType.Normal;
-            Assert.IsTrue(attacker.Attack(defender));
 
-            attacker.ElementType = ElementType.Normal;
-            defender.ElementType = ElementType.Water;
-            Assert.IsTrue(attacker.Attack(defender));
+            {
+                Card attacker = new SpellCard(ElementType.Normal);
+                Card defender = new SpellCard(ElementType.Water);
+                Assert.IsTrue(attacker.Attack(defender));
+            }
+
 
         }
 
@@ -52,21 +57,24 @@ namespace MCTGUnitTests
 
             // attacker must lose
 
-            Card attacker = new SpellCard();
-            Card defender = new SpellCard();
+            {
+                Card attacker = new SpellCard(ElementType.Normal);
+                Card defender = new SpellCard(ElementType.Fire);
+                Assert.IsFalse(attacker.Attack(defender));
+            }
 
-            attacker.ElementType = ElementType.Normal;
-            defender.ElementType = ElementType.Fire;
-            Assert.IsFalse(attacker.Attack(defender));
+            {
+                Card attacker = new SpellCard(ElementType.Water);
+                Card defender = new SpellCard(ElementType.Normal);
+                Assert.IsFalse(attacker.Attack(defender));
+            }
 
-            attacker.ElementType = ElementType.Water;
-            defender.ElementType = ElementType.Normal;
-            Assert.IsFalse(attacker.Attack(defender));
 
-            attacker.ElementType = ElementType.Fire;
-            defender.ElementType = ElementType.Water;
-            Assert.IsFalse(attacker.Attack(defender));
-
+            {
+                Card attacker = new SpellCard(ElementType.Fire);
+                Card defender = new SpellCard(ElementType.Water);
+                Assert.IsFalse(attacker.Attack(defender));
+            }
         }
 
         [Test]
@@ -79,49 +87,55 @@ namespace MCTGUnitTests
 
             // attacker must lose
 
-            Card attacker = new SpellCard();
-            Card defender = new SpellCard();
+            {
+                Card attacker = new SpellCard(ElementType.Normal);
+                Card defender = new SpellCard(ElementType.Normal);
+                Assert.IsFalse(attacker.Attack(defender));
+            }
 
-            attacker.ElementType = ElementType.Normal;
-            defender.ElementType = ElementType.Normal;
-            Assert.IsFalse(attacker.Attack(defender));
+            {
+                Card attacker = new SpellCard(ElementType.Water);
+                Card defender = new SpellCard(ElementType.Water);
+                Assert.IsFalse(attacker.Attack(defender));
+            }
 
-            attacker.ElementType = ElementType.Water;
-            defender.ElementType = ElementType.Water;
-            Assert.IsFalse(attacker.Attack(defender));
 
-            attacker.ElementType = ElementType.Fire;
-            defender.ElementType = ElementType.Fire;
-            Assert.IsFalse(attacker.Attack(defender));
-
+            {
+                Card attacker = new SpellCard(ElementType.Fire);
+                Card defender = new SpellCard(ElementType.Fire);
+                Assert.IsFalse(attacker.Attack(defender));
+            }
         }
 
 
         [Test]
         public void TestSpellCardAgainstKraken()
         {
-            SpellCard spell = new SpellCard();
-            MonsterCard monster = new MonsterCard();
-            monster.MonsterType = MonsterType.Kraken;
+            MonsterCard monster = new MonsterCard(ElementType.Normal, MonsterType.Kraken);
 
-            spell.ElementType = ElementType.Fire;
-            Assert.IsFalse(spell.Attack(monster));
+            {
+                Card spell = new SpellCard(ElementType.Fire);
+                Assert.IsFalse(spell.Attack(monster));
+            }
 
-            spell.ElementType = ElementType.Water;
-            Assert.IsFalse(spell.Attack(monster));
+            {
+                Card spell = new SpellCard(ElementType.Water);
+                Assert.IsFalse(spell.Attack(monster));
+            }
 
-            spell.ElementType = ElementType.Normal;
-            Assert.IsFalse(spell.Attack(monster));
+            {
+                Card spell = new SpellCard(ElementType.Normal);
+                Assert.IsFalse(spell.Attack(monster));
+            }
+
         }
 
         [Test]
         public void TestWaterSpellCardAgainstKnights()
         {
-            SpellCard spell = new SpellCard();
-            MonsterCard monster = new MonsterCard();
-            monster.MonsterType = MonsterType.Knight;
+            SpellCard spell = new SpellCard(ElementType.Water);
+            MonsterCard monster = new MonsterCard(ElementType.Normal, MonsterType.Knight);
 
-            spell.ElementType = ElementType.Water;
             Assert.IsTrue(spell.Attack(monster));
 
         }
