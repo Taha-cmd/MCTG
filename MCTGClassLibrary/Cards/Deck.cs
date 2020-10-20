@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary
 {

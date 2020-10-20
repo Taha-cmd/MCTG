@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary
 {
     public class SpellCard : Card
     {
-        public SpellCard(ElementType element) : base(element, CardType.Spell)
+        public SpellCard(ElementType element = ElementType.Normal) : base(element, CardType.Spell)
         {
         }
 
@@ -25,11 +26,6 @@ namespace MCTGClassLibrary
         public override string Describe()
         {
             return $"({ElementType.ToString()}, {CardType.ToString()})";
-        }
-
-        public override bool Attack(Card enemy)
-        {
-            return enemy.CardType == CardType.Monster ? AttackMonster(enemy) : AttackSpell(enemy);
         }
 
         protected override bool AttackMonster(Card monster)

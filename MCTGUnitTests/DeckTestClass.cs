@@ -4,6 +4,8 @@ using System.Text;
 using NUnit.Framework;
 using MCTGClassLibrary;
 using System.Data;
+using MCTGClassLibrary.Enums;
+using MCTGClassLibrary.Cards;
 
 namespace MCTGUnitTests
 {
@@ -20,10 +22,10 @@ namespace MCTGUnitTests
         {
             Deck deck = new Deck(2);
 
-            deck.Add(new SpellCard(ElementType.Normal));
-            deck.Add(new MonsterCard(ElementType.Normal, MonsterType.Dragon));
+            deck.Add(CardGenerator.RandomCard());
+            deck.Add(CardGenerator.RandomCard());
 
-            Assert.Throws<DataException>(() => deck.Add(new SpellCard(ElementType.Normal)));
+            Assert.Throws<DataException>(() => deck.Add(CardGenerator.RandomCard()));
         }
 
 
@@ -32,10 +34,10 @@ namespace MCTGUnitTests
         {
             Deck deck = new Deck(4);
 
-            deck.Add(new SpellCard(ElementType.Normal));
-            deck.Add(new SpellCard(ElementType.Fire));
-            deck.Add(new MonsterCard(ElementType.Normal, MonsterType.Dragon));
-            deck.Add(new MonsterCard(ElementType.Water, MonsterType.Kraken));
+            deck.Add(CardGenerator.RandomMonster());
+            deck.Add(CardGenerator.RandomSpell());
+            deck.Add(CardGenerator.RandomMonster());
+            deck.Add(CardGenerator.RandomSpell());
 
             for (int i = 0; i < 10000; i++)
             {

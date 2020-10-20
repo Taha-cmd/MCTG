@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary
 {
-    public enum CardType
-    {
-        Monster,
-        Spell
-    }
-
-    public enum ElementType
-    {
-        Fire,
-        Water,
-        Normal
-    }
-
     public abstract class Card
     {
         public string Name { get; protected set; }
@@ -62,9 +50,12 @@ namespace MCTGClassLibrary
             return attackerDamage;
         }
 
+        public bool Attack(Card enemy)
+        {
+            return enemy.CardType == CardType.Monster ? AttackMonster(enemy) : AttackSpell(enemy);
+        }
 
         public abstract string Describe();
-        public abstract bool Attack(Card enemy);
         protected abstract bool AttackMonster(Card enemy);
         protected abstract bool AttackSpell(Card enemy);
 

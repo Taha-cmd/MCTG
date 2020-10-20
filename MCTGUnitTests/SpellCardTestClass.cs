@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using MCTGClassLibrary;
 using NUnit.Framework;
+using MCTGClassLibrary.Enums;
+using MCTGClassLibrary.Cards.Monsters;
 
 namespace MCTGUnitTests
 {
@@ -111,7 +113,7 @@ namespace MCTGUnitTests
         [Test]
         public void TestSpellCardAgainstKraken()
         {
-            MonsterCard monster = new MonsterCard(ElementType.Normal, MonsterType.Kraken);
+            MonsterCard monster = new Kraken();
 
             {
                 Card spell = new SpellCard(ElementType.Fire);
@@ -134,7 +136,7 @@ namespace MCTGUnitTests
         public void TestWaterSpellCardAgainstKnights()
         {
             SpellCard spell = new SpellCard(ElementType.Water);
-            MonsterCard monster = new MonsterCard(ElementType.Normal, MonsterType.Knight);
+            MonsterCard monster = new Knight();
 
             Assert.IsTrue(spell.Attack(monster));
 

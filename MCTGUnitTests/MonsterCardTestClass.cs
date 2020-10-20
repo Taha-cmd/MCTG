@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using MCTGClassLibrary;
+using MCTGClassLibrary.Enums;
+using MCTGClassLibrary.Cards.Monsters;
 
 namespace MCTGUnitTests
 {
@@ -18,8 +20,8 @@ namespace MCTGUnitTests
         public void TestGoblinVsDragon()
         {
             //Goblins are too afraid of Dragons to attack. => dragons always win
-            Card goblin = new MonsterCard(ElementType.Normal, MonsterType.Goblin);
-            Card dragon = new MonsterCard(ElementType.Normal, MonsterType.Dragon);
+            Card goblin = new Goblin();
+            Card dragon = new Dragon();
 
             Assert.IsTrue(dragon.Attack(goblin));
             Assert.IsFalse(goblin.Attack(dragon));
@@ -28,9 +30,9 @@ namespace MCTGUnitTests
         [Test]
         public void TestWizzardVsOrk()
         {
-           // Wizzard can control Orks so they are not able to damage them. => wizzard always win
-            Card wizzard = new MonsterCard(ElementType.Normal, MonsterType.Wizzard);
-            Card ork = new MonsterCard(ElementType.Normal, MonsterType.Ork);
+            // Wizzard can control Orks so they are not able to damage them. => wizzard always win
+            Card wizzard = new Wizzard();
+            Card ork = new Ork();
 
             Assert.IsTrue(wizzard.Attack(ork));
             Assert.IsFalse(ork.Attack(wizzard));
@@ -43,7 +45,7 @@ namespace MCTGUnitTests
             // The armor of Knights is so heavy that WaterSpells make them drown them
             //instantly. => water spell card always wins
 
-            Card dragon = new MonsterCard(ElementType.Normal, MonsterType.Knight);
+            Card dragon = new Knight();
             Card water = new SpellCard(ElementType.Water);
 
             Assert.IsTrue(water.Attack(dragon));
@@ -55,7 +57,7 @@ namespace MCTGUnitTests
         public void TestKrakenVsSpells()
         {
             // The Kraken is immune against spells. => kraken wins against all spells
-            Card kraken = new MonsterCard(ElementType.Normal, MonsterType.Kraken);
+            Card kraken = new Kraken();
 
             Card water = new SpellCard(ElementType.Water);
             Card normal = new SpellCard(ElementType.Normal);
@@ -76,8 +78,8 @@ namespace MCTGUnitTests
         {
             //The FireElves know Dragons since they were little and can evade their attacks. => FireElves always win vs Dragons
 
-            Card dragon = new MonsterCard(ElementType.Normal, MonsterType.Dragon);
-            Card elve = new MonsterCard(ElementType.Normal, MonsterType.FireElve);
+            Card dragon = new Dragon();
+            Card elve = new FireElve();
 
             Assert.IsTrue(elve.Attack(dragon));
             Assert.IsFalse(dragon.Attack(elve));

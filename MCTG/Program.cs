@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using MCTGClassLibrary;
+using MCTGClassLibrary.Cards;
 
 namespace MCTG
 {
@@ -41,17 +42,17 @@ namespace MCTG
             Player p2 = new Player("player2");
 
             p1.makeDeck(
-                RandomCard.Get(),
-                RandomCard.Get(),
-                RandomCard.Get(),
-                RandomCard.Get()
+                CardGenerator.RandomCard(),
+                CardGenerator.RandomCard(),
+                CardGenerator.RandomCard(),
+                CardGenerator.RandomCard()
                 );
 
             p2.makeDeck(
-                RandomCard.Get(),
-                RandomCard.Get(),
-                RandomCard.Get(),
-                RandomCard.Get()
+                CardGenerator.RandomCard(),
+                CardGenerator.RandomCard(),
+                CardGenerator.RandomCard(),
+                CardGenerator.RandomCard()
                 );
 
             GameHandler handler = new GameHandler();
