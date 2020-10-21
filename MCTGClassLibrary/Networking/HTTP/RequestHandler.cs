@@ -1,5 +1,9 @@
-﻿using System;
+﻿using MCTGClassLibrary.Networking;
+using MCTGClassLibrary.Networking.EndpointHandlers;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -11,30 +15,15 @@ namespace MCTGClassLibrary
 
         public Response HandleRequest(Request request)
         {
-            Response response = new Response("200", "OK");
+            IEndpointHandler endpointHandler = EndpointHandlerManager.Get(request.Endpoint);
 
-            /*IRequestHandler handler = GetRequestHandler(request);
+            if (endpointHandler == null)
+                return new Response("400", "Bad Request");
 
-            Response response = handler.HandleRequest(request); */
+            //OnRequestHandled(new RequestEventArgs());
 
-
-            response.AddPayload("hello world\n");
-            OnRequestHandled(new RequestEventArgs());
-
-            return response;
+            return endpointHandler.HandleRequest(request);
         }
-
-        /*private static IRequestHandler GetRequestHandler(Request request)
-        {
-            //string Handlername = request
-            switch(request)
-            {
-
-            }
-
-            return new GameHandler();
-        } */
-
 
         //fire event every time a request is handled
         // gamehandler will subscribe to this event

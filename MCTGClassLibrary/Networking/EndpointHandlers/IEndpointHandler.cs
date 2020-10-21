@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MCTGClassLibrary
+namespace MCTGClassLibrary.Networking
 {
-    public interface IRequestHandler
+    public interface IEndpointHandler
     {
-
         Response HandleRequest(Request request);
-        
     }
 }

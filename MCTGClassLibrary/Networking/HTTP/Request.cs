@@ -10,6 +10,11 @@ namespace MCTGClassLibrary
     public class Request : ResponseRequestBase
     {
         private string request;
+        public string Method { get; private set; }
+        public string Endpoint { get; private set; }
+
+        public string Payload { get; private set; }
+
         public Request(NetworkStream clientStream)
         {
             StreamReader reader = new StreamReader(clientStream);
@@ -40,6 +45,12 @@ namespace MCTGClassLibrary
             Values.Add("Route", tokens[1]);
             Values.Add("Protocol", tokens[2]);
 
+            // extract endpoint from Route
+            string[] endpointTokens = Values["Route"].Split('/');
+            string endpoint = !string.IsNullOrWhiteSpace(endpointTokens[1]) ? endpointTokens[1] : "Home";
+
+            Values.Add("Endpoint", endpoint);
+
             // rest of lines has format key: value
             // after the empty line comes the body
             for(int i = 1; i < lines.Length; i++)
@@ -60,6 +71,10 @@ namespace MCTGClassLibrary
                     break;
                 }
             }
+
+            Method = Values["Method"];
+            Endpoint = Values["Endpoint"];
+            Payload = Values["Payload"];
         }
     }
 }
