@@ -6,7 +6,7 @@ using System.Text;
 namespace MCTGClassLibrary.DataObjects
 {
     [Serializable()]
-    public class User : ISerializable
+    public class UserData : ISerializable
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -9,7 +9,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
     {
         protected EndpointHandlerBase() { }
 
-        protected User GetUser(string json)
+        protected UserData GetUser(string json)
         {
             throw new NotImplementedException();
         }

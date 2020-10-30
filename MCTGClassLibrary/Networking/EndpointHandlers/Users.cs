@@ -21,7 +21,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
             try
             {
-                User user = JsonSerializer.Deserialize<User>(request.Payload);
+                UserData user = JsonSerializer.Deserialize<UserData>(request.Payload);
 
 
                 // database
