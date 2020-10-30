@@ -18,7 +18,7 @@ namespace MCTGClassLibrary
             Deck = new Deck(4, name);
         }
 
-        public void makeDeck(Card c1, Card c2, Card c3, Card c4)
+        public void MakeDeck(Card c1, Card c2, Card c3, Card c4)
         {
             if (!Deck.Empty)
                 Deck.Clear();

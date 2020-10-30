@@ -22,10 +22,10 @@ namespace MCTGUnitTests
         {
             Deck deck = new Deck(2);
 
-            deck.Add(CardGenerator.RandomCard());
-            deck.Add(CardGenerator.RandomCard());
+            deck.Add(CardsManager.RandomCard());
+            deck.Add(CardsManager.RandomCard());
 
-            Assert.Throws<DataException>(() => deck.Add(CardGenerator.RandomCard()));
+            Assert.Throws<DataException>(() => deck.Add(CardsManager.RandomCard()));
         }
 
 
@@ -34,10 +34,10 @@ namespace MCTGUnitTests
         {
             Deck deck = new Deck(4);
 
-            deck.Add(CardGenerator.RandomMonster());
-            deck.Add(CardGenerator.RandomSpell());
-            deck.Add(CardGenerator.RandomMonster());
-            deck.Add(CardGenerator.RandomSpell());
+            deck.Add(CardsManager.RandomMonster());
+            deck.Add(CardsManager.RandomSpell());
+            deck.Add(CardsManager.RandomMonster());
+            deck.Add(CardsManager.RandomSpell());
 
             for (int i = 0; i < 10000; i++)
             {
@@ -60,14 +60,17 @@ namespace MCTGUnitTests
         {
             Deck deck = new Deck(50);
 
-            deck.Add(new SpellCard(ElementType.Normal));
-            Assert.IsFalse(deck.Empty);
+            // test the equality operator
 
-            deck.Remove(new SpellCard(ElementType.Water));
-            Assert.IsFalse(deck.Empty);
+            for(int i = 0; i < 10000; i++)
+            {
+                Card card = CardsManager.RandomCard();
 
-            deck.Remove(new SpellCard(ElementType.Normal));
-            Assert.IsTrue(deck.Empty);
+                deck.Add(card);
+                deck.Remove(card);
+
+                Assert.IsTrue(deck.Empty);
+            }
         }
     }
 }

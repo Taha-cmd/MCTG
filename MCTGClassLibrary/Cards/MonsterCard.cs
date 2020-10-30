@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary
@@ -14,8 +15,12 @@ namespace MCTGClassLibrary
         {
             MonsterType = monsterType;
         }
+        public MonsterCard(CardData data, ElementType elementType, MonsterType monsterType) : base(data, elementType, CardType.Monster)
+        {
+            MonsterType = monsterType;
+        }
 
-        public override bool Equals(object obj)
+        /*public override bool Equals(object obj)
         {
             if (obj == null) return false;
             Card card = obj as Card;
@@ -30,7 +35,7 @@ namespace MCTGClassLibrary
             if (monster.MonsterType != MonsterType) return false;
 
             return true;
-        }
+        } */
 
         public override string Describe()
         {

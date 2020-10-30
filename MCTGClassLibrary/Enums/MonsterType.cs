@@ -12,6 +12,6 @@ namespace MCTGClassLibrary.Enums
         Ork,
         Knight,
         Kraken,
-        FireElve
+        FireElf
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary.Cards.Monsters
@@ -8,6 +9,11 @@ namespace MCTGClassLibrary.Cards.Monsters
     public class Knight : MonsterCard
     {
         public Knight(ElementType elementType = ElementType.Normal) : base(elementType, MonsterType.Knight)
+        {
+
+        }
+
+        public Knight(CardData data, ElementType elementType = ElementType.Normal) : base(data, elementType, MonsterType.Knight)
         {
 
         }
@@ -36,7 +42,7 @@ namespace MCTGClassLibrary.Cards.Monsters
                 case MonsterType.Kraken:
                     break;
 
-                case MonsterType.FireElve:
+                case MonsterType.FireElf:
                     break;
             }
 

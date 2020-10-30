@@ -8,13 +8,17 @@ namespace MCTGClassLibrary.DataObjects
     [Serializable()]
     public class UserData : ISerializable
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Username { get; set; } = null;
+        public string Password { get; set; } = null;
+        public string Name { get; set; } = null;
+        public string Bio { get; set; } = null;
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Username", Username);
             info.AddValue("Password", Password);
+            info.AddValue("Name", Name);
+            info.AddValue("Bio", Bio);
         }
     }
 }

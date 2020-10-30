@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary.Cards.Monsters
 {
-    public class FireElve : MonsterCard
+    public class FireElf : MonsterCard
     {
-        public FireElve(ElementType elementType = ElementType.Normal) : base(elementType, MonsterType.FireElve)
+        public FireElf(ElementType elementType = ElementType.Normal) : base(elementType, MonsterType.FireElf)
         {
 
         }
 
+        public FireElf(CardData data, ElementType elementType = ElementType.Normal) : base(data, elementType, MonsterType.FireElf)
+        {
+
+        }
 
         protected override bool AttackMonster(Card monster)
         {
@@ -38,7 +43,7 @@ namespace MCTGClassLibrary.Cards.Monsters
                 case MonsterType.Kraken:
                     break;
 
-                case MonsterType.FireElve:
+                case MonsterType.FireElf:
                     break;
             }
 

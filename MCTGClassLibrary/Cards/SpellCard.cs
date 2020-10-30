@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary
@@ -11,7 +12,13 @@ namespace MCTGClassLibrary
         {
         }
 
-        public override bool Equals(object obj)
+        public SpellCard(CardData data, ElementType element = ElementType.Normal)
+            : base(data, element, CardType.Spell)
+        {
+
+        }
+
+        /*public override bool Equals(object obj)
         {
             if (obj == null) return false;
             Card card = obj as Card;
@@ -21,7 +28,7 @@ namespace MCTGClassLibrary
             if (card.ElementType != ElementType) return false;
 
             return true;
-        }
+        } */
 
         public override string Describe()
         {

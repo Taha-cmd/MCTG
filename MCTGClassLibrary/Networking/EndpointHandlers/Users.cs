@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using MCTGClassLibrary.DataObjects;
+using System.IO;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -23,6 +24,8 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             {
                 UserData user = JsonSerializer.Deserialize<UserData>(request.Payload);
 
+                if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+                    throw new InvalidDataException("Username or Password empty");
 
                 // database
 

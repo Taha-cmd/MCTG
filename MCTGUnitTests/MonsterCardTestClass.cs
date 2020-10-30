@@ -79,7 +79,7 @@ namespace MCTGUnitTests
             //The FireElves know Dragons since they were little and can evade their attacks. => FireElves always win vs Dragons
 
             Card dragon = new Dragon();
-            Card elve = new FireElve();
+            Card elve = new FireElf();
 
             Assert.IsTrue(elve.Attack(dragon));
             Assert.IsFalse(dragon.Attack(elve));

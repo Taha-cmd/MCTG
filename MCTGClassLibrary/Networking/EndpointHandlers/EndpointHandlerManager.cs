@@ -31,6 +31,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 case "stats":           return new Stats();
                 case "tradings":        return new Tradings();
                 case "transactions":    return new Transactions();
+                case "home":            return new Home();
             }
 
             return null;

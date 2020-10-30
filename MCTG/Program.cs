@@ -40,21 +40,21 @@ namespace MCTG
 
 
 
-            /*  Player p1 = new Player("player1");
+             /* Player p1 = new Player("player1");
               Player p2 = new Player("player2");
 
-              p1.makeDeck(
-                  CardGenerator.RandomCard(),
-                  CardGenerator.RandomCard(),
-                  CardGenerator.RandomCard(),
-                  CardGenerator.RandomCard()
+              p1.MakeDeck(
+                  CardsManager.RandomCard(),
+                  CardsManager.RandomCard(),
+                  CardsManager.RandomCard(),
+                  CardsManager.RandomCard()
                   );
 
-              p2.makeDeck(
-                  CardGenerator.RandomCard(),
-                  CardGenerator.RandomCard(),
-                  CardGenerator.RandomCard(),
-                  CardGenerator.RandomCard()
+              p2.MakeDeck(
+                  CardsManager.RandomCard(),
+                  CardsManager.RandomCard(),
+                  CardsManager.RandomCard(),
+                  CardsManager.RandomCard()
                   );
 
               GameHandler handler = new GameHandler();

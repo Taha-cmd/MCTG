@@ -65,6 +65,7 @@ namespace MCTGClassLibrary
 
             // trim out query parameters
             endpoint = endpoint.Contains('?') ? endpoint.Substring(0, endpoint.IndexOf('?')) : endpoint;
+            endpoint = string.IsNullOrWhiteSpace(endpoint) ? "home" : endpoint;
 
             Values.Add("Endpoint", endpoint);
 
