@@ -40,5 +40,33 @@ namespace MCTGClassLibrary.Cards
             ElementType elementType = (ElementType)random.Next(0, 3);
             return new SpellCard(elementType);
         }
+
+        public static Card Create(string name)
+        {
+            name = name.ToLower();
+
+            ElementType elementType = ExtractElementType(name);
+
+            if (name.Contains("spell"))     return new SpellCard(elementType);
+
+            if (name.Contains("dragon"))    return new Dragon(elementType);
+            if (name.Contains("fireelve"))  return new FireElve(elementType);
+            if (name.Contains("goblin"))    return new Goblin(elementType);
+            if (name.Contains("knight"))    return new Knight(elementType);
+            if (name.Contains("kraken"))    return new Kraken(elementType);
+            if (name.Contains("ork"))       return new Ork(elementType);
+            if (name.Contains("wizzard"))   return new Wizzard(elementType);
+
+            return null;
+
+        }
+
+        private static ElementType ExtractElementType(string name)
+        {
+            if (name.Contains("water")) return ElementType.Water;
+            if (name.Contains("fire")) return ElementType.Fire;
+
+            return ElementType.Normal;
+        }
     }
 }

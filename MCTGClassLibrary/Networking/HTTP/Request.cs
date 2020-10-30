@@ -9,10 +9,10 @@ namespace MCTGClassLibrary
 {
     public class Request : ResponseRequestBase
     {
-        private string request;
+        public string RequestString { get; private set; }
+        public Dictionary<string, string> QueryParams { get; private set; }
         public string Method { get; private set; }
         public string Endpoint { get; private set; }
-
         public string Payload { get; private set; }
 
         public Request(NetworkStream clientStream)
@@ -22,18 +22,32 @@ namespace MCTGClassLibrary
             // read single chars
             // readLine() will block at the empty line
             while (reader.Peek() >= 0)
-                request += (char)reader.Read();
+                RequestString += (char)reader.Read();
 
             Values = new Dictionary<string, string>();
+            QueryParams = new Dictionary<string, string>();
+
             ParseRequest();
+            ParseQueryParams();
         }
+
+        public override void Display(ConsoleColor color = ConsoleColor.Green)
+        {
+            base.Display(color);
+
+            Console.WriteLine("Query Parameters:");
+            foreach (var kvp in QueryParams)
+                PrintInColor(kvp.Key, kvp.Value, ConsoleColor.Magenta);
+            Console.WriteLine("\n");
+        }
+
 
         private void ParseRequest()
         {
-            if (string.IsNullOrEmpty(request))
+            if (string.IsNullOrEmpty(RequestString))
                 throw new InvalidDataException();
 
-            string[] lines = request.Split("\r\n");
+            string[] lines = RequestString.Split("\r\n");
 
             // first line has format METHOD ROUTE PROTOCOL
             string[] tokens = lines[0].Split(' ');
@@ -47,7 +61,10 @@ namespace MCTGClassLibrary
 
             // extract endpoint from Route
             string[] endpointTokens = Values["Route"].Split('/');
-            string endpoint = !string.IsNullOrWhiteSpace(endpointTokens[1]) ? endpointTokens[1] : "Home";
+            string endpoint = !string.IsNullOrWhiteSpace(endpointTokens[1]) ? endpointTokens[1] : "home";
+
+            // trim out query parameters
+            endpoint = endpoint.Contains('?') ? endpoint.Substring(0, endpoint.IndexOf('?')) : endpoint;
 
             Values.Add("Endpoint", endpoint);
 
@@ -75,6 +92,25 @@ namespace MCTGClassLibrary
             Method = Values["Method"];
             Endpoint = Values["Endpoint"];
             Payload = Values["Payload"];
+        }
+
+        private void ParseQueryParams()
+        {
+            if (!Values["Route"].Contains('?'))
+                return;
+
+            string[] tokens = Values["Route"].Split("?");
+
+            foreach(var val in tokens)
+            {
+                if(val.Contains("="))
+                {
+                    int splitIndex = val.IndexOf("=");
+                    string key = val.Substring(0, splitIndex).Trim();
+                    string value = val.Substring(splitIndex + 1).Trim();
+                    QueryParams.Add(key, value);
+                }
+            }
         }
     }
 }
