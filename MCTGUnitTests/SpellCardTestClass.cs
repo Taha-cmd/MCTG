@@ -5,6 +5,7 @@ using MCTGClassLibrary;
 using NUnit.Framework;
 using MCTGClassLibrary.Enums;
 using MCTGClassLibrary.Cards.Monsters;
+using MCTGClassLibrary.Cards;
 
 namespace MCTGUnitTests
 {
@@ -24,28 +25,34 @@ namespace MCTGUnitTests
             //  fire -> normal
             //  normal -> water
 
-            // attacker must win
-
+            for(int i = 0; i < 10000; i++)
             {
-                Card attacker = new SpellCard(ElementType.Water);
-                Card defender = new SpellCard(ElementType.Fire);
-                Assert.IsTrue(attacker.Attack(defender));
+                {
+                    Card attacker = new SpellCard(ElementType.Water);
+                    Card defender = new SpellCard(ElementType.Fire);
+
+                    double attackerDamage = attacker.Damage * 2;
+                    Assert.AreEqual(attacker.Attack(defender), attackerDamage > defender.Damage);
+                }
+
+                {
+                    Card attacker = new SpellCard(ElementType.Fire);
+                    Card defender = new SpellCard(ElementType.Normal);
+
+                    double attackerDamage = attacker.Damage * 2;
+                    Assert.AreEqual(attacker.Attack(defender), attackerDamage > defender.Damage);
+                }
+
+
+                {
+                    Card attacker = new SpellCard(ElementType.Normal);
+                    Card defender = new SpellCard(ElementType.Water);
+
+                    double attackerDamage = attacker.Damage * 2;
+                    Assert.AreEqual(attacker.Attack(defender), attackerDamage > defender.Damage);
+                }
+
             }
-
-            {
-                Card attacker = new SpellCard(ElementType.Fire);
-                Card defender = new SpellCard(ElementType.Normal);
-                Assert.IsTrue(attacker.Attack(defender));
-            }
-
-
-            {
-                Card attacker = new SpellCard(ElementType.Normal);
-                Card defender = new SpellCard(ElementType.Water);
-                Assert.IsTrue(attacker.Attack(defender));
-            }
-
-
         }
 
 
@@ -57,25 +64,33 @@ namespace MCTGUnitTests
             //  fire -> normal
             //  normal -> water
 
-            // attacker must lose
-
+            for(int i = 0; i < 10000; i++)
             {
-                Card attacker = new SpellCard(ElementType.Normal);
-                Card defender = new SpellCard(ElementType.Fire);
-                Assert.IsFalse(attacker.Attack(defender));
-            }
+                {
+                    Card attacker = new SpellCard(ElementType.Normal);
+                    Card defender = new SpellCard(ElementType.Fire);
 
-            {
-                Card attacker = new SpellCard(ElementType.Water);
-                Card defender = new SpellCard(ElementType.Normal);
-                Assert.IsFalse(attacker.Attack(defender));
-            }
+                    double attackerDamage = attacker.Damage / 2;
+                    Assert.AreEqual(attacker.Attack(defender), attackerDamage > defender.Damage);
+                }
+
+                {
+                    Card attacker = new SpellCard(ElementType.Water);
+                    Card defender = new SpellCard(ElementType.Normal);
+
+                    double attackerDamage = attacker.Damage / 2;
+                    Assert.AreEqual(attacker.Attack(defender), attackerDamage > defender.Damage);
+                }
 
 
-            {
-                Card attacker = new SpellCard(ElementType.Fire);
-                Card defender = new SpellCard(ElementType.Water);
-                Assert.IsFalse(attacker.Attack(defender));
+                {
+                    Card attacker = new SpellCard(ElementType.Fire);
+                    Card defender = new SpellCard(ElementType.Water);
+
+                    double attackerDamage = attacker.Damage / 2;
+                    Assert.AreEqual(attacker.Attack(defender), attackerDamage > defender.Damage);
+                }
+
             }
         }
 
@@ -87,26 +102,29 @@ namespace MCTGUnitTests
             //  fire -> normal
             //  normal -> water
 
-            // attacker must lose
-
+            for(int i = 0; i < 10000; i++)
             {
-                Card attacker = new SpellCard(ElementType.Normal);
-                Card defender = new SpellCard(ElementType.Normal);
-                Assert.IsFalse(attacker.Attack(defender));
+                {
+                    Card attacker = new SpellCard(ElementType.Normal);
+                    Card defender = new SpellCard(ElementType.Normal);
+                    Assert.AreEqual(attacker.Attack(defender), attacker.Damage > defender.Damage);
+                }
+
+                {
+                    Card attacker = new SpellCard(ElementType.Water);
+                    Card defender = new SpellCard(ElementType.Water);
+                    Assert.AreEqual(attacker.Attack(defender), attacker.Damage > defender.Damage);
+                }
+
+
+                {
+                    Card attacker = new SpellCard(ElementType.Fire);
+                    Card defender = new SpellCard(ElementType.Fire);
+                    Assert.AreEqual(attacker.Attack(defender), attacker.Damage > defender.Damage);
+                }
+
             }
 
-            {
-                Card attacker = new SpellCard(ElementType.Water);
-                Card defender = new SpellCard(ElementType.Water);
-                Assert.IsFalse(attacker.Attack(defender));
-            }
-
-
-            {
-                Card attacker = new SpellCard(ElementType.Fire);
-                Card defender = new SpellCard(ElementType.Fire);
-                Assert.IsFalse(attacker.Attack(defender));
-            }
         }
 
 

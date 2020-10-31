@@ -38,20 +38,20 @@ namespace MCTGClassLibrary
 
 
                 Console.WriteLine($"\t---round {i+1}---\t");
-                Console.WriteLine(attacker.Describe() + " vs " + defender.Describe());
+                Console.WriteLine($"(attacker)\n{attacker.Description()}\n vs \n\n(defender)\n{defender.Description()}");
                 
 
                 if(attacker.Attack(defender))
                 {
                     decks[attackerIndex].Extend(defender);
                     decks[defenderIndex].Remove(defender);
-                    Console.WriteLine("attacker " + attacker.Describe() + " wins");
+                    Console.WriteLine("attacker " + attacker.Name + " wins");
                 }
                 else
                 {
                     decks[defenderIndex].Extend(attacker);
                     decks[attackerIndex].Remove(attacker);
-                    Console.WriteLine("defender " + defender.Describe() + " wins");
+                    Console.WriteLine("defender " + defender.Name + " wins");
                 }
 
                 if(decks[attackerIndex].Empty || decks[defenderIndex].Empty)

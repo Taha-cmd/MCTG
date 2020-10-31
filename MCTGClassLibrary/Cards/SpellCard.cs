@@ -18,27 +18,15 @@ namespace MCTGClassLibrary
 
         }
 
-        /*public override bool Equals(object obj)
+        public override string Description()
         {
-            if (obj == null) return false;
-            Card card = obj as Card;
-
-            if (card == null) return false;
-            if (card.CardType == CardType.Monster) return false;
-            if (card.ElementType != ElementType) return false;
-
-            return true;
-        } */
-
-        public override string Describe()
-        {
-            return $"({ElementType.ToString()}, {CardType.ToString()})";
+            return $"Name: {Name}\nType: {CardType.ToString()}\nElement: {ElementType.ToString()}\nDamage: {Damage}\n";
         }
 
         protected override bool AttackMonster(Card monster)
         {
             MonsterCard enemy = (MonsterCard)monster;
-            Damage = enemy.Damage = 1;
+            double battleDamage = Damage;
 
             if (enemy.MonsterType == MonsterType.Kraken)
                 return false;
@@ -46,19 +34,19 @@ namespace MCTGClassLibrary
             if (enemy.MonsterType == MonsterType.Knight && ElementType == ElementType.Water)
                 return true;
 
-            Damage = CalcualteDamageBasedOnElementTypeEffectiveness(ElementType, enemy.ElementType, Damage);
+            battleDamage = CalcualteDamageBasedOnElementTypeEffectiveness(ElementType, enemy.ElementType, battleDamage);
 
-            return Damage > enemy.Damage;
+            return battleDamage > enemy.Damage;
         }
 
         protected override bool AttackSpell(Card spell)
         {
             SpellCard enemy = (SpellCard)spell;
-            Damage = enemy.Damage = 1;
+            double battleDamage = Damage;
 
-            Damage = CalcualteDamageBasedOnElementTypeEffectiveness(ElementType, enemy.ElementType, Damage);
+            battleDamage = CalcualteDamageBasedOnElementTypeEffectiveness(ElementType, enemy.ElementType, battleDamage);
                 
-            return Damage > enemy.Damage;
+            return battleDamage > enemy.Damage;
         }
     }
 }

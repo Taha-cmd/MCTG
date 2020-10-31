@@ -21,7 +21,7 @@ namespace MCTGClassLibrary.Cards.Monsters
         protected override bool AttackMonster(Card monster)
         {
             MonsterCard enemy = (MonsterCard)monster;
-            Damage = enemy.Damage = 1;
+            double battleDamage = Damage;
 
             switch (enemy.MonsterType)
             {
@@ -48,7 +48,7 @@ namespace MCTGClassLibrary.Cards.Monsters
             }
 
 
-            return Damage > enemy.Damage;
+            return battleDamage > enemy.Damage;
         }
 
         protected override bool AttackSpell(Card spell)

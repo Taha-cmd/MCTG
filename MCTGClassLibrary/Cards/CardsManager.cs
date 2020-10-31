@@ -31,7 +31,7 @@ namespace MCTGClassLibrary.Cards
                 case MonsterType.Ork:       return new Ork(data, elementType);
                 case MonsterType.Knight:    return new Knight(data, elementType);
                 case MonsterType.Kraken:    return new Kraken(data, elementType);
-                case MonsterType.FireElf:  return new FireElf(data, elementType);
+                case MonsterType.FireElf:   return new FireElf(data, elementType);
             }
 
             return null;
@@ -54,7 +54,7 @@ namespace MCTGClassLibrary.Cards
             if (name.Contains("spell"))     return new SpellCard(data, elementType);
 
             if (name.Contains("dragon"))    return new Dragon(data, elementType);
-            if (name.Contains("fireelf"))  return new FireElf(data, elementType);
+            if (name.Contains("fireelf"))   return new FireElf(data, elementType);
             if (name.Contains("goblin"))    return new Goblin(data, elementType);
             if (name.Contains("knight"))    return new Knight(data, elementType);
             if (name.Contains("kraken"))    return new Kraken(data, elementType);
@@ -73,7 +73,7 @@ namespace MCTGClassLibrary.Cards
             return ElementType.Normal;
         }
 
-        private static CardData RandomCardData()
+        public static CardData RandomCardData()
         {
             string id = Guid.NewGuid().ToString();
             string name = "Random";

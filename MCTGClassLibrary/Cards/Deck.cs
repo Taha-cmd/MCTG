@@ -14,7 +14,6 @@ namespace MCTGClassLibrary
         public bool Empty { get { return cards.Count == 0; } }
         public int Size { get; private set; } 
         public int Count { get { return cards.Count;  } }
-
         public string Owner { get; protected set; }
 
 

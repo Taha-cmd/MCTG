@@ -19,27 +19,9 @@ namespace MCTGClassLibrary
         {
             MonsterType = monsterType;
         }
-
-        /*public override bool Equals(object obj)
+        public override string Description()
         {
-            if (obj == null) return false;
-            Card card = obj as Card;
-
-            if (card == null) return false;
-            if (card.CardType == CardType.Spell) return false;
-            if (card.ElementType != ElementType) return false;
-
-            MonsterCard monster = obj as MonsterCard;
-
-            if (monster == null) return false;
-            if (monster.MonsterType != MonsterType) return false;
-
-            return true;
-        } */
-
-        public override string Describe()
-        {
-            return $"({ElementType.ToString()}, {CardType.ToString()}, {MonsterType.ToString()})";
+            return $"Name: {Name}\nType: {CardType.ToString()}\nKind: {MonsterType.ToString()}\nElement: {ElementType.ToString()}\nDamage: {Damage}\n";
         }
     }
 }

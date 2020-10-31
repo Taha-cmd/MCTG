@@ -13,7 +13,7 @@ namespace MCTG
     {
         static void Main(string[] args)
         {
-            HTTPServer server = new HTTPServer(10001);
+          /*  HTTPServer server = new HTTPServer(10001);
             GameHandler gameHandler = new GameHandler();
 
             RequestHandler.RequestHandled += gameHandler.EventListener;
@@ -34,13 +34,13 @@ namespace MCTG
                     Console.WriteLine(ex.Message);
                 }
 
-            } 
+            }  */
 
 
 
 
 
-             /* Player p1 = new Player("player1");
+              Player p1 = new Player("player1");
               Player p2 = new Player("player2");
 
               p1.MakeDeck(
@@ -59,7 +59,7 @@ namespace MCTG
 
               GameHandler handler = new GameHandler();
               handler.EnqueuePlayer(p1);
-              handler.EnqueuePlayer(p2);  */
+              handler.EnqueuePlayer(p2);  
         } 
     }
 }

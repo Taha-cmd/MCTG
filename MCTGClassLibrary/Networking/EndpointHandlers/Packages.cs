@@ -28,7 +28,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                     Console.WriteLine($"{cd.Id}, {cd.Name}, {cd.Damage}, {cd.Weakness}");
 
                 foreach (var cd in cards)
-                    Console.WriteLine(cd.Describe());
+                    Console.WriteLine(cd.Description());
 
                 Console.WriteLine();
 
