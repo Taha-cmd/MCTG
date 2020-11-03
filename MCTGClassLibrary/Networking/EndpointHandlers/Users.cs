@@ -28,6 +28,8 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                     throw new InvalidDataException("Username or Password empty");
 
                 // database
+                // var userscontroller = new userscontroller()
+                // userscontroller.register(user.username, user.password)
 
                 Console.WriteLine(user.Password);
                 Console.WriteLine(user.Username);
@@ -36,7 +38,6 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             {
                 Console.WriteLine(ex.Message);
             }
-
 
             return new Response("400", "Bad Request");
         }
