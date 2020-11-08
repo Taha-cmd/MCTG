@@ -1,15 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Text;
 
 namespace MCTGClassLibrary
 {
-    public class GameHandler //: IRequestHandler
-    {
-        public GameHandler() { }
+    // Singleton Design Pattern
+    // static initialzation is threadsafe
+    // static constructor will be called by the clr once and init an object
+    // this object can be accessed by a property
+    // constructor is private
 
-        private Queue< Player > queue = new Queue< Player >();
+    // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-constructors
+    // https://www.c-sharpcorner.com/UploadFile/8911c4/singleton-design-pattern-in-C-Sharp/#:~:text=Thread%20Safety%20Singleton&text=This%20implementation%20is%20thread%2Dsafe,thread%20will%20create%20an%20instance.
+    public class GameHandler
+    {
+        private static readonly GameHandler instance; // class holds reference to the single object
+        static GameHandler() // static constructor will be called once by the clr, construct the instance
+        {
+            instance = new GameHandler();
+        }
+
+        public static GameHandler Instance { get { return instance; } } // access point
+
+
+
+
+        private Queue<Player> queue;
+        private GameHandler()
+        {
+            queue = new Queue<Player>();
+        }
 
         public void EnqueuePlayer(Player player)
         {
@@ -80,18 +102,10 @@ namespace MCTGClassLibrary
             b = tmp;
         }
 
-        public void EventListener(object publisher, RequestEventArgs args)
+        /*public void EventListener(object publisher, RequestEventArgs args)
         {
             Console.WriteLine(args.Test);
-        }
+        } */
 
-        public void HandleRequest(Request request)
-        {
-            switch(request.Values[""])
-            {
-
-            }
-
-        }
     }
 }

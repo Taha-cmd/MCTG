@@ -12,10 +12,14 @@ namespace MCTGClassLibrary.Database.Repositories
 
 
         // const is by default static
+
+        // database access
         public const string HOST        = "localhost";
         public const string PORT        = "5432";
         public const string DATABASE    = "MCTG";
         public const string USERNAME    = "MCTGAdmin";
         public const string PASSWORD    = "123";
+
+        public const int LISTENINGPORT  = 10001;
     }
 }
