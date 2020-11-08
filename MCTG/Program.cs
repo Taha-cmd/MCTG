@@ -40,9 +40,11 @@ namespace MCTG
 
 
             var usersRepo = new UsersRepository();
+
             Console.WriteLine(usersRepo.UserExists("test"));
             Console.WriteLine(usersRepo.RegisterUser("test", "123"));
             Console.WriteLine(usersRepo.UserExists("test"));
+            Console.WriteLine(usersRepo.RegisterUser("test", "blabla"));
 
 
 

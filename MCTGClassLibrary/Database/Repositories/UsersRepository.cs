@@ -12,23 +12,26 @@ namespace MCTGClassLibrary.Database.Repositories
         Database database = new Database(Config.HOST, Config.PORT, Config.DATABASE, Config.USERNAME, Config.PASSWORD);
         public bool RegisterUser(string username, string password)
         {
-            using(var conn = database.GetConnection())
-            {
-                using(var command = new NpgsqlCommand("INSERT INTO \"user\" (username, password) VALUES (@username, @password)", conn))
-                {
-                    command.Parameters.AddWithValue("username", username);
-                    command.Parameters.AddWithValue("password", password);
+            if (UserExists(username))
+                return false;
 
-                    int rowsEffected = command.ExecuteNonQuery();
+            string statement = "INSERT INTO \"user\" (username, password) VALUES (@username, @password)";
 
-                    return rowsEffected == 1;
-                }
-            }
+            int rowsAffected = database.ExecuteNonQuery(
+                    statement,
+                    new NpgsqlParameter("username", username),
+                    new NpgsqlParameter("password", password)
+                );
+
+            return rowsAffected == 1;
         }
 
         public bool UserExists(string username)
         {
             bool exists = true;
+
+           /* string command = "SELECT COUNT(*) FROM \"user\" WHERE username=@username";
+            var reader = database.ExecuteQuery(command, new NpgsqlParameter("username", username)) */
 
             using(var conn = database.GetConnection())
             {
@@ -42,7 +45,7 @@ namespace MCTGClassLibrary.Database.Repositories
 
                     return exists;
                 }
-            }
+            } 
         }
     }
 }

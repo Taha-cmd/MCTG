@@ -34,5 +34,28 @@ namespace MCTGClassLibrary.Database
 
             return conn;
         }
+
+        public int ExecuteNonQuery(string statement, params NpgsqlParameter[] parameters)
+        {
+            using var conn = GetConnection();
+            using var command = new NpgsqlCommand(statement, conn);
+
+            command.Parameters.AddRange(parameters);
+
+            return command.ExecuteNonQuery();
+        }
+
+        public NpgsqlDataReader ExecuteQuery(string statement, params NpgsqlParameter[] parameters)
+        {
+            using var conn = GetConnection();
+            using var command = new NpgsqlCommand(statement, conn);
+
+            command.Parameters.AddRange(parameters);
+
+            return command.ExecuteReader();
+        }
+
+
+        //public T ExecuteCommand<Type T>()
     }
 }
