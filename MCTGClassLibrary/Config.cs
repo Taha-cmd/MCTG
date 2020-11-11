@@ -21,5 +21,8 @@ namespace MCTGClassLibrary.Database.Repositories
         public const string PASSWORD    = "123";
 
         public const int LISTENINGPORT  = 10001;
+
+        public const string PROTOCOL = "HTTP/1.1";
+
     }
 }

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Users : IEndpointHandler
+    public class Users : EndpointHandlerBase, IEndpointHandler
     {
         public Response HandleRequest(Request request)
         {

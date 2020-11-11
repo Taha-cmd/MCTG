@@ -1,4 +1,5 @@
 ﻿using MCTGClassLibrary.Cards;
+using MCTGClassLibrary.Database.Repositories;
 using MCTGClassLibrary.DataObjects;
 using System;
 using System.Collections.Generic;
@@ -22,26 +23,18 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             {
 
                 CardData[] cardDataArray = JsonSerializer.Deserialize<CardData[]>(request.Payload);
-                Card[] cards = cardDataArray.Select(cd => CardsManager.Create(cd)).ToArray();
 
-                foreach(var cd in cardDataArray)
-                    Console.WriteLine($"{cd.Id}, {cd.Name}, {cd.Damage}, {cd.Weakness}");
+                CardsRepository cardsRepository = new CardsRepository();
+                int cardsAdded = cardsRepository.AddCards(cardDataArray);
 
-                foreach (var cd in cards)
-                    Console.WriteLine(cd.Description());
-
-                Console.WriteLine();
-
-                // database
+                Console.WriteLine(cardsAdded);
+                return new Response("200", "OK", $"{cardsAdded} cards added to the store");
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("error in Packages Handler: " + ex.Message);
             }
-
-
-
 
             return new Response();
         }

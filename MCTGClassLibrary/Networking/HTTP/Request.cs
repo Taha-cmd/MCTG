@@ -14,6 +14,7 @@ namespace MCTGClassLibrary
         public string Method { get; private set; }
         public string Endpoint { get; private set; }
         public string Payload { get; private set; }
+        public string Authorization { get; private set; }
 
         public Request(NetworkStream clientStream)
         {
@@ -90,9 +91,10 @@ namespace MCTGClassLibrary
                 }
             }
 
-            Method = Values["Method"];
-            Endpoint = Values["Endpoint"];
-            Payload = Values["Payload"];
+            Method          =   Values["Method"];
+            Endpoint        =   Values["Endpoint"];
+            Payload         =   Values["Payload"];
+            Authorization   =   Values.ContainsKey("Authorization") ? Values["Authorization"] : null;
         }
 
         private void ParseQueryParams()

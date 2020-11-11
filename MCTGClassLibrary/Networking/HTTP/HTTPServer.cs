@@ -21,6 +21,7 @@ namespace MCTGClassLibrary
         public void Start()
         {
             listener.Start();
+            Console.WriteLine("Server Running...");
             Running = true;
         }
 
