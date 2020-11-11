@@ -24,7 +24,7 @@ namespace MCTGClassLibrary.Database
             User = user;
             Password = password;
 
-           connectionString = $"Server={Host};Username={User};Database={DBname};Port={Port};Password={Password};SSLMode=Prefer";
+            connectionString = $"Server={Host};Username={User};Database={DBname};Port={Port};Password={Password};SSLMode=Prefer";
         }
 
         public NpgsqlConnection GetConnection()

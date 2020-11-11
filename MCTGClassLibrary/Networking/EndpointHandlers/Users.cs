@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using MCTGClassLibrary.DataObjects;
 using System.IO;
+using MCTGClassLibrary.Database.Repositories;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -13,33 +14,46 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
     {
         public Response HandleRequest(Request request)
         {
-            if (request.Method.ToUpper() != "POST")
-                return new Response("404", "Not Found");
+            return RouteToMethodHandler(request);
+        }
 
+        protected override Response PostHandler(Request request)
+        {
             if (string.IsNullOrWhiteSpace(request.Payload))
-                return new Response("400", "Bad Request");
-
+                return new Response("No payload");
 
             try
             {
-                UserData user = JsonSerializer.Deserialize<UserData>(request.Payload);
+                UserData user;
 
-                if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
-                    throw new InvalidDataException("Username or Password empty");
+                try
+                {
+                    user = JsonSerializer.Deserialize<UserData>(request.Payload);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("Error in PostHandler in Users: " + ex.Message);
+                    return new Response("Invalid Json Format");
+                }
 
-                // database
-                // var userscontroller = new userscontroller()
-                // userscontroller.register(user.username, user.password)
+                if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Password))
+                    return new Response("Username or Password Empty");
 
-                Console.WriteLine(user.Password);
-                Console.WriteLine(user.Username);
+                UsersRepository users = new UsersRepository();
+
+                if(users.UserExists(user.Username))
+                    return new Response($"Username {user.Username} allready exists");
+
+                if (users.RegisterUser(user.Username, user.Password))
+                    return new Response("200", "OK", $"Account for {user.Username} created successfully");
+   
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error in PostHandler in Users: " + ex.Message);
             }
 
-            return new Response("400", "Bad Request");
+            return new Response("500", "Internal Server Error");
         }
     }
 }

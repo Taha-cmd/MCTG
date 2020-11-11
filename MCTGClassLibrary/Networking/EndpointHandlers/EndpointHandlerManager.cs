@@ -16,7 +16,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         public static IEndpointHandler Get(string endpoint)
         {
-            if (!Array.Exists(endpoints, element => element == endpoint))
+            if (!Array.Exists(endpoints, element => element == endpoint.ToLower()))
                 return null;
 
             switch (endpoint.ToLower())

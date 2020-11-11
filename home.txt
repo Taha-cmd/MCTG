@@ -1,2 +1,92 @@
 MCTG Home Page
-WELCOME
+
+supported HTTP Methods:
+
+	.) GET
+	.) POST
+	.) PUT
+	.) DELETE
+
+------------------------------------------------------------
+
+Endpoints: 
+
+	.) users
+	.) transactions
+	.) tradings
+	.) stats
+	.) sessions
+	.) score
+	.) packages
+	.) deck
+	.) cards
+	.) battle
+
+* some of the endpoints don't support all methods
+* endpoints are case-insensitive
+* some actions require authorization. send the http header "Authorization: Basic <username>-mtcgToken" to authorize
+
+-------------------------------------------------------------
+
+Endpoints in Detail:
+
+
+		method route constraints => result
+
+
+	********************************************************************************
+
+	1) users 
+
+		*) POST /users	payload: "{"Username":"<username>", "Password":"<password>"}"  => register new user
+
+	********************************************************************************
+
+	2) cards
+		
+		*) GET /cards => list all cards in the stack. requires authorization
+
+	********************************************************************************
+	3) packages
+
+		*) POST /packages payload: "[{"Id":"<Id>", "Name":"<name>", "Damage":<damage>, "Weakness (optional):<weakness>"}, ....]"
+			=> create a new package from an array of cards. a card has the following attributes ( Id:string, Name:string, Damage:double, Weakness(optional):double )
+			   the type of the card will be extracted from the name, read the naming rules below
+
+	*******************************************************************************
+	4) stats
+
+	*******************************************************************************
+	5) sessions
+
+	*******************************************************************************
+	6) score
+
+	*******************************************************************************
+	7) /tradings
+
+	*******************************************************************************
+	8) deck
+
+	*******************************************************************************
+	9) /transactions
+
+	*******************************************************************************
+	10) battle
+
+	*******************************************************************************
+
+-------------------------------------------------------------
+
+Card Naming Rules:
+
+	Name: {ElementType}{CardType}
+
+	ElementType: { Regular, Water, Fire }
+	CardType: { Spell, Dragon, FireElf, Goblin, Knight, Kraken, Ork, Wizzard }
+
+	Examples: WaterSpell, FireDragon, RegularGoblin, WaterWizzard
+
+* names are case-insensitive
+		
+

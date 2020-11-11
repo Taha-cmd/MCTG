@@ -31,7 +31,6 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             try
             {
                 string data = JsonSerializer.Serialize<CardData[]>(cardDataArray);
-
                 return new Response("200", "OK", data);
             }
             catch(Exception x)

@@ -24,5 +24,6 @@ namespace MCTGClassLibrary.Database.Repositories
 
         public const string PROTOCOL = "HTTP/1.1";
 
+        public const string HOMEPAGE = "../../../../home.txt";
     }
 }

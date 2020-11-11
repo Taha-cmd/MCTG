@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MCTGClassLibrary.Database.Repositories;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
@@ -10,7 +12,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         {
             Response resp = new Response("200", "OK");
 
-            resp.AddPayload("MONSTER CARD TRADING GAME");
+            if (File.Exists(Config.HOMEPAGE))
+                resp.AddPayload(File.ReadAllText(Config.HOMEPAGE));
+            else
+                resp.AddPayload("MONSTER CARD TRADING GAME");
 
             return resp;
         }

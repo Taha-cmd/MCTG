@@ -35,17 +35,17 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 case "DELETE":      return DeleteHandler(req);
             }
 
-            return new Response("405", "Method Not Allowed");
+            return new Response("405", "Method Not Allowed", $"The method {req.Method.ToUpper()} is not supported");
         }
 
-        protected virtual Response GetHandler(Request request)      { return MethodNotSupported(); }
-        protected virtual Response PostHandler(Request request)     { return MethodNotSupported(); }
-        protected virtual Response PutHandler(Request request)      { return MethodNotSupported(); }
-        protected virtual Response DeleteHandler(Request request)   { return MethodNotSupported(); }
+        protected virtual Response GetHandler(Request request)      { return MethodNotSupported("GET"); }
+        protected virtual Response PostHandler(Request request)     { return MethodNotSupported("POST"); }
+        protected virtual Response PutHandler(Request request)      { return MethodNotSupported("PUT"); }
+        protected virtual Response DeleteHandler(Request request)   { return MethodNotSupported("DELETE"); }
 
-        private Response MethodNotSupported()
+        private Response MethodNotSupported(string method)
         {
-            return new Response("405", "Method Not Allowed", "this endpoint does not support this method");
+            return new Response("405", "Method Not Allowed", $"this endpoint does not support the method {method}");
         }
     }
 }
