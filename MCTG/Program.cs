@@ -8,6 +8,7 @@ using MCTGClassLibrary;
 using MCTGClassLibrary.Cards;
 using MCTGClassLibrary.Database;
 using MCTGClassLibrary.Database.Repositories;
+using MCTGClassLibrary.Enums;
 
 namespace MCTG
 {

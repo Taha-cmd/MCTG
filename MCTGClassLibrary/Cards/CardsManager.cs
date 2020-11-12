@@ -50,27 +50,59 @@ namespace MCTGClassLibrary.Cards
             string name = data.Name.ToLower();
 
             ElementType elementType = ExtractElementType(name);
+            CardType cardType = ExtractCardType(name);
 
-            if (name.Contains("spell"))     return new SpellCard(data, elementType);
-
-            if (name.Contains("dragon"))    return new Dragon(data, elementType);
-            if (name.Contains("fireelf"))   return new FireElf(data, elementType);
-            if (name.Contains("goblin"))    return new Goblin(data, elementType);
-            if (name.Contains("knight"))    return new Knight(data, elementType);
-            if (name.Contains("kraken"))    return new Kraken(data, elementType);
-            if (name.Contains("ork"))       return new Ork(data, elementType);
-            if (name.Contains("wizzard"))   return new Wizzard(data, elementType);
+            if(cardType == CardType.Spell)
+                return new SpellCard(data, elementType);
+            else
+            {
+                switch (ExtractMonsterType(name))
+                {
+                    case MonsterType.Goblin:    return new Goblin(data, elementType);
+                    case MonsterType.Dragon:    return new Dragon(data, elementType);
+                    case MonsterType.Wizzard:   return new Wizzard(data, elementType);
+                    case MonsterType.Ork:       return new Ork(data, elementType);
+                    case MonsterType.Knight:    return new Knight(data, elementType);
+                    case MonsterType.Kraken:    return new Kraken(data, elementType);
+                    case MonsterType.FireElf:   return new FireElf(data, elementType);
+                }
+            }
 
             return null;
-
         }
 
-        private static ElementType ExtractElementType(string name)
+        public static ElementType ExtractElementType(string name)
         {
+            name = name.ToLower();
+
             if (name.Contains("water")) return ElementType.Water;
-            if (name.Contains("fire")) return ElementType.Fire;
+            if (name.Contains("fire"))  return ElementType.Fire;
 
             return ElementType.Normal;
+        }
+
+        public static CardType ExtractCardType(string name)
+        {
+            name = name.ToLower();
+
+            if (name.Contains("spell")) return CardType.Spell;
+
+            return CardType.Monster;
+        }
+
+        public static MonsterType ExtractMonsterType(string name)
+        {
+            name = name.ToLower();
+
+            if (name.Contains("dragon"))    return MonsterType.Dragon;
+            if (name.Contains("fireelf"))   return MonsterType.FireElf;
+            if (name.Contains("goblin"))    return MonsterType.Goblin;
+            if (name.Contains("knight"))    return MonsterType.Knight;
+            if (name.Contains("kraken"))    return MonsterType.Kraken;
+            if (name.Contains("ork"))       return MonsterType.Ork;
+
+            // only wizzard left
+            return MonsterType.Wizzard;
         }
 
         public static CardData RandomCardData()

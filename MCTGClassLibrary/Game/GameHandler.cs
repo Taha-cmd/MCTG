@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Text;
+using System.Threading;
 
 namespace MCTGClassLibrary
 {
@@ -40,8 +41,12 @@ namespace MCTGClassLibrary
 
             queue.Enqueue(player);
 
+            Monitor.Enter(this);
+
             if (queue.Count == 2)
                 StartBattle(queue.Dequeue(), queue.Dequeue());
+
+            Monitor.Exit(this);
         }
 
         private void StartBattle(Player player1, Player player2)

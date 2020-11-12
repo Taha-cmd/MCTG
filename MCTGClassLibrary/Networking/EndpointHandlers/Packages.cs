@@ -9,12 +9,8 @@ using System.Text.Json;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Packages : EndpointHandlerBase,  IEndpointHandler
+    public class Packages : EndpointHandlerBase
     {
-        public Response HandleRequest(Request request)
-        {
-            return RouteToMethodHandler(request);
-        }
 
         protected override Response PostHandler(Request request)
         {

@@ -10,13 +10,8 @@ using MCTGClassLibrary.Database.Repositories;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Users : EndpointHandlerBase, IEndpointHandler
+    public class Users : EndpointHandlerBase
     {
-        public Response HandleRequest(Request request)
-        {
-            return RouteToMethodHandler(request);
-        }
-
         protected override Response PostHandler(Request request)
         {
             if (string.IsNullOrWhiteSpace(request.Payload))

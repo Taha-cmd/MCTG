@@ -7,12 +7,8 @@ using System.Text.Json;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Cards : EndpointHandlerBase, IEndpointHandler
+    public class Cards : EndpointHandlerBase
     {
-        public Response HandleRequest(Request request)
-        {
-            return RouteToMethodHandler(request);
-        }
 
         // should return all cards of a user (the stack)
         protected override Response GetHandler(Request request)
@@ -21,7 +17,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 return new Response("No Authorization Header found");
 
             if (!Authorized(request.Authorization))
-                return new Response("Authorization Failed!, check your password");
+                return new Response("Authorization Failed!, check your username and password");
 
             CardData[] cardDataArray = new UsersRepository().GetStack( ExtractUserNameFromAuthoriazionHeader(request.Authorization) );
 

@@ -18,11 +18,20 @@ namespace MCTGClassLibrary
             IEndpointHandler endpointHandler = EndpointHandlerManager.Get(request.Endpoint);
 
             if (endpointHandler == null)
-                return new Response("400", "Bad Request");
-
+                return new Response("400", "Bad Request", $"Endpoint {request.Endpoint} does not exist");
             //OnRequestHandled(new RequestEventArgs());
+            try
+            {
+                Response resp = endpointHandler.HandleRequest(request);
+                return resp;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error handling response: " + ex.Message);
+            }
 
-            return endpointHandler.HandleRequest(request);
+            return new Response("500", "Internal Server Error");
+            
         }
 
         //fire event every time a request is handled

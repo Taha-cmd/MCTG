@@ -12,6 +12,7 @@ namespace MCTGClassLibrary.DataObjects
         public string Password { get; set; } = null;
         public string Name { get; set; } = null;
         public string Bio { get; set; } = null;
+        public string Image { get; set; } = null;
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -19,6 +20,7 @@ namespace MCTGClassLibrary.DataObjects
             info.AddValue("Password", Password);
             info.AddValue("Name", Name);
             info.AddValue("Bio", Bio);
+            info.AddValue("Image", Image);
         }
     }
 }

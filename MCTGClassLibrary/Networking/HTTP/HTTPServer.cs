@@ -48,6 +48,7 @@ namespace MCTGClassLibrary
                 response.Display(ConsoleColor.Green);
 
                 response.Send(client.GetStream());
+                client.Close();
             }
             catch (Exception ex)
             {
