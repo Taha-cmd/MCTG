@@ -18,12 +18,13 @@ namespace MCTGClassLibrary.Database.Repositories
             if (UserExists(username))
                 return false;
 
-            string statement = "INSERT INTO \"user\" (username, password) VALUES (@username, @password)";
+            string statement = "INSERT INTO \"user\" (username, password, coins) VALUES (@username, @password, @coins)";
 
             int rowsAffected = database.ExecuteNonQuery(
                     statement,
                     new NpgsqlParameter<string>("username", username),
-                    new NpgsqlParameter<string>("password", password)
+                    new NpgsqlParameter<string>("password", password),
+                    new NpgsqlParameter<int>("coins", Config.COINS)
                 );
 
             return rowsAffected == 1;

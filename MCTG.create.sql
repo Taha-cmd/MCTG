@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "card" (
 
 CREATE TABLE IF NOT EXISTS "package" (
   "id" SERIAL PRIMARY KEY,
-  "creation_date" date DEFAULT 'now()'
+  "creation_date" timestamp DEFAULT 'now()'
 );
 
 CREATE TABLE IF NOT EXISTS "package_card" (
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS "battle" (
   "id" SERIAL PRIMARY KEY,
   "winner_id" int,
   "loser_id" int,
-  "date" date DEFAULT 'now()',
+  "date" timestamp DEFAULT 'now()',
   "log" text
 );
 

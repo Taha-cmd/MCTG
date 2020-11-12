@@ -3,6 +3,7 @@ using MCTGClassLibrary.Database.Repositories;
 using MCTGClassLibrary.DataObjects;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -14,7 +15,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         protected override Response PostHandler(Request request)
         {
-            if (string.IsNullOrWhiteSpace(request.Payload) || string.IsNullOrEmpty(request.Payload))
+            if (string.IsNullOrWhiteSpace(request.Payload))
                 return new Response("No Payload");
 
             try
@@ -31,10 +32,14 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                     return new Response("Invalid Json Format");
                 }
 
-                CardsRepository cardsRepository = new CardsRepository();
-                int cardsAdded = cardsRepository.AddCards(cardDataArray);
+                PackagesRepository packages = new PackagesRepository();
+                packages.AddPackage(cardDataArray);
 
-                return new Response("200", "OK", $"{cardsAdded} cards added to the store");
+                return new Response("200", "OK", "Package added successfully");
+            }
+            catch(InvalidDataException ex)
+            {
+                return new Response(ex.Message);
             }
             catch (Exception ex)
             {
@@ -43,6 +48,5 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
             return new Response("500", "Internal Server Error");
         }
-
     }
 }

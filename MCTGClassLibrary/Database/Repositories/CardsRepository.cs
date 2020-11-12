@@ -1,4 +1,6 @@
-﻿using MCTGClassLibrary.DataObjects;
+﻿using MCTGClassLibrary.Cards;
+using MCTGClassLibrary.DataObjects;
+using MCTGClassLibrary.Enums;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -16,14 +18,20 @@ namespace MCTGClassLibrary.Database.Repositories
             if (CardExists(cardData.Id))
                 return false;
 
-            string statement = "INSERT INTO \"card\" (id, name, damage, weakness) VALUES (@id, @name, @damage, @weakness)";
+            string statement = "INSERT INTO \"card\" (id, name, damage, weakness, element, card_type) VALUES" +
+                " (@id, @name, @damage, @weakness, @element, @card_type)";
+
+            string cardType = CardsManager.ExtractCardType(cardData.Name) == CardType.Spell ? "spell"
+                              : CardsManager.ExtractMonsterType(cardData.Name).ToString().ToLower();
 
             int rowsAffected = database.ExecuteNonQuery (
                                     statement,
                                     new NpgsqlParameter<string>("id", cardData.Id),
                                     new NpgsqlParameter<string>("name", cardData.Name),
                                     new NpgsqlParameter<double>("damage", cardData.Damage),
-                                    new NpgsqlParameter<double>("weakness", cardData.Weakness)
+                                    new NpgsqlParameter<double>("weakness", cardData.Weakness),
+                                    new NpgsqlParameter<string>("element", CardsManager.ExtractElementType(cardData.Name).ToString().ToLower()),
+                                    new NpgsqlParameter<string>("card_type", cardType)
                                 );
 
             return rowsAffected == 1;
