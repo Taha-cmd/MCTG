@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS "user" (
   "bio" text DEFAULT null,
   "image" varchar DEFAULT null,
   "coins" int DEFAULT 20
+  "name" varchar DEFAULT null
 );
 
 CREATE TABLE IF NOT EXISTS "card" (

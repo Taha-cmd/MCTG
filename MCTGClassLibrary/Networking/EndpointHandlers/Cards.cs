@@ -2,6 +2,7 @@
 using MCTGClassLibrary.DataObjects;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 
@@ -28,6 +29,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             {
                 string data = JsonSerializer.Serialize<CardData[]>(cardDataArray);
                 return new Response("200", "OK", data);
+            }
+            catch(InvalidDataException ex)
+            {
+                return new Response(ex.Message);
             }
             catch(Exception x)
             {

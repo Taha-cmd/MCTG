@@ -13,7 +13,6 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         protected bool Authorized(string authorizationString)
         {
             string username = ExtractUserNameFromAuthoriazionHeader(authorizationString);
-
             return new UsersRepository().UserExists(username);
         }
 

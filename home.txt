@@ -38,7 +38,10 @@ Endpoints in Detail:
 
 	1) users 
 
-		*) POST /users	payload: "{"Username":"<username>", "Password":"<password>"}"  => register new user
+		*) GET   /users/<username> => show user's info. requires authorization
+		*) POST  /users	payload: "{"Username":"<username>", "Password":"<password>", "Name":"<name>", "Bio":"<bio>", "Image":"<image>"}"  => register new user
+		*) PUT   /users/<username> payload : "{"Username":"<username>", "Password":"<password>", "Bio":"<bio>", "Image":"<image>", "Name":"<name>"}"
+					 => updates user informationen for <username>. requires authorization. all values are optional 
 
 	********************************************************************************
 

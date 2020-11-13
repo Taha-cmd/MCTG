@@ -28,5 +28,29 @@ namespace MCTGClassLibrary.Database.Repositories
 
             return exists;
         }
+
+        protected void UpdateValue<FilterType, ValueType>(string table, string filter, FilterType filterValue, string columnToUpdate, ValueType newValue)
+        {
+            //update "user" set name = 'Taha' where username = 'taha';
+            string statement = $"UPDATE \"{table}\" SET {columnToUpdate}=@newValue WHERE {filter}=@filterValue";
+
+            database.ExecuteNonQuery(statement,
+                                new NpgsqlParameter("newValue", newValue),
+                                new NpgsqlParameter("filterValue", filterValue)
+                            );
+        }
+
+        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch)
+        {
+            using var conn = database.GetConnection();
+            using var command = new NpgsqlCommand($"SELECT {columnToFetch} FROM \"{table}\" WHERE {filter}=@filterValue", conn);
+
+            command.Parameters.AddWithValue("filterValue", filterValue);
+
+            var reader = command.ExecuteReader();
+            reader.Read();
+
+            return reader.GetFieldValue<ValueType>(0);
+        }
     }
 }

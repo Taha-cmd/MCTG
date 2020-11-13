@@ -15,6 +15,7 @@ namespace MCTGClassLibrary
         public string Endpoint { get; private set; }
         public string Payload { get; private set; }
         public string Authorization { get; private set; }
+        public string Route { get; private set; }
 
         public Request(NetworkStream clientStream)
         {
@@ -95,6 +96,7 @@ namespace MCTGClassLibrary
             Endpoint        =   Values["Endpoint"];
             Payload         =   Values["Payload"];
             Authorization   =   Values.ContainsKey("Authorization") ? Values["Authorization"] : null;
+            Route           =   Values["Route"];
         }
 
         private void ParseQueryParams()

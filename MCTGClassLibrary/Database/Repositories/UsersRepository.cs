@@ -13,21 +13,21 @@ namespace MCTGClassLibrary.Database.Repositories
     public class UsersRepository : RepositoryBase
     {
         public UsersRepository() { }
-        public bool RegisterUser(string username, string password)
+
+        public int GetUserID(string username)
         {
-            if (UserExists(username))
-                return false;
+            if (!UserExists(username))
+                throw new InvalidDataException($"username {username} does not exist");
 
-            string statement = "INSERT INTO \"user\" (username, password, coins) VALUES (@username, @password, @coins)";
+            return GetValue<int, string>("user", "username", username, "id");
+        }
 
-            int rowsAffected = database.ExecuteNonQuery(
-                    statement,
-                    new NpgsqlParameter<string>("username", username),
-                    new NpgsqlParameter<string>("password", password),
-                    new NpgsqlParameter<int>("coins", Config.COINS)
-                );
+        public string GetUsername(int id)
+        {
+            if (!UserExists(id))
+                throw new InvalidDataException($"user with id {id} does not exist");
 
-            return rowsAffected == 1;
+            return GetValue<string, int>("user", "id", id, "username");
         }
 
         public bool UserExists(string username)
@@ -40,7 +40,32 @@ namespace MCTGClassLibrary.Database.Repositories
             return Exists("user", "id", id);
         }
 
-        public Card[] GetDeck(int userId)
+        public bool RegisterUser(UserData user)
+        {
+            if (UserExists(user.Username))
+                throw new InvalidDataException("User allready exists");
+
+            string statement = "INSERT INTO \"user\" (username, password, coins, name, image, bio) " +
+                               "VALUES (@username, @password, @coins, @name, @image, @bio)";
+
+            var name    = user.Name == null ? new NpgsqlParameter("name", DBNull.Value) : new NpgsqlParameter<string>("name", user.Name);
+            var image   = user.Image == null ? new NpgsqlParameter("image", DBNull.Value) : new NpgsqlParameter<string>("image", user.Image);
+            var bio     = user.Bio == null ? new NpgsqlParameter("bio", DBNull.Value) : new NpgsqlParameter<string>("bio", user.Bio);
+
+            int rowsAffected = database.ExecuteNonQuery(
+                    statement,
+                    new NpgsqlParameter<string>("username", user.Username),
+                    new NpgsqlParameter<string>("password", user.Password),
+                    new NpgsqlParameter<int>("coins", Config.COINS),
+                    name,
+                    image,
+                    bio
+                );
+
+            return rowsAffected == 1;
+        }
+
+        public CardData[] GetDeck(int userId)
         {
             throw new NotImplementedException();
         }
@@ -53,45 +78,58 @@ namespace MCTGClassLibrary.Database.Repositories
         public CardData[] GetStack(string username)
         {
             int id = GetUserID(username);
-
-            if (id == -1)
-                return new CardData[0];
-
             return new CardsRepository().GetCards(id);
         }
 
-        public int GetUserID(string username)
+        public UserData GetUser(int id)
         {
+            if (!UserExists(id))
+                throw new InvalidDataException("User doesn't exist");
+
             using var conn = database.GetConnection();
-            using var command = new NpgsqlCommand("SELECT id FROM \"user\" WHERE username=@username", conn);
-
-            command.Parameters.AddWithValue("username", username);
-
-            var reader = command.ExecuteReader();
-            int id = -1;
-
-            if (reader.Read())
-                id = reader.GetInt32(reader.GetOrdinal("id"));
-
-            return id;
-        }
-
-        public string GetUsername(int id)
-        {
-            using var conn = database.GetConnection();
-            using var command = new NpgsqlCommand("SELECT username FROM \"user\" WHERE id=@id", conn);
+            using var command = new NpgsqlCommand("SELECT * FROM \"user\" WHERE id=@id", conn);
 
             command.Parameters.AddWithValue("id", id);
 
             var reader = command.ExecuteReader();
-            string username = null;
+            UserData user = new UserData();
 
-            if (reader.Read())
-                username = reader.GetString(0);
+            if(reader.Read())
+            {
+                user.Username = reader.GetString(reader.GetOrdinal("username"));
+                user.Name = reader.IsDBNull(reader.GetOrdinal("name")) ? null : reader.GetString(reader.GetOrdinal("name"));
+                user.Bio = reader.IsDBNull(reader.GetOrdinal("bio")) ? null : reader.GetString(reader.GetOrdinal("bio")); 
+                user.Coins = reader.GetInt32(reader.GetOrdinal("coins"));
+                user.Password = "top secret";
+                user.Image = reader.IsDBNull(reader.GetOrdinal("image")) ? null : reader.GetString(reader.GetOrdinal("image"));
 
-            return username;
+                // can assign null to strings
+                // but can't assign null values from the db to strings
+                // genius
+            }
+
+            return user;
         }
 
+        public UserData GetUser(string username)
+        {
+            return GetUser(GetUserID(username));
+        }
 
+        public void UpdateUser(string username, UserData user)
+        {
+            if (!UserExists(username))
+                throw new InvalidDataException($"User {username} does not exist");
+
+            if(user.Username != null && UserExists(username))
+                throw new InvalidDataException($"new username {username} allready exists");
+
+            //TODO: implement iterator for UserData
+            if (user.Username != null)  UpdateValue("user", "username", username, "username", user.Username);
+            if (user.Name != null)      UpdateValue("user", "username", username, "name", user.Name);
+            if (user.Password != null)  UpdateValue("user", "username", username, "password", user.Password);
+            if (user.Bio != null)       UpdateValue("user", "username", username, "bio", user.Bio);
+            if (user.Image != null)     UpdateValue("user", "username", username, "image", user.Image);
+        }
     }
 }

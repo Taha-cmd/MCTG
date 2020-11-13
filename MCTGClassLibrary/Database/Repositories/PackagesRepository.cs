@@ -29,7 +29,7 @@ namespace MCTGClassLibrary.Database.Repositories
 
         public bool PackageExists(int id)
         {
-            return Exists("package", "id", 1);
+            return Exists("package", "id", id);
         }
 
         private int MakeNewPackageEntry()
@@ -41,15 +41,9 @@ namespace MCTGClassLibrary.Database.Repositories
             if (rowsAffected != 1)
                 throw new NpgsqlException("Error creating package");
 
-            using var conn = database.GetConnection();
-            using var command = new NpgsqlCommand("SELECT MAX(\"id\") FROM \"package\"", conn);
-
-            var reader = command.ExecuteReader();
-
-            if (!reader.Read())
-                throw new NpgsqlException("Error reading max id of packages");
-
-            return reader.GetInt32(0);
+            // select max from a table
+            // workaround: no condition needed => 1 = 1
+            return GetValue<int, string>("package", "\'1\'", "1", "MAX(\"id\")");
         }
 
         private void AddPackageCardReference(int packageId, string cardId)

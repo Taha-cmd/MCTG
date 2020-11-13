@@ -13,6 +13,7 @@ namespace MCTGClassLibrary.DataObjects
         public string Name { get; set; } = null;
         public string Bio { get; set; } = null;
         public string Image { get; set; } = null;
+        public int Coins { get; set; } = -1;
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -21,6 +22,7 @@ namespace MCTGClassLibrary.DataObjects
             info.AddValue("Name", Name);
             info.AddValue("Bio", Bio);
             info.AddValue("Image", Image);
+            info.AddValue("Coins", Coins);
         }
     }
 }
