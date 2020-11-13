@@ -52,52 +52,67 @@ namespace MCTGClassLibrary
         private void StartBattle(Player player1, Player player2)
         {
             var random = new Random();
+            bool draw = true;
+
+            // at least 4 rounds, each round describe both cards
+            var stringBuilder = new StringBuilder(player1.Deck.GetRandomCard().Description().Length * 10);
 
             int attackerIndex = random.Next(0, 2);
             int defenderIndex = attackerIndex == 0 ? 1 : 0;
 
             Deck[] decks = { player1.Deck, player2.Deck };
 
-            for(int i = 0; i < 100; i++)
+            int i = 0;
+            for(; i < 100; i++)
             {
                 Card attacker = decks[attackerIndex].GetRandomCard();
                 Card defender = decks[defenderIndex].GetRandomCard();
 
 
-                Console.WriteLine($"\t---round {i+1}---\t");
-                Console.WriteLine($"(attacker)\n{attacker.Description()}\n vs \n\n(defender)\n{defender.Description()}");
+                stringBuilder.AppendLine($"\t---round {i+1}---\t");
+                stringBuilder.AppendLine($"(attacking card)\n{attacker.Description()}\n vs \n\n(defending card)\n{defender.Description()}");
                 
 
                 if(attacker.Attack(defender))
                 {
                     decks[attackerIndex].Extend(defender);
                     decks[defenderIndex].Remove(defender);
-                    Console.WriteLine("attacker " + attacker.Name + " wins");
+                    stringBuilder.AppendLine($"player {decks[attackerIndex].Owner} with card {attacker.Name} wins round {i+1}");
                 }
                 else
                 {
                     decks[defenderIndex].Extend(attacker);
                     decks[attackerIndex].Remove(attacker);
-                    Console.WriteLine("defender " + defender.Name + " wins");
+                    stringBuilder.AppendLine($"player {decks[defenderIndex].Owner} with card {defender.Name} wins round {i + 1}");
                 }
 
                 if(decks[attackerIndex].Empty || decks[defenderIndex].Empty)
                 {
-                    Console.WriteLine("GAME OVER");
-
-                    if(!decks[attackerIndex].Empty)
-                        Console.WriteLine($"{decks[attackerIndex].Owner} won the game with {decks[attackerIndex].Count} in the deck");
-                    else
-                        Console.WriteLine($"{decks[defenderIndex].Owner} won the game with {decks[defenderIndex].Count} in the deck");
-
-                    return;
+                    draw = false;
+                    break;
                 }
 
-                Console.WriteLine("-------------------------------------------------------------\n");
+                stringBuilder.AppendLine("-------------------------------------------------------------\n");
                 Swap(ref attackerIndex, ref defenderIndex);
             }
 
-            Console.WriteLine("DRAW");
+            stringBuilder.AppendLine("\n*******************************************************************\n");
+            stringBuilder.AppendLine("GAME OVER");
+            stringBuilder.AppendLine($"Played rounds: {i + 1}");
+
+            if(!draw)
+            {
+                if (!decks[attackerIndex].Empty)
+                    stringBuilder.AppendLine($"{decks[attackerIndex].Owner} won the game with {decks[attackerIndex].Count} cards in the deck");
+                else
+                    stringBuilder.AppendLine($"{decks[defenderIndex].Owner} won the game with {decks[defenderIndex].Count} cards in the deck");
+            }
+            else
+            {
+                stringBuilder.AppendLine("DRAW");
+            }
+
+            Console.WriteLine(stringBuilder.ToString());
         }
 
         private void Swap(ref int a, ref int b)
