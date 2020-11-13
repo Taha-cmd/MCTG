@@ -35,6 +35,11 @@ namespace MCTGClassLibrary.Database.Repositories
             return Exists("user", "username", username);
         }
 
+        public bool UserExists(int id)
+        {
+            return Exists("user", "id", id);
+        }
+
         public Card[] GetDeck(int userId)
         {
             throw new NotImplementedException();
@@ -69,6 +74,22 @@ namespace MCTGClassLibrary.Database.Repositories
                 id = reader.GetInt32(reader.GetOrdinal("id"));
 
             return id;
+        }
+
+        public string GetUsername(int id)
+        {
+            using var conn = database.GetConnection();
+            using var command = new NpgsqlCommand("SELECT username FROM \"user\" WHERE id=@id", conn);
+
+            command.Parameters.AddWithValue("id", id);
+
+            var reader = command.ExecuteReader();
+            string username = null;
+
+            if (reader.Read())
+                username = reader.GetString(0);
+
+            return username;
         }
 
 
