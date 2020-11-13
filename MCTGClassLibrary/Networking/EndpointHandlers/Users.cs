@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json;
+﻿using MCTGClassLibrary.Database.Repositories;
 using MCTGClassLibrary.DataObjects;
+using System;
 using System.IO;
-using MCTGClassLibrary.Database.Repositories;
+using System.Text.Json;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -64,14 +60,17 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (string.IsNullOrWhiteSpace(request.Authorization))
                 return new Response("Authoriazion Header required");
 
-            string username = GetUserNameFromRoute(request.Route);
-            UsersRepository usersRepo = new UsersRepository();
-
-            if (!usersRepo.UserExists(username))
-                return new Response($"Username {username} does not exist");
-
             try
             {
+                if (!Authorized(request.Authorization))
+                    return new Response("This Action requires authorization");
+
+                string username = GetUserNameFromRoute(request.Route);
+                UsersRepository usersRepo = new UsersRepository();
+
+                if (!usersRepo.UserExists(username))
+                    return new Response($"Username {username} does not exist");
+
                 UserData user = usersRepo.GetUser(username);
                 string userInfo = JsonSerializer.Serialize<UserData>(user);
                 return new Response("200", "OK", userInfo);
@@ -88,26 +87,26 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             return new Response("500", "Internal Server Error");
         }
 
-
-
         // PUT to users => update user's info
         protected override Response PutHandler(Request request)
         {
-
-            if (!Authorized(request.Authorization))
-                return new Response("This Action requires authorization");
+            if (string.IsNullOrWhiteSpace(request.Authorization))
+                return new Response("Authoriazion Header required");
 
             if (string.IsNullOrWhiteSpace(request.Payload))
                 return new Response("No Payload");
 
-            string username = GetUserNameFromRoute(request.Route);
-            UsersRepository usersRepo = new UsersRepository();
-
-            if (!usersRepo.UserExists(username))
-                return new Response($"Username {username} does not exist");
-
             try
             {
+                if (!Authorized(request.Authorization))
+                    return new Response("This Action requires authorization");
+
+                string username = GetUserNameFromRoute(request.Route);
+                UsersRepository usersRepo = new UsersRepository();
+
+                if (!usersRepo.UserExists(username))
+                    return new Response($"Username {username} does not exist");
+
                 UserData user;
 
                 try
@@ -135,13 +134,21 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             return new Response("500", "Internal Server Error");
         }
 
-
-
         // helper methods
         private string GetUserNameFromRoute(string route)
         {
-            route = route.Contains("?") ? route.Substring(0, route.IndexOf("?")) : route;
-            return route.Substring(route.LastIndexOf("/") + 1);
+            try
+            {
+                route = route.Contains("?") ? route.Substring(0, route.IndexOf("?")) : route;
+                string[] tokens = route.Split("/");
+                route = tokens[2];
+            }
+            catch (Exception)
+            {
+                throw new InvalidDataException("Invalid request to this endpoint. Could not extract username");
+            }
+
+            return route;
         }
     }
 }

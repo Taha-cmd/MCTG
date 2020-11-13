@@ -2,6 +2,7 @@
 using MCTGClassLibrary.DataObjects;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
@@ -18,8 +19,17 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         protected string ExtractUserNameFromAuthoriazionHeader(string authorizationString)
         {
-            string username = authorizationString.Substring(authorizationString.IndexOf(" ") + 1);
-            username = username.Substring(0, username.IndexOf("-"));
+            string username;
+
+            try
+            {
+                username = authorizationString.Substring(authorizationString.IndexOf(" ") + 1);
+                username = username.Substring(0, username.IndexOf("-"));
+            }
+            catch(Exception ex)
+            {
+                throw new InvalidDataException("Error extracting name from authorization header. Invalid format");
+            }
 
             return username;
         }

@@ -27,7 +27,8 @@ namespace MCTGClassLibrary
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Error handling response: " + ex.Message);
+                Console.WriteLine($"Error in RequestHandler from {ex.Source}:" + ex.Message);
+                Console.WriteLine($"Stack call {ex.StackTrace}");
             }
 
             return new Response("500", "Internal Server Error");

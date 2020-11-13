@@ -6,9 +6,9 @@ using System.Text;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Home : IEndpointHandler
+    public class Home : EndpointHandlerBase
     {
-        public Response HandleRequest(Request request)
+        protected override Response GetHandler(Request request)
         {
             Response resp = new Response("200", "OK");
 
