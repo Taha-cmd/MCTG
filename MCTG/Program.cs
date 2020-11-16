@@ -19,37 +19,27 @@ namespace MCTG
     {
           static void Main(string[] args)
           {
-                HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
+            /*HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
 
-                //RequestHandler.RequestHandled += gameHandler.EventListener;
-                server.Start();
+            //RequestHandler.RequestHandled += gameHandler.EventListener;
+            server.Start();
 
-                while (true)
+            while (true)
+            {
+                TcpClient client = server.AcceptClient();
+                Thread requestHandlingThread;
+
+                try
                 {
-                    TcpClient client = server.AcceptClient();
-                    Thread requestHandlingThread;
+                    requestHandlingThread = new Thread(() => server.HandleClient(client));
+                    requestHandlingThread.Start();
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }  */
 
-                    try
-                    {
-                        requestHandlingThread = new Thread(() => server.HandleClient(client));
-                        requestHandlingThread.Start();
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }  
-
-
-            
-       // Console.WriteLine(  new UsersRepository().GetUserID("test") );
-
-
-            var usersRepo = new UsersRepository();
-
-            var user = usersRepo.GetUser("taha");
-            string userInfo = JsonSerializer.Serialize<UserData>(user);
-            Console.WriteLine(userInfo);
 
 
 
