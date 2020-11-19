@@ -11,7 +11,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         protected override Response PostHandler(Request request)
         {
-            if (string.IsNullOrWhiteSpace(request.Payload))
+            if (request.Payload.IsNullOrWhiteSpace())
                 return new Response("No Payload");
 
             try

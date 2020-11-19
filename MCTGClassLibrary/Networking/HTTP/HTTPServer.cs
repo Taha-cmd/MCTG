@@ -46,6 +46,7 @@ namespace MCTGClassLibrary
                 response.AddHeader("Date", DateTime.Today.ToString());
 
                 response.Display(ConsoleColor.Green);
+                Console.WriteLine("----------------------------------------------------------------------------------\n");
 
                 response.Send(client.GetStream());
                 client.Close();

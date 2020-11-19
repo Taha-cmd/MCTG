@@ -12,7 +12,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         // POST to users => sign up
         protected override Response PostHandler(Request request)
         {
-            if (string.IsNullOrWhiteSpace(request.Payload))
+            if (request.Payload.IsNullOrWhiteSpace())
                 return new Response("No payload");
 
             try
@@ -29,7 +29,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                     return new Response("Invalid Json Format");
                 }
 
-                if (string.IsNullOrWhiteSpace(user.Username) || string.IsNullOrWhiteSpace(user.Password))
+                if (user.Username.IsNullOrWhiteSpace() || user.Password.IsNullOrWhiteSpace())
                     return new Response("Username or Password Empty");
 
                 UsersRepository users = new UsersRepository();
@@ -57,13 +57,13 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         // GET to users => read user's data
         protected override Response GetHandler(Request request)
         {
-            if (string.IsNullOrWhiteSpace(request.Authorization))
+            if (request.Authorization.IsNullOrWhiteSpace())
                 return new Response("Authoriazion Header required");
 
             try
             {
                 if (!Authorized(request.Authorization))
-                    return new Response("This Action requires authorization");
+                    return new Response("Authorization failed");
 
                 string username = GetUserNameFromRoute(request.Route);
                 UsersRepository usersRepo = new UsersRepository();
@@ -90,10 +90,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         // PUT to users => update user's info
         protected override Response PutHandler(Request request)
         {
-            if (string.IsNullOrWhiteSpace(request.Authorization))
+            if (request.Authorization.IsNullOrWhiteSpace())
                 return new Response("Authoriazion Header required");
 
-            if (string.IsNullOrWhiteSpace(request.Payload))
+            if (request.Payload.IsNullOrWhiteSpace())
                 return new Response("No Payload");
 
             try

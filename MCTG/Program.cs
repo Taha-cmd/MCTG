@@ -19,7 +19,7 @@ namespace MCTG
     {
           static void Main(string[] args)
           {
-            /*HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
+            HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
 
             //RequestHandler.RequestHandled += gameHandler.EventListener;
             server.Start();
@@ -38,7 +38,7 @@ namespace MCTG
                 {
                     Console.WriteLine(ex.Message);
                 }
-            }  */
+            }  
 
 
 

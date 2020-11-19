@@ -42,6 +42,14 @@ namespace MCTGClassLibrary
         public static bool In<T>(this T obj, params T[] list)
         {
             return new List<T>(list).Contains(obj);
-        } 
+        }
+        
+        public static bool IsNullOrWhiteSpace(this string str)
+        {
+            return string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str);
+
+            // string.IsNullOrWhiteSpace(str)
+            // str.IsNullOrWhiteSpace()
+        }
     }
 }

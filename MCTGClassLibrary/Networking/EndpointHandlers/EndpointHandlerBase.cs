@@ -36,21 +36,17 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         public Response HandleRequest(Request request)
         {
-            return RouteToMethodHandler(request);
-        }
-
-        protected Response RouteToMethodHandler(Request req)
-        {
-            switch(req.Method.ToUpper())
+            switch (request.Method.ToUpper())
             {
-                case "GET":         return GetHandler(req);
-                case "PUT":         return PutHandler(req);
-                case "POST":        return PostHandler(req);
-                case "DELETE":      return DeleteHandler(req);
+                case "GET":     return GetHandler(request);
+                case "PUT":     return PutHandler(request);
+                case "POST":    return PostHandler(request);
+                case "DELETE":  return DeleteHandler(request);
             }
 
-            return new Response("405", "Method Not Allowed", $"The method {req.Method.ToUpper()} is not supported");
+            return new Response("405", "Method Not Allowed", $"The method {request.Method.ToUpper()} is not supported");
         }
+
         protected virtual Response GetHandler(Request request)      { return MethodNotSupported("GET"); }
         protected virtual Response PostHandler(Request request)     { return MethodNotSupported("POST"); }
         protected virtual Response PutHandler(Request request)      { return MethodNotSupported("PUT"); }

@@ -17,9 +17,11 @@ namespace MCTGClassLibrary
         {
             IEndpointHandler endpointHandler = EndpointHandlerManager.Get(request.Endpoint);
 
-            if (endpointHandler == null)
+            if (endpointHandler.IsNull())
                 return new Response("400", "Bad Request", $"Endpoint {request.Endpoint} does not exist");
+
             //OnRequestHandled(new RequestEventArgs());
+
             try
             {
                 Response resp = endpointHandler.HandleRequest(request);

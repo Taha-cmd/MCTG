@@ -7,18 +7,8 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
     public class EndpointHandlerManager
     {
         private EndpointHandlerManager() { }
-
-        private static string[] endpoints = { 
-            "home", "users", "sessions", "packages", 
-            "battles", "cards", "deck", "score",
-            "stats", "tradings", "transactions"
-        };
-
         public static IEndpointHandler Get(string endpoint)
         {
-            if (!Array.Exists(endpoints, element => element == endpoint.ToLower()))
-                return null;
-
             switch (endpoint.ToLower())
             {
                 case "users":           return new Users();

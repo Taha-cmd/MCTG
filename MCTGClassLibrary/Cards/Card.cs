@@ -42,11 +42,11 @@ namespace MCTGClassLibrary
 
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
+            if (obj.IsNull()) return false;
 
             Card other = obj as Card;
 
-            if (other == null) return false;
+            if (other.IsNull()) return false;
 
             return ID == other.ID;
         }
