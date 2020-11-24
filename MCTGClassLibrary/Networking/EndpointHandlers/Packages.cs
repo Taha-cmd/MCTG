@@ -9,6 +9,8 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
     public class Packages : EndpointHandlerBase
     {
 
+
+        // post to packages => create package
         protected override Response PostHandler(Request request)
         {
             if (request.Payload.IsNullOrWhiteSpace())

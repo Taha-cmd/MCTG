@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS "card" (
   "damage" double precision,
   "weakness" double precision DEFAULT 0,
   "owner_id" int DEFAULT null,
+  "package_id" int,
   "element" varchar,
   "card_type" varchar,
   CHECK ("element" IN ('normal', 'fire', 'water') ),
@@ -23,6 +24,8 @@ CREATE TABLE IF NOT EXISTS "card" (
 CREATE TABLE IF NOT EXISTS "package" (
   "id" SERIAL PRIMARY KEY,
   "creation_date" timestamp DEFAULT 'now()'
+  "available" int DEFAULT 0,
+  CHECK ("available" IN (0,1))
 );
 
 CREATE TABLE IF NOT EXISTS "package_card" (
@@ -58,4 +61,6 @@ ALTER TABLE "deck" ADD FOREIGN KEY ("card_id") REFERENCES "card" ("id");
 ALTER TABLE "battle" ADD FOREIGN KEY ("winner_id") REFERENCES "user" ("id");
 
 ALTER TABLE "battle" ADD FOREIGN KEY ("loser_id") REFERENCES "user" ("id");
+
+ALTER TABLE "card" ADD FOREIGN KEY ("package_id") REFERENCES "package" ("id");
 

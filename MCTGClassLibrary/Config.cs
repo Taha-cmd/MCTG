@@ -27,5 +27,6 @@ namespace MCTGClassLibrary.Database.Repositories
 
         // game
         public const int COINS = 20;
+        public const int PACKAGECOST = 5;
     }
 }

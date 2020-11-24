@@ -40,10 +40,15 @@ namespace MCTGClassLibrary.Database.Repositories
                             );
         }
 
-        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch)
+        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch, int? limit = null)
         {
             using var conn = database.GetConnection();
-            using var command = new NpgsqlCommand($"SELECT {columnToFetch} FROM \"{table}\" WHERE {filter}=@filterValue", conn);
+            string statement = $"SELECT {columnToFetch} FROM \"{table}\" WHERE {filter}=@filterValue";
+
+            if (!limit.IsNull())
+                statement += $" limit {limit}";
+
+            using var command = new NpgsqlCommand(statement, conn);
 
             command.Parameters.AddWithValue("filterValue", filterValue);
 

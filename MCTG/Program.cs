@@ -42,7 +42,6 @@ namespace MCTG
 
 
 
-
             /*  Player p1 = new Player("player1");
               Player p2 = new Player("player2");
 

@@ -34,6 +34,16 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             return username;
         }
 
+        protected string GetNthTokenFromRoute(int index, string route)
+        {
+            string[] tokens = route.Split("/");
+
+            if (index >= tokens.Length)
+                throw new InvalidDataException("Invalid format");
+
+            return tokens[index];
+        }
+
         public Response HandleRequest(Request request)
         {
             switch (request.Method.ToUpper())

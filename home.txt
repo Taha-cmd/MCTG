@@ -47,7 +47,7 @@ Endpoints in Detail:
 
 	2) cards
 		
-		*) GET /cards => list all cards in the stack. requires authorization
+		*) GET /cards => list all cards in the stack. Requires authorization
 
 	********************************************************************************
 	3) packages
@@ -72,7 +72,9 @@ Endpoints in Detail:
 	8) deck
 
 	*******************************************************************************
-	9) /transactions
+	9) transactions
+
+		* POST /transactions/packages payload: "" => acquire a new package. Authorization required
 
 	*******************************************************************************
 	10) battle

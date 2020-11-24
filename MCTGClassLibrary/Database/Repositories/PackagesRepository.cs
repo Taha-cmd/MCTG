@@ -20,16 +20,49 @@ namespace MCTGClassLibrary.Database.Repositories
                 if (cardsRepo.CardExists(card.Id))
                     throw new InvalidDataException($"Error adding Package: card with Id {card.Id} allready exists");
 
-            cardsRepo.AddCards(cards);
             int newPackageId = MakeNewPackageEntry();
+            cardsRepo.AddCards(newPackageId, cards);
 
-            foreach (var card in cards)
-                AddPackageCardReference(newPackageId, card.Id);
+            //foreach (var card in cards)
+              //  AddPackageCardReference(newPackageId, card.Id);
         }
 
         public bool PackageExists(int id)
         {
             return Exists("package", "id", id);
+        }
+
+        public int NextPackage()
+        {
+            if (AvailablePackages() < 1)
+                throw new InvalidDataException("No packages available");
+
+            return GetValue<int, int>("package", "available", 1, "id", 1);
+
+        }
+
+        public int AvailablePackages()
+        {
+            return GetValue<int, int>("package", "available", 1, "COUNT(*)");
+        }
+
+        public void SetAvailability(int id, bool available)
+        {
+            int value = available ? 1 : 0;
+
+            UpdateValue<int, int>("package", "id", id, "available", value);
+        }
+
+        public void TransferOwnership(int packageId, int userId)
+        {
+            UpdateValue<int, int>("card", "package_id", packageId, "owner_id", userId);
+        }
+
+        public void TransferOwnership(int packageId, string username)
+        {
+            int userId = new UsersRepository().GetUserID(username);
+
+            TransferOwnership(packageId, userId);
         }
 
         private int MakeNewPackageEntry()
@@ -46,7 +79,9 @@ namespace MCTGClassLibrary.Database.Repositories
             return GetValue<int, string>("package", "\'1\'", "1", "MAX(\"id\")");
         }
 
-        private void AddPackageCardReference(int packageId, string cardId)
+
+        // not needed?
+        /*private void AddPackageCardReference(int packageId, string cardId)
         {
             string statement = "INSERT INTO \"package_card\" (package_id, card_id) VALUES(@package_id, @card_id)";
 
@@ -57,6 +92,6 @@ namespace MCTGClassLibrary.Database.Repositories
 
             if (rowsAffected != 1)
                 throw new NpgsqlException("Error adding package_card reference");
-        }
+        } */
     }
 }

@@ -40,6 +40,25 @@ namespace MCTGClassLibrary.Database.Repositories
             return Exists("user", "id", id);
         }
 
+        public int Coins(int id)
+        {
+            return GetValue<int, int>("user", "id", id, "coins");
+        }
+        public int Coins(string username)
+        {
+            return GetValue<int, string>("user", "username", username, "coins");
+        }
+
+        public void IncrementCoins(int id, int amount)
+        {
+            UpdateValue<int, int>("user", "id", id, "coins", Coins(id) + amount);
+        }
+
+        public void IncrementCoins(string username, int amount)
+        {
+            UpdateValue<string, int>("user", "username", username, "coins", Coins(username) + amount);
+        }
+
         public bool RegisterUser(UserData user)
         {
             if (UserExists(user.Username))
