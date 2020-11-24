@@ -12,6 +12,7 @@ using MCTGClassLibrary.Enums;
 using System.Runtime.Serialization;
 using System.Text.Json;
 using MCTGClassLibrary.DataObjects;
+using MCTGClassLibrary.Networking.HTTP;
 
 namespace MCTG
 {
