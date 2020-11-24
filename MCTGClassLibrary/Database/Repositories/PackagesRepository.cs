@@ -26,12 +26,6 @@ namespace MCTGClassLibrary.Database.Repositories
             //foreach (var card in cards)
               //  AddPackageCardReference(newPackageId, card.Id);
         }
-
-        public bool PackageExists(int id)
-        {
-            return Exists("package", "id", id);
-        }
-
         public int NextPackage()
         {
             if (AvailablePackages() < 1)
@@ -41,22 +35,11 @@ namespace MCTGClassLibrary.Database.Repositories
 
         }
 
-        public int AvailablePackages()
-        {
-            return GetValue<int, int>("package", "available", 1, "COUNT(*)");
-        }
+        public bool PackageExists(int id) => Exists("package", "id", id);
+        public int AvailablePackages() => GetValue<int, int>("package", "available", 1, "COUNT(*)");
+        public void TransferOwnership(int packageId, int userId) => UpdateValue<int, int>("card", "package_id", packageId, "owner_id", userId);
+        public void SetAvailability(int id, bool available) => UpdateValue<int, int>("package", "id", id, "available", available ? 1 : 0);
 
-        public void SetAvailability(int id, bool available)
-        {
-            int value = available ? 1 : 0;
-
-            UpdateValue<int, int>("package", "id", id, "available", value);
-        }
-
-        public void TransferOwnership(int packageId, int userId)
-        {
-            UpdateValue<int, int>("card", "package_id", packageId, "owner_id", userId);
-        }
 
         public void TransferOwnership(int packageId, string username)
         {

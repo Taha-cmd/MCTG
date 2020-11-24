@@ -1,5 +1,6 @@
 ﻿using MCTGClassLibrary.Database.Repositories;
 using MCTGClassLibrary.DataObjects;
+using MCTGClassLibrary.Networking.HTTP;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -14,7 +15,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         protected override Response PostHandler(Request request)
         {
             if (request.Payload.IsNullOrWhiteSpace())
-                return new Response("No Payload");
+                return ResponseManager.BadRequest("No Payload");
 
             try
             {
@@ -27,24 +28,24 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 catch (Exception ex)
                 {
                     Console.WriteLine("Error in PostHandler in Packages: " + ex.Message);
-                    return new Response("Invalid Json Format");
+                    return ResponseManager.BadRequest("Invalid Json Format");
                 }
 
                 PackagesRepository packages = new PackagesRepository();
                 packages.AddPackage(cardDataArray);
 
-                return new Response("200", "OK", "Package added successfully");
+                return ResponseManager.Created("Package added successfully");
             }
             catch(InvalidDataException ex)
             {
-                return new Response(ex.Message);
+                return ResponseManager.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error in PostHandler in Packages: " + ex.Message);
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
         }
     }
 }

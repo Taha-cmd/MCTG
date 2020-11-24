@@ -1,4 +1,5 @@
 ﻿using MCTGClassLibrary.Database.Repositories;
+using MCTGClassLibrary.Networking.HTTP;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
     {
         protected override Response GetHandler(Request request)
         {
-            Response resp = new Response("200", "OK");
+            Response resp = ResponseManager.OK();
 
             if (File.Exists(Config.HOMEPAGE))
                 resp.AddPayload(File.ReadAllText(Config.HOMEPAGE));

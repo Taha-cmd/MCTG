@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using MCTGClassLibrary.Networking.HTTP;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -13,10 +14,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         {
 
             if (request.Authorization.IsNullOrWhiteSpace())
-                return new Response("Authoriazion Header required");
+                return ResponseManager.BadRequest("Authoriazion Header required");
 
             if (!Authorized(request.Authorization))
-                return new Response("Authorization Failed!, check your username and password");
+                return ResponseManager.Unauthorized("Authorization Failed!, check your username and password");
 
             try
             {
@@ -28,18 +29,18 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                     case "packages": AcquirePackage(username); break;
                 }
 
-                return new Response("200", "OK", "success");
+                return ResponseManager.OK("success");
             }
             catch(InvalidDataException ex)
             {
-                return new Response(ex.Message);
+                return ResponseManager.BadRequest(ex.Message);
             }
             catch(Exception ex)
             {
                 Console.WriteLine($"Error from {ex.Source} in Transactions PostHandler: " + ex.Message);
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
         }
 
 

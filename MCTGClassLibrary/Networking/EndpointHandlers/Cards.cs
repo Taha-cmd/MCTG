@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using MCTGClassLibrary.Networking.HTTP;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -15,31 +16,31 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         protected override Response GetHandler(Request request)
         {
             if (request.Authorization.IsNullOrWhiteSpace())
-                return new Response("No Authorization Header found");
+                return ResponseManager.BadRequest("No Authorization Header found");
 
             if (!Authorized(request.Authorization))
-                return new Response("Authorization Failed!, check your username and password");
+                return ResponseManager.Unauthorized("Authorization Failed!, check your username and password");
 
             CardData[] cardDataArray = new UsersRepository().GetStack( ExtractUserNameFromAuthoriazionHeader(request.Authorization) );
 
             if (cardDataArray.Length == 0)
-                return new Response("Stack is empty");
+                return ResponseManager.OK("Stack is empty");
 
             try
             {
                 string data = JsonSerializer.Serialize<CardData[]>(cardDataArray);
-                return new Response("200", "OK", data);
+                return ResponseManager.OK(data);
             }
             catch(InvalidDataException ex)
             {
-                return new Response(ex.Message);
+                return ResponseManager.BadRequest(ex.Message);
             }
             catch(Exception x)
             {
                 Console.WriteLine("error in GetHandler in Cards: " + x.Message);
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
         }
     }
 }

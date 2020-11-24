@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using MCTGClassLibrary.Networking.HTTP;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -54,7 +55,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 case "DELETE":  return DeleteHandler(request);
             }
 
-            return new Response("405", "Method Not Allowed", $"The method {request.Method.ToUpper()} is not supported");
+            return ResponseManager.MethodNotAllowed($"The method {request.Method.ToUpper()} is not supported");
         }
 
         protected virtual Response GetHandler(Request request)      { return MethodNotSupported("GET"); }
@@ -64,7 +65,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         private Response MethodNotSupported(string method)
         {
-            return new Response("405", "Method Not Allowed", $"this endpoint does not support the method {method}");
+            return ResponseManager.MethodNotAllowed($"this endpoint does not support the method {method}");
         }
     }
 }

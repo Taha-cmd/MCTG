@@ -1,5 +1,6 @@
 ﻿using MCTGClassLibrary.Database.Repositories;
 using MCTGClassLibrary.DataObjects;
+using MCTGClassLibrary.Networking.HTTP;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -13,7 +14,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         protected override Response PostHandler(Request request)
         {
             if (request.Payload.IsNullOrWhiteSpace())
-                return new Response("No payload");
+                return ResponseManager.BadRequest("No payload");
 
             try
             {
@@ -26,31 +27,31 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 catch(Exception ex)
                 {
                     Console.WriteLine("Error in PostHandler in Users: " + ex.Message);
-                    return new Response("Invalid Json Format");
+                    return ResponseManager.BadRequest("Invalid Json Format");
                 }
 
                 if (user.Username.IsNullOrWhiteSpace() || user.Password.IsNullOrWhiteSpace())
-                    return new Response("Username or Password Empty");
+                    return ResponseManager.BadRequest("Username or Password Empty");
 
                 UsersRepository users = new UsersRepository();
 
                 if(users.UserExists(user.Username))
-                    return new Response($"Username {user.Username} allready exists");
+                    return ResponseManager.BadRequest($"Username {user.Username} allready exists");
 
                 if (users.RegisterUser(user))
-                    return new Response("200", "OK", $"Account for {user.Username} created successfully");
+                    return ResponseManager.Created($"Account for {user.Username} created successfully");
    
             }
             catch(InvalidDataException ex)
             {
-                return new Response(ex.Message);
+                return ResponseManager.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error in PostHandler in Users: " + ex.Message);
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
         }
 
 
@@ -58,54 +59,54 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         protected override Response GetHandler(Request request)
         {
             if (request.Authorization.IsNullOrWhiteSpace())
-                return new Response("Authoriazion Header required");
+                return ResponseManager.BadRequest("Authoriazion Header required");
 
             try
             {
                 if (!Authorized(request.Authorization))
-                    return new Response("Authorization failed");
+                    return ResponseManager.Unauthorized();
 
                 string username = GetUserNameFromRoute(request.Route);
                 UsersRepository usersRepo = new UsersRepository();
 
                 if (!usersRepo.UserExists(username))
-                    return new Response($"Username {username} does not exist");
+                    return ResponseManager.NotFound($"Username {username} does not exist");
 
                 UserData user = usersRepo.GetUser(username);
                 string userInfo = JsonSerializer.Serialize<UserData>(user);
-                return new Response("200", "OK", userInfo);
+                return ResponseManager.OK(userInfo);
             }
             catch(InvalidDataException ex)
             {
-                return new Response(ex.Message);
+                return ResponseManager.BadRequest(ex.Message);
             }
             catch(Exception ex)
             {
                 Console.WriteLine("Error in Users GetHandler: " + ex.Message);
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
         }
 
         // PUT to users => update user's info
         protected override Response PutHandler(Request request)
         {
             if (request.Authorization.IsNullOrWhiteSpace())
-                return new Response("Authoriazion Header required");
+                return ResponseManager.BadRequest("Authoriazion Header required");
 
             if (request.Payload.IsNullOrWhiteSpace())
-                return new Response("No Payload");
+                return ResponseManager.BadRequest("No Payload");
 
             try
             {
                 if (!Authorized(request.Authorization))
-                    return new Response("This Action requires authorization");
+                    return ResponseManager.Unauthorized();
 
                 string username = GetUserNameFromRoute(request.Route);
                 UsersRepository usersRepo = new UsersRepository();
 
                 if (!usersRepo.UserExists(username))
-                    return new Response($"Username {username} does not exist");
+                    return ResponseManager.BadRequest($"Username {username} does not exist");
 
                 UserData user;
 
@@ -116,22 +117,22 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 catch(Exception ex)
                 {
                     Console.WriteLine("Error parsing JSON in Users PutHandler: " + ex.Message);
-                    return new Response("Invalid JSON Format");
+                    return ResponseManager.BadRequest("Invalid JSON Format");
                 }
 
                 usersRepo.UpdateUser(username, user);
-                return new Response("200", "OK", "user's info updated successfully");
+                return ResponseManager.OK("user's info updated successfully");
             }
             catch (InvalidDataException ex)
             {
-                return new Response(ex.Message);
+                return ResponseManager.BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error from {ex.Source} in Users PutHandler: " + ex.Message);
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
         }
 
         // helper methods

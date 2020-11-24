@@ -50,10 +50,7 @@ namespace MCTGClassLibrary.Database.Repositories
             return addedCards;
         }
 
-        public bool CardExists(string id)
-        {
-            return Exists("card", "id", id);
-        }
+        public bool CardExists(string id) => Exists("card", "id", id);
 
         public CardData[] GetCards(int userId = -1)
         {

@@ -30,33 +30,18 @@ namespace MCTGClassLibrary.Database.Repositories
             return GetValue<string, int>("user", "id", id, "username");
         }
 
-        public bool UserExists(string username)
+        public bool UserExists(string username) => Exists("user", "username", username);
+        public bool UserExists(int id) => Exists("user", "id", id);
+        public int Coins(int id) => GetValue<int, int>("user", "id", id, "coins");
+        public int Coins(string username) => GetValue<int, string>("user", "username", username, "coins");
+        public void IncrementCoins(int id, int amount) => UpdateValue<int, int>("user", "id", id, "coins", Coins(id) + amount);
+        public void IncrementCoins(string username, int amount) => UpdateValue<string, int>("user", "username", username, "coins", Coins(username) + amount);
+        public CardData[] GetStack(int userId) => new CardsRepository().GetCards(userId);
+        public CardData[] GetStack(string username) => new CardsRepository().GetCards(GetUserID(username));
+        public UserData GetUser(string username) => GetUser(GetUserID(username));
+        public CardData[] GetDeck(int userId)
         {
-            return Exists("user", "username", username);
-        }
-
-        public bool UserExists(int id)
-        {
-            return Exists("user", "id", id);
-        }
-
-        public int Coins(int id)
-        {
-            return GetValue<int, int>("user", "id", id, "coins");
-        }
-        public int Coins(string username)
-        {
-            return GetValue<int, string>("user", "username", username, "coins");
-        }
-
-        public void IncrementCoins(int id, int amount)
-        {
-            UpdateValue<int, int>("user", "id", id, "coins", Coins(id) + amount);
-        }
-
-        public void IncrementCoins(string username, int amount)
-        {
-            UpdateValue<string, int>("user", "username", username, "coins", Coins(username) + amount);
+            throw new NotImplementedException();
         }
 
         public bool RegisterUser(UserData user)
@@ -82,22 +67,6 @@ namespace MCTGClassLibrary.Database.Repositories
                 );
 
             return rowsAffected == 1;
-        }
-
-        public CardData[] GetDeck(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public CardData[] GetStack(int userId)
-        {
-           return new CardsRepository().GetCards(userId);
-        }
-
-        public CardData[] GetStack(string username)
-        {
-            int id = GetUserID(username);
-            return new CardsRepository().GetCards(id);
         }
 
         public UserData GetUser(int id)
@@ -128,11 +97,6 @@ namespace MCTGClassLibrary.Database.Repositories
             }
 
             return user;
-        }
-
-        public UserData GetUser(string username)
-        {
-            return GetUser(GetUserID(username));
         }
 
         public void UpdateUser(string username, UserData user)
