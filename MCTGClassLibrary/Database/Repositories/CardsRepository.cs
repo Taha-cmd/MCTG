@@ -84,6 +84,5 @@ namespace MCTGClassLibrary.Database.Repositories
 
             return cards.ToArray();
         }
-
     }
 }

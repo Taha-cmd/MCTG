@@ -36,17 +36,10 @@ namespace MCTGClassLibrary.Database.Repositories
         }
 
         public bool PackageExists(int id) => Exists("package", "id", id);
-        public int AvailablePackages() => GetValue<int, int>("package", "available", 1, "COUNT(*)");
-        public void TransferOwnership(int packageId, int userId) => UpdateValue<int, int>("card", "package_id", packageId, "owner_id", userId);
+        public int AvailablePackages() => Count<int>("package", "available", 1);
         public void SetAvailability(int id, bool available) => UpdateValue<int, int>("package", "id", id, "available", available ? 1 : 0);
-
-
-        public void TransferOwnership(int packageId, string username)
-        {
-            int userId = new UsersRepository().GetUserID(username);
-
-            TransferOwnership(packageId, userId);
-        }
+        public void TransferOwnership(int packageId, int userId) => UpdateValue<int, int>("card", "package_id", packageId, "owner_id", userId);
+        public void TransferOwnership(int packageId, string username) => TransferOwnership(packageId, new UsersRepository().GetUserID(username));
 
         private int MakeNewPackageEntry()
         {

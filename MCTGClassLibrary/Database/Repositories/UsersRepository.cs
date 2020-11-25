@@ -39,10 +39,8 @@ namespace MCTGClassLibrary.Database.Repositories
         public CardData[] GetStack(int userId) => new CardsRepository().GetCards(userId);
         public CardData[] GetStack(string username) => new CardsRepository().GetCards(GetUserID(username));
         public UserData GetUser(string username) => GetUser(GetUserID(username));
-        public CardData[] GetDeck(int userId)
-        {
-            throw new NotImplementedException();
-        }
+        public CardData[] GetDeck(int userId) => new DecksRepository().GetDeck(userId);
+        public CardData[] GetDeck(string username) => new DecksRepository().GetDeck(username);
 
         public bool RegisterUser(UserData user)
         {

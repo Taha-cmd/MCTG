@@ -57,5 +57,10 @@ namespace MCTGClassLibrary.Database.Repositories
 
             return reader.GetFieldValue<ValueType>(0);
         }
+
+        public int Count<FilterType>(string table, string filter, FilterType filterValue)
+        {
+            return GetValue<int, FilterType>(table, filter, filterValue, "COUNT(*)");
+        }
     }
 }
