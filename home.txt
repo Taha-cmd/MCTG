@@ -71,6 +71,7 @@ Endpoints in Detail:
 	*******************************************************************************
 	8) deck
 		* GET /deck => show current deck. Authorization required
+		* PUT /deck payload: ["<cardId>", "<cardId>", "<cardId>", "<cardId>"] => configure deck. Authorization required
 
 	*******************************************************************************
 	9) transactions

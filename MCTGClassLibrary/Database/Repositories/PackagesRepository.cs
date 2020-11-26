@@ -54,20 +54,5 @@ namespace MCTGClassLibrary.Database.Repositories
             // workaround: no condition needed => 1 = 1
             return GetValue<int, string>("package", "\'1\'", "1", "MAX(\"id\")");
         }
-
-
-        // not needed?
-        /*private void AddPackageCardReference(int packageId, string cardId)
-        {
-            string statement = "INSERT INTO \"package_card\" (package_id, card_id) VALUES(@package_id, @card_id)";
-
-            int rowsAffected = database.ExecuteNonQuery(statement,
-                                    new NpgsqlParameter("package_id", packageId),
-                                    new NpgsqlParameter("card_id", cardId)
-                               );
-
-            if (rowsAffected != 1)
-                throw new NpgsqlException("Error adding package_card reference");
-        } */
     }
 }

@@ -28,12 +28,6 @@ CREATE TABLE IF NOT EXISTS "package" (
   CHECK ("available" IN (0,1))
 );
 
-CREATE TABLE IF NOT EXISTS "package_card" (
-  "package_id" int,
-  "card_id" varchar,
-  PRIMARY KEY ("package_id", "card_id")
-);
-
 CREATE TABLE IF NOT EXISTS "deck" (
   "user_id" int,
   "card_id" varchar NOT NULL,
@@ -49,10 +43,6 @@ CREATE TABLE IF NOT EXISTS "battle" (
 );
 
 ALTER TABLE "card" ADD FOREIGN KEY ("owner_id") REFERENCES "user" ("id");
-
-ALTER TABLE "package_card" ADD FOREIGN KEY ("package_id") REFERENCES "package" ("id");
-
-ALTER TABLE "package_card" ADD FOREIGN KEY ("card_id") REFERENCES "card" ("id");
 
 ALTER TABLE "deck" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("id");
 

@@ -13,26 +13,10 @@ namespace MCTGClassLibrary.Database.Repositories
             database = new Database(Config.HOST, Config.PORT, Config.DATABASE, Config.USERNAME, Config.PASSWORD);
         }
 
-        protected bool Exists<T>(string table, string filter, T value)
-        {
-            bool exists = true;
-
-            using var conn = database.GetConnection();
-            using var command = new NpgsqlCommand($"SELECT COUNT(*) FROM \"{table}\" WHERE {filter}=@value", conn);
-
-            command.Parameters.AddWithValue("value", value);
-
-            var reader = command.ExecuteReader();
-            if (reader.Read())
-                exists = reader.GetInt32(0) == 1;
-
-            return exists;
-        }
-
-        protected void UpdateValue<FilterType, ValueType>(string table, string filter, FilterType filterValue, string columnToUpdate, ValueType newValue)
+        protected void UpdateValue<FilterType, ValueType>(string table, string filter, FilterType filterValue, string columnToUpdate, ValueType newValue, string filterOperator = "=")
         {
             //update "user" set name = 'Taha' where username = 'taha';
-            string statement = $"UPDATE \"{table}\" SET {columnToUpdate}=@newValue WHERE {filter}=@filterValue";
+            string statement = $"UPDATE \"{table}\" SET {columnToUpdate}=@newValue WHERE {filter} {filterOperator} @filterValue";
 
             database.ExecuteNonQuery(statement,
                                 new NpgsqlParameter("newValue", newValue),
@@ -40,10 +24,10 @@ namespace MCTGClassLibrary.Database.Repositories
                             );
         }
 
-        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch, int? limit = null)
+        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch, int? limit = null, string filterOperator = "=")
         {
             using var conn = database.GetConnection();
-            string statement = $"SELECT {columnToFetch} FROM \"{table}\" WHERE {filter}=@filterValue";
+            string statement = $"SELECT {columnToFetch} FROM \"{table}\" WHERE {filter} {filterOperator} @filterValue";
 
             if (!limit.IsNull())
                 statement += $" limit {limit}";
@@ -58,9 +42,20 @@ namespace MCTGClassLibrary.Database.Repositories
             return reader.GetFieldValue<ValueType>(0);
         }
 
-        public int Count<FilterType>(string table, string filter, FilterType filterValue)
+        protected void DeleteValue<FilterType>(string table, string filter, FilterType filerValue, string filterOperator = "=")
         {
-            return GetValue<int, FilterType>(table, filter, filterValue, "COUNT(*)");
+            string statement = $"DELETE FROM \"{table}\" WHERE {filter} {filterOperator} @filterValue";
+            database.ExecuteNonQuery(statement, new NpgsqlParameter("filterValue", filerValue));
+
+        }
+        protected int Count<FilterType>(string table, string filter, FilterType filterValue, string filterOperator = "=")
+        {
+            return GetValue<int, FilterType>(table, filter, filterValue, "COUNT(*)", null, filterOperator);
+        }
+
+        protected bool Exists<FilterType>(string table, string filter, FilterType filterValue)
+        {
+            return Count<FilterType>(table, filter, filterValue) == 1;
         }
     }
 }

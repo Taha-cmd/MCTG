@@ -1,5 +1,6 @@
 ﻿using MCTGClassLibrary.Networking;
 using MCTGClassLibrary.Networking.EndpointHandlers;
+using MCTGClassLibrary.Networking.HTTP;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,7 @@ namespace MCTGClassLibrary
             IEndpointHandler endpointHandler = EndpointHandlerManager.Get(request.Endpoint);
 
             if (endpointHandler.IsNull())
-                return new Response("400", "Bad Request", $"Endpoint {request.Endpoint} does not exist");
+                return ResponseManager.BadRequest($"Endpoint {request.Endpoint} does not exist");
 
             //OnRequestHandled(new RequestEventArgs());
 
@@ -33,7 +34,7 @@ namespace MCTGClassLibrary
                 Console.WriteLine($"Stack call {ex.StackTrace}");
             }
 
-            return new Response("500", "Internal Server Error");
+            return ResponseManager.InternalServerError();
             
         }
 

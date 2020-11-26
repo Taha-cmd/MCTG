@@ -14,6 +14,7 @@ namespace MCTGClassLibrary.Database.Repositories
         public int Size(int id) => Count<int>("deck", "user_id", id);
         public int Size(string username) => Size(new UsersRepository().GetUserID(username));
         public CardData[] GetDeck(string username) => GetDeck(new UsersRepository().GetUserID(username));
+        public void UpdateDeck(string username, params string[] cards) => UpdateDeck(new UsersRepository().GetUserID(username), cards);
 
         public CardData[] GetDeck(int id)
         {
@@ -46,5 +47,42 @@ namespace MCTGClassLibrary.Database.Repositories
 
             return cards.ToArray();
         }
+
+
+        // easiest solution for now: update all four references, create them if they don't exist
+        public void UpdateDeck(int userID, params string[] cards)
+        {
+            var cardsRepo = new CardsRepository();
+
+            foreach (string cardID in cards)
+                if (!cardsRepo.CardExists(cardID))
+                    throw new InvalidDataException($"Card with ID {cardID} does not exist");
+
+            int cardsToInsert = Config.DECKSIZE - Size(userID);
+            int cardsToUpdate = 1 - cardsToInsert;
+            int index = 0;
+
+            for(; index < cardsToInsert; index++)
+                InsertRecord(userID, cards[index]);
+
+            
+            // consider refactoring this ugly shit
+            for (; index < cardsToUpdate; index++)
+            {
+                var currentDeck = GetDeck(userID);
+
+                foreach (var card in currentDeck)
+                    if (!card.Id.In(cards))
+                        UpdateValue<string, string>("deck", "card_id", card.Id, "card_id", cards[index]);
+            }
+
+        }
+
+        private void InsertRecord(int userID, string cardID)
+        {
+            string statement = "INSERT INTO \"deck\" (user_id, card_id) VALUES(@user_id, @card_id)";
+            database.ExecuteNonQuery(statement, new NpgsqlParameter("user_id", userID), new NpgsqlParameter("card_id", cardID));
+        }
+
     }
 }
