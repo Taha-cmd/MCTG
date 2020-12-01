@@ -41,6 +41,10 @@ namespace MCTGClassLibrary.Database.Repositories
         public UserData GetUser(string username) => GetUser(GetUserID(username));
         public CardData[] GetDeck(int userId) => new DecksRepository().GetDeck(userId);
         public CardData[] GetDeck(string username) => new DecksRepository().GetDeck(username);
+        private string GetPassword(int id) => GetValue<string, int>("user", "id", id, "password");
+        private string GetPassword(string username) => GetValue<string, string>("user", "username", username, "password");
+        public bool Verify(UserData user) => UserExists(user.Username) && GetPassword(user.Username) == user.Password;
+        public bool Verify(string username, string password) => UserExists(username) && GetPassword(username) == password;
 
         public bool RegisterUser(UserData user)
         {

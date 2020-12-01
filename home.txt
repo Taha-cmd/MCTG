@@ -61,6 +61,8 @@ Endpoints in Detail:
 
 	*******************************************************************************
 	5) sessions
+		
+		*) POST /sessions payload: "{"Username":"<username>", "Password":"<password>"}" => generate token
 
 	*******************************************************************************
 	6) score
