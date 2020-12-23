@@ -56,6 +56,7 @@ namespace MCTGClassLibrary
             PrintInColor("Status", Status, color);
             PrintInColor("Status Message", StatusMessage, color);
             base.Display(color);
+            PrintInColor("Payload", payload, color);
         }
 
         public void Send(NetworkStream client)

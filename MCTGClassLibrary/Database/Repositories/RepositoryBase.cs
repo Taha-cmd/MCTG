@@ -24,13 +24,13 @@ namespace MCTGClassLibrary.Database.Repositories
                             );
         }
 
-        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch, int? limit = null, string filterOperator = "=")
+        protected ValueType GetValue<ValueType, FilterType>(string table, string filter, FilterType filterValue, string columnToFetch, int? limit = null, string filterOperator = "=", string? orderByColumn = null)
         {
             using var conn = database.GetConnection();
             string statement = $"SELECT {columnToFetch} FROM \"{table}\" WHERE {filter} {filterOperator} @filterValue";
 
-            if (!limit.IsNull())
-                statement += $" limit {limit}";
+            statement += !orderByColumn.IsNull() ? $" order by ${orderByColumn}" : "";
+            statement += !limit.IsNull() ? $" limit {limit}" : "";
 
             using var command = new NpgsqlCommand(statement, conn);
 

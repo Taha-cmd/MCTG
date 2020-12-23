@@ -4,6 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Text;
 using System.Threading;
+using System.Linq;
+using MCTGClassLibrary.Game;
+using System.IO;
 
 namespace MCTGClassLibrary
 {
@@ -11,7 +14,7 @@ namespace MCTGClassLibrary
     // static initialzation is threadsafe
     // static constructor will be called by the clr once and init an object
     // this object can be accessed by a property
-    // constructor is private
+    // constructor is private to prevent the creation of other instances
 
     // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/static-constructors
     // https://www.c-sharpcorner.com/UploadFile/8911c4/singleton-design-pattern-in-C-Sharp/#:~:text=Thread%20Safety%20Singleton&text=This%20implementation%20is%20thread%2Dsafe,thread%20will%20create%20an%20instance.
@@ -34,10 +37,14 @@ namespace MCTGClassLibrary
             queue = new Queue<Player>();
         }
 
+        public int PlayersInQueueCount() => queue.Count;
+        public string[] EnqueuedPlayers() => queue.Select(player => player.Name).ToArray();
+        public bool Enqueued(string username) => EnqueuedPlayers().Contains(username);
+
         public void EnqueuePlayer(Player player)
         {
             if (!player.HasDeck)
-                throw new DataException("Only players with a deck can be enqueued!");
+                throw new InvalidDataException("Only players with a deck can be enqueued!");
 
             queue.Enqueue(player);
 
@@ -48,6 +55,10 @@ namespace MCTGClassLibrary
 
             Monitor.Exit(this);
         }
+
+        // https://www.c-sharpcorner.com/UploadFile/1d42da/synchronization-events-and-wait-handles-in-C-Sharp/
+        // https://docs.microsoft.com/en-us/dotnet/api/system.threading.manualresetevent?view=net-5.0
+        public ManualResetEvent ResetEvent { get; private set; } = new ManualResetEvent(false);
 
         private void StartBattle(Player player1, Player player2)
         {
@@ -70,7 +81,8 @@ namespace MCTGClassLibrary
 
 
                 stringBuilder.AppendLine($"\t---round {i+1}---\t");
-                stringBuilder.AppendLine($"(attacking card)\n{attacker.Description()}\n vs \n\n(defending card)\n{defender.Description()}");
+                stringBuilder.AppendLine($"attacker: {decks[attackerIndex].Owner}, (attacking card)\n{attacker.Description()}\n vs \n\ndefender: " +
+                    $"{decks[defenderIndex].Owner} (defending card)\n{defender.Description()}");
                 
 
                 if(attacker.Attack(defender))
@@ -112,7 +124,8 @@ namespace MCTGClassLibrary
                 stringBuilder.AppendLine("DRAW");
             }
 
-            Console.WriteLine(stringBuilder.ToString());
+            OnBattleEnded(new BattleEndedEventArgs(stringBuilder.ToString()));
+            //Console.WriteLine(stringBuilder.ToString());
         }
 
         private void Swap(ref int a, ref int b)
@@ -120,6 +133,13 @@ namespace MCTGClassLibrary
             int tmp = a;
             a = b;
             b = tmp;
+        }
+
+        public event EventHandler<BattleEndedEventArgs> BattleEnded;
+        protected void OnBattleEnded(BattleEndedEventArgs args)
+        {
+            BattleEnded?.Invoke(this, args);
+            //BattleEnded = null; // clear event handlers after firing it
         }
 
         /*public void EventListener(object publisher, RequestEventArgs args)

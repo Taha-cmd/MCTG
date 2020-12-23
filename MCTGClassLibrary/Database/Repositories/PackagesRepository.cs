@@ -26,12 +26,14 @@ namespace MCTGClassLibrary.Database.Repositories
             //foreach (var card in cards)
               //  AddPackageCardReference(newPackageId, card.Id);
         }
+
+        // buying packages is like a queue, first created first sold
         public int NextPackage()
         {
             if (AvailablePackages() < 1)
                 throw new InvalidDataException("No packages available");
 
-            return GetValue<int, int>("package", "available", 1, "id", 1);
+            return GetValue<int, int>("package", "available", 1, "id", 1, "=", "creaton_date");
 
         }
 

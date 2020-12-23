@@ -46,7 +46,7 @@ namespace MCTGClassLibrary
 
         private void ParseRequest()
         {
-            if (string.IsNullOrEmpty(RequestString))
+            if (RequestString.IsNullOrWhiteSpace())
                 throw new InvalidDataException();
 
             string[] lines = RequestString.Split("\r\n");
@@ -63,11 +63,11 @@ namespace MCTGClassLibrary
 
             // extract endpoint from Route
             string[] endpointTokens = Values["Route"].Split('/');
-            string endpoint = !string.IsNullOrWhiteSpace(endpointTokens[1]) ? endpointTokens[1] : "home";
+            string endpoint = !endpointTokens[1].IsNullOrWhiteSpace() ? endpointTokens[1] : "home";
 
             // trim out query parameters
             endpoint = endpoint.Contains('?') ? endpoint.Substring(0, endpoint.IndexOf('?')) : endpoint;
-            endpoint = string.IsNullOrWhiteSpace(endpoint) ? "home" : endpoint;
+            endpoint = endpoint.IsNullOrWhiteSpace() ? "home" : endpoint;
 
             Values.Add("Endpoint", endpoint);
 
@@ -82,7 +82,7 @@ namespace MCTGClassLibrary
                     string value = lines[i].Substring(splitIndex + 1).Trim();
                     Values.Add(key, value);
                 }
-                else if( string.IsNullOrWhiteSpace(lines[i])  )
+                else if( lines[i].IsNullOrWhiteSpace()  )
                 {
                     Values.Add("Payload", "");
                     for(int j = i + 1; j < lines.Length; j++)

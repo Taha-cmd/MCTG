@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace MCTGClassLibrary
 {
@@ -36,7 +37,10 @@ namespace MCTGClassLibrary
             try
             {
                 Request request = new Request(client.GetStream());
+
+                Monitor.Enter(this);
                 request.Display(ConsoleColor.Yellow);
+                Monitor.Exit(this);
 
                 RequestHandler handler = new RequestHandler();
                 Response response = handler.HandleRequest(request);
@@ -45,8 +49,10 @@ namespace MCTGClassLibrary
                 response.AddHeader("Server", "my shitty laptop");
                 response.AddHeader("Date", DateTime.Today.ToString());
 
+                Monitor.Enter(this);
                 response.Display(ConsoleColor.Green);
                 Console.WriteLine("----------------------------------------------------------------------------------\n");
+                Monitor.Exit(this);
 
                 response.Send(client.GetStream());
                 client.Close();
