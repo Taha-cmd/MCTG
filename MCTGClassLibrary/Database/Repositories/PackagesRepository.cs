@@ -9,6 +9,10 @@ namespace MCTGClassLibrary.Database.Repositories
 {
     public class PackagesRepository : RepositoryBase
     {
+        public PackagesRepository()
+        {
+            Table = "package";
+        }
         public void AddPackage(params CardData[] cards)
         {
             if (cards.Length != 5)
@@ -33,7 +37,7 @@ namespace MCTGClassLibrary.Database.Repositories
             if (AvailablePackages() < 1)
                 throw new InvalidDataException("No packages available");
 
-            return GetValue<int, int>("package", "available", 1, "id", 1, "=", "creaton_date");
+            return GetValue<int, int>("package", "available", 1, "id", 1, "=", "creation_date");
 
         }
 

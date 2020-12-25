@@ -36,11 +36,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 if (GameHandler.Instance.Enqueued(username))
                     return ResponseManager.BadRequest($"Player {username} is allready enqueued for a battle! You can't fight yourself");
 
-
-
-                Thread.CurrentThread.Name = username;
-                var resp = ResponseManager.OK();
-
+                var resp = ResponseManager.Created();
 
                 // https://www.c-sharpcorner.com/UploadFile/1d42da/synchronization-events-and-wait-handles-in-C-Sharp/
                 //https://docs.microsoft.com/en-us/dotnet/api/system.threading.manualresetevent?view=net-5.0
@@ -48,38 +44,14 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 GameHandler.Instance.BattleEnded += (object sender, BattleEndedEventArgs args) =>
                 {
                     resp.AddPayload(args.BattleLog);
-                    GameHandler.Instance.ResetEvent.Set(); // signal the thread to restart
+                    GameHandler.Instance.ResetEvent.Set();      // send the signal, all waiting threads will start running (open the door)
+                    GameHandler.Instance.ResetEvent.Reset();    // reset the flag, new threads can wait (close the door)
                     
                 };
 
                 GameHandler.Instance.EnqueuePlayer(player);
-                
-                //Console.WriteLine($"Thread {Thread.CurrentThread.Name} handling player {username} is waiting for battle");
                 GameHandler.Instance.ResetEvent.WaitOne(); // block thread untill it gets a signal
-                //Console.WriteLine($"Thread {Thread.CurrentThread.Name} handling player {username} is relesed");
 
-                // PROBLEM:
-                /*
-                    Thread A registers event listener, enqueues a player and waits for the battle in this specific order.
-                    Thread B tries the same. BUT: when enqueuing for battle, the battle with take place thus call the callback from thread A,
-                    which in turn will reset the ResetEvent and blocking the current thread.
-
-                    needed solution: wait for both threads to end to reset the ResetEvent. how?
-                    by waiting 1 sec, we ensure that both threads are released from the battle wait. and then we can reset the ResetEvent
-                  
-                 */
-
-
-                // WARNING: not a perfect solution.
-                // PROBLEM: if a new battle request is sent withen this one second (before the ResetEvent is reset),
-                // the handling thread will not wait for the battle, since the ResetEvent is not yet reset
-                Thread resetEventReseter = new Thread(() =>
-                {
-                    Thread.Sleep(1000); // wait 1 sec
-                    GameHandler.Instance.ResetEvent.Reset();
-                });
-
-                resetEventReseter.Start();
                 return resp;
             }
             catch (InvalidDataException ex)

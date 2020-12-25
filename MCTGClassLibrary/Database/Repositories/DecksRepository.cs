@@ -9,6 +9,10 @@ namespace MCTGClassLibrary.Database.Repositories
 {
     public class DecksRepository : RepositoryBase
     {
+        public DecksRepository()
+        {
+            Table = "deck";
+        } 
         public bool Empty(int id) => Count<int>("deck", "user_id", id) == 0;
         public bool Empty(string username) => Empty(new UsersRepository().GetUserID(username));
         public int Size(int id) => Count<int>("deck", "user_id", id);

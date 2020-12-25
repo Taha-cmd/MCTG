@@ -29,5 +29,9 @@ namespace MCTGClassLibrary.Database.Repositories
         public const int COINS          = 20;
         public const int PACKAGECOST    = 5;
         public const int DECKSIZE       = 4;
+
+        public const int POINTS         = 100;
+        public const int POINTSPERLOSE  = -3;
+        public const int POINTSPERWIN   = 5;
     }
 }

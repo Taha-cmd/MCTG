@@ -58,14 +58,14 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             return ResponseManager.MethodNotAllowed($"The method {request.Method.ToUpper()} is not supported");
         }
 
-        protected virtual Response GetHandler(Request request)      { return MethodNotSupported("GET"); }
-        protected virtual Response PostHandler(Request request)     { return MethodNotSupported("POST"); }
-        protected virtual Response PutHandler(Request request)      { return MethodNotSupported("PUT"); }
-        protected virtual Response DeleteHandler(Request request)   { return MethodNotSupported("DELETE"); }
+        protected virtual Response GetHandler(Request request)      { return MethodNotImplemented("GET"); }
+        protected virtual Response PostHandler(Request request)     { return MethodNotImplemented("POST"); }
+        protected virtual Response PutHandler(Request request)      { return MethodNotImplemented("PUT"); }
+        protected virtual Response DeleteHandler(Request request)   { return MethodNotImplemented("DELETE"); }
 
-        private Response MethodNotSupported(string method)
+        private Response MethodNotImplemented(string method)
         {
-            return ResponseManager.MethodNotAllowed($"this endpoint does not support the method {method}");
+            return ResponseManager.NotImplemented($"this endpoint hasn't implemented {method} yet");
         }
     }
 }

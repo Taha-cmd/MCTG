@@ -27,7 +27,7 @@ namespace MCTGClassLibrary.Networking.HTTP
 
 
         // 5xx
-        static public Response InternalServerError(string payload = "") => new Response("500", "Internal Server Error", payload);
+        static public Response InternalServerError(string payload = "Internal Servor Error") => new Response("500", "Internal Server Error", payload);
         static public Response NotImplemented(string payload = "")      => new Response("501", "Not Implemented", payload);
     }
 }

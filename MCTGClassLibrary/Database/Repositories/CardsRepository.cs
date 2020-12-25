@@ -11,14 +11,17 @@ namespace MCTGClassLibrary.Database.Repositories
 {
     public class CardsRepository : RepositoryBase
     {
-        public CardsRepository() { }
+        public CardsRepository()
+        {
+            Table = "card";
+        }
 
         public bool AddCard(CardData cardData, int packageId)
         {
             if (CardExists(cardData.Id))
                 return false;
 
-            string statement = "INSERT INTO \"card\" (id, name, damage, weakness, element, card_type, package_id) VALUES" +
+            string statement = $"INSERT INTO \"{Table}\" (id, name, damage, weakness, element, card_type, package_id) VALUES" +
                 " (@id, @name, @damage, @weakness, @element, @card_type, @package_id)";
 
             string cardType = CardsManager.ExtractCardType(cardData.Name) == CardType.Spell ? "spell"
@@ -50,13 +53,13 @@ namespace MCTGClassLibrary.Database.Repositories
             return addedCards;
         }
 
-        public bool CardExists(string id) => Exists("card", "id", id);
+        public bool CardExists(string id) => Exists(Table, "id", id);
 
         public CardData[] GetCards(int userId = -1)
         {
             List<CardData> cards = new List<CardData>();
 
-            string statement = "SELECT * FROM \"card\" WHERE ";
+            string statement = $"SELECT * FROM \"{Table}\" WHERE ";
 
             if (userId == -1)
                 statement += "owner_id IS NULL";

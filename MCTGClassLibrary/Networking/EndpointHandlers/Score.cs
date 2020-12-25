@@ -4,11 +4,7 @@ using System.Text;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Score : IEndpointHandler
+    public class Score : EndpointHandlerBase
     {
-        public Response HandleRequest(Request request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

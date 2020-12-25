@@ -4,11 +4,7 @@ using System.Text;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
-    public class Tradings : IEndpointHandler
+    public class Tradings : EndpointHandlerBase
     {
-        public Response HandleRequest(Request request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

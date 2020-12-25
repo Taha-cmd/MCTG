@@ -59,6 +59,8 @@ Endpoints in Detail:
 	*******************************************************************************
 	4) stats
 
+		*) GET /stats => display current stats for the authorized user. Authorization required.
+
 	*******************************************************************************
 	5) sessions
 		
@@ -82,6 +84,8 @@ Endpoints in Detail:
 
 	*******************************************************************************
 	10) battle
+		
+		* POST /battles payload: "" => enter battle queue. Authorization required.
 
 	*******************************************************************************
 

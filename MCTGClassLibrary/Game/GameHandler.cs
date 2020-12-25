@@ -7,6 +7,7 @@ using System.Threading;
 using System.Linq;
 using MCTGClassLibrary.Game;
 using System.IO;
+using MCTGClassLibrary.Database.Repositories;
 
 namespace MCTGClassLibrary
 {
@@ -28,9 +29,6 @@ namespace MCTGClassLibrary
 
         public static GameHandler Instance { get { return instance; } } // access point
 
-
-
-
         private Queue<Player> queue;
         private GameHandler()
         {
@@ -51,8 +49,8 @@ namespace MCTGClassLibrary
             Monitor.Enter(this);
 
             if (queue.Count == 2)
-                StartBattle(queue.Dequeue(), queue.Dequeue());
-
+                new Thread(() => StartBattle(queue.Dequeue(), queue.Dequeue())).Start();
+            
             Monitor.Exit(this);
         }
 
@@ -64,6 +62,8 @@ namespace MCTGClassLibrary
         {
             var random = new Random();
             bool draw = true;
+            string? winner = null;
+            string? loser = null;
 
             // at least 4 rounds, each round describe both cards
             var stringBuilder = new StringBuilder(player1.Deck.GetRandomCard().Description().Length * 10);
@@ -115,9 +115,18 @@ namespace MCTGClassLibrary
             if(!draw)
             {
                 if (!decks[attackerIndex].Empty)
+                {
                     stringBuilder.AppendLine($"{decks[attackerIndex].Owner} won the game with {decks[attackerIndex].Count} cards in the deck");
+                    winner = decks[attackerIndex].Owner;
+                    loser = decks[defenderIndex].Owner;
+                } 
                 else
+                {
                     stringBuilder.AppendLine($"{decks[defenderIndex].Owner} won the game with {decks[defenderIndex].Count} cards in the deck");
+                    winner = decks[defenderIndex].Owner;
+                    loser = decks[attackerIndex].Owner;
+                }
+                    
             }
             else
             {
@@ -125,7 +134,23 @@ namespace MCTGClassLibrary
             }
 
             OnBattleEnded(new BattleEndedEventArgs(stringBuilder.ToString()));
-            //Console.WriteLine(stringBuilder.ToString());
+
+            var battlesRepo = new BattlesRepository();
+            battlesRepo.AddBattle(decks[attackerIndex].Owner, decks[defenderIndex].Owner, winner, stringBuilder.ToString(), i+1);
+
+            if(!draw)
+            {
+                var scoreBoard = new ScoresRepository();
+                scoreBoard.IncreaseBattles(winner);
+                scoreBoard.IncreaseBattles(loser);
+
+                scoreBoard.WonBattle(winner);
+                scoreBoard.LostBattle(loser);
+
+                scoreBoard.IncreaseScore(winner, Config.POINTSPERWIN);
+                scoreBoard.IncreaseScore(loser, Config.POINTSPERLOSE);
+            }
+            
         }
 
         private void Swap(ref int a, ref int b)

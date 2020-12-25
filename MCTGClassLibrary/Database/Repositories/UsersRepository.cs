@@ -12,14 +12,17 @@ namespace MCTGClassLibrary.Database.Repositories
 {
     public class UsersRepository : RepositoryBase
     {
-        public UsersRepository() { }
+        public UsersRepository()
+        {
+            Table = "user";
+        }
 
         public int GetUserID(string username)
         {
             if (!UserExists(username))
                 throw new InvalidDataException($"username {username} does not exist");
 
-            return GetValue<int, string>("user", "username", username, "id");
+            return GetValue<int, string>(Table, "username", username, "id");
         }
 
         public string GetUsername(int id)
@@ -27,22 +30,22 @@ namespace MCTGClassLibrary.Database.Repositories
             if (!UserExists(id))
                 throw new InvalidDataException($"user with id {id} does not exist");
 
-            return GetValue<string, int>("user", "id", id, "username");
+            return GetValue<string, int>(Table, "id", id, "username");
         }
 
-        public bool UserExists(string username) => Exists("user", "username", username);
-        public bool UserExists(int id) => Exists("user", "id", id);
-        public int Coins(int id) => GetValue<int, int>("user", "id", id, "coins");
-        public int Coins(string username) => GetValue<int, string>("user", "username", username, "coins");
-        public void IncrementCoins(int id, int amount) => UpdateValue<int, int>("user", "id", id, "coins", Coins(id) + amount);
-        public void IncrementCoins(string username, int amount) => UpdateValue<string, int>("user", "username", username, "coins", Coins(username) + amount);
+        public bool UserExists(string username) => Exists(Table, "username", username);
+        public bool UserExists(int id) => Exists(Table, "id", id);
+        public int Coins(int id) => GetValue<int, int>(Table, "id", id, "coins");
+        public int Coins(string username) => GetValue<int, string>(Table, "username", username, "coins");
+        public void IncrementCoins(int id, int amount) => UpdateValue<int, int>(Table, "id", id, "coins", Coins(id) + amount);
+        public void IncrementCoins(string username, int amount) => UpdateValue<string, int>(Table, "username", username, "coins", Coins(username) + amount);
         public CardData[] GetStack(int userId) => new CardsRepository().GetCards(userId);
         public CardData[] GetStack(string username) => new CardsRepository().GetCards(GetUserID(username));
         public UserData GetUser(string username) => GetUser(GetUserID(username));
         public CardData[] GetDeck(int userId) => new DecksRepository().GetDeck(userId);
         public CardData[] GetDeck(string username) => new DecksRepository().GetDeck(username);
-        private string GetPassword(int id) => GetValue<string, int>("user", "id", id, "password");
-        private string GetPassword(string username) => GetValue<string, string>("user", "username", username, "password");
+        private string GetPassword(int id) => GetValue<string, int>(Table, "id", id, "password");
+        private string GetPassword(string username) => GetValue<string, string>(Table, "username", username, "password");
         public bool Verify(UserData user) => UserExists(user.Username) && GetPassword(user.Username) == user.Password;
         public bool Verify(string username, string password) => UserExists(username) && GetPassword(username) == password;
 
@@ -51,7 +54,7 @@ namespace MCTGClassLibrary.Database.Repositories
             if (UserExists(user.Username))
                 throw new InvalidDataException("User allready exists");
 
-            string statement = "INSERT INTO \"user\" (username, password, coins, name, image, bio) " +
+            string statement = $"INSERT INTO \"{Table}\" (username, password, coins, name, image, bio) " +
                                "VALUES (@username, @password, @coins, @name, @image, @bio)";
 
             var name    = user.Name == null ? new NpgsqlParameter("name", DBNull.Value) : new NpgsqlParameter<string>("name", user.Name);
@@ -68,6 +71,7 @@ namespace MCTGClassLibrary.Database.Repositories
                     bio
                 );
 
+            new ScoresRepository().MakeEntry(GetUserID(user.Username));
             return rowsAffected == 1;
         }
 
@@ -77,7 +81,7 @@ namespace MCTGClassLibrary.Database.Repositories
                 throw new InvalidDataException("User doesn't exist");
 
             using var conn = database.GetConnection();
-            using var command = new NpgsqlCommand("SELECT * FROM \"user\" WHERE id=@id", conn);
+            using var command = new NpgsqlCommand($"SELECT * FROM \"{Table}\" WHERE id=@id", conn);
 
             command.Parameters.AddWithValue("id", id);
 
