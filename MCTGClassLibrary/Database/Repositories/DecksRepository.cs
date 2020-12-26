@@ -13,9 +13,9 @@ namespace MCTGClassLibrary.Database.Repositories
         {
             Table = "deck";
         } 
-        public bool Empty(int id) => Count<int>("deck", "user_id", id) == 0;
+        public bool Empty(int id) => Count<int>(Table, "user_id", id) == 0;
         public bool Empty(string username) => Empty(new UsersRepository().GetUserID(username));
-        public int Size(int id) => Count<int>("deck", "user_id", id);
+        public int Size(int id) => Count<int>(Table, "user_id", id);
         public int Size(string username) => Size(new UsersRepository().GetUserID(username));
         public CardData[] GetDeck(string username) => GetDeck(new UsersRepository().GetUserID(username));
         public void UpdateDeck(string username, params string[] cards) => UpdateDeck(new UsersRepository().GetUserID(username), cards);
@@ -25,7 +25,7 @@ namespace MCTGClassLibrary.Database.Repositories
             if (Empty(id))
                 throw new InvalidDataException("the deck is empty");
 
-            string statement = "SELECT * FROM CARD JOIN DECK ON CARD.id = DECK.card_id WHERE user_id = @id";
+            string statement = $"SELECT * FROM CARD JOIN {Table} ON CARD.id = {Table}.card_id WHERE user_id = @id";
 
             using var conn = database.GetConnection();
             using var command = new NpgsqlCommand(statement, conn);
@@ -41,10 +41,10 @@ namespace MCTGClassLibrary.Database.Repositories
                 (
                     new CardData()
                     {
-                        Id = reader.GetString(reader.GetOrdinal("id")),
-                        Name = reader.GetString(reader.GetOrdinal("name")),
-                        Damage = reader.GetDouble(reader.GetOrdinal("damage")),
-                        Weakness = reader.GetDouble(reader.GetOrdinal("weakness"))
+                        Id = reader.GetValue<string>("id"),
+                        Name = reader.GetValue<string>("name"),
+                        Damage = reader.GetValue<double>("damage"),
+                        Weakness = reader.GetValue<double>("weakness")
                     }
                 ); 
             }
@@ -77,14 +77,14 @@ namespace MCTGClassLibrary.Database.Repositories
 
                 foreach (var card in currentDeck)
                     if (!card.Id.In(cards))
-                        UpdateValue<string, string>("deck", "card_id", card.Id, "card_id", cards[index]);
+                        UpdateValue<string, string>(Table, "card_id", card.Id, "card_id", cards[index]);
             }
 
         }
 
         private void InsertRecord(int userID, string cardID)
         {
-            string statement = "INSERT INTO \"deck\" (user_id, card_id) VALUES(@user_id, @card_id)";
+            string statement = $"INSERT INTO \"{Table}\" (user_id, card_id) VALUES(@user_id, @card_id)";
             database.ExecuteNonQuery(statement, new NpgsqlParameter("user_id", userID), new NpgsqlParameter("card_id", cardID));
         }
 

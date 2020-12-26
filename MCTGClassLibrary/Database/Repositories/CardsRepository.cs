@@ -77,10 +77,10 @@ namespace MCTGClassLibrary.Database.Repositories
             while (reader.Read())
             {
                 cards.Add(new CardData(
-                            reader.GetFieldValue<string>(reader.GetOrdinal("id")),
-                            reader.GetFieldValue<string>(reader.GetOrdinal("name")),
-                            reader.GetFieldValue<double>(reader.GetOrdinal("damage")),
-                            reader.GetFieldValue<double>(reader.GetOrdinal("weakness"))
+                            reader.GetValue<string>("id"),
+                            reader.GetValue<string>("name"),
+                            reader.GetValue<double>("damage"),
+                            reader.GetValue<double>("weakness")
                     ));
             }
 

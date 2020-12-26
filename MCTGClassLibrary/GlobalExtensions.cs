@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -50,6 +51,11 @@ namespace MCTGClassLibrary
 
             // string.IsNullOrWhiteSpace(str)
             // str.IsNullOrWhiteSpace()
+        }
+
+        public static T GetValue<T>(this NpgsqlDataReader reader, string key)
+        {
+            return reader.GetFieldValue<T>(reader.GetOrdinal(key));
         }
     }
 }

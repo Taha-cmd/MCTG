@@ -14,7 +14,7 @@ namespace MCTGClassLibrary.Database
         public string User { get; }
         public string Password { get; }
 
-        private string connectionString;
+        private readonly string connectionString;
 
         public Database(string host, string port, string db, string user, string password)
         {
@@ -44,6 +44,5 @@ namespace MCTGClassLibrary.Database
 
             return command.ExecuteNonQuery();
         }
-
     }
 }

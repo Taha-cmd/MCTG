@@ -90,12 +90,12 @@ namespace MCTGClassLibrary.Database.Repositories
 
             if(reader.Read())
             {
-                user.Username = reader.GetString(reader.GetOrdinal("username"));
-                user.Name = reader.IsDBNull(reader.GetOrdinal("name")) ? null : reader.GetString(reader.GetOrdinal("name"));
-                user.Bio = reader.IsDBNull(reader.GetOrdinal("bio")) ? null : reader.GetString(reader.GetOrdinal("bio")); 
-                user.Coins = reader.GetInt32(reader.GetOrdinal("coins"));
+                user.Username = reader.GetValue<string>("username");
+                user.Name = reader.IsDBNull(reader.GetOrdinal("name")) ? null : reader.GetValue<string>("name");
+                user.Bio = reader.IsDBNull(reader.GetOrdinal("bio")) ? null : reader.GetValue<string>("bio"); 
+                user.Coins = reader.GetValue<int>("coins");
                 user.Password = "top secret";
-                user.Image = reader.IsDBNull(reader.GetOrdinal("image")) ? null : reader.GetString(reader.GetOrdinal("image"));
+                user.Image = reader.IsDBNull(reader.GetOrdinal("image")) ? null : reader.GetValue<string>("image");
 
                 // can assign null to strings
                 // but can't assign null values from the db to strings
@@ -110,15 +110,15 @@ namespace MCTGClassLibrary.Database.Repositories
             if (!UserExists(username))
                 throw new InvalidDataException($"User {username} does not exist");
 
-            if(user.Username != null && UserExists(username))
+            if(!user.Username.IsNull() && UserExists(username))
                 throw new InvalidDataException($"new username {username} allready exists");
 
             //TODO: implement iterator for UserData
-            if (user.Username != null)  UpdateValue("user", "username", username, "username", user.Username);
-            if (user.Name != null)      UpdateValue("user", "username", username, "name", user.Name);
-            if (user.Password != null)  UpdateValue("user", "username", username, "password", user.Password);
-            if (user.Bio != null)       UpdateValue("user", "username", username, "bio", user.Bio);
-            if (user.Image != null)     UpdateValue("user", "username", username, "image", user.Image);
+            if ( !user.Username.IsNull() )  UpdateValue(Table, "username", username, "username", user.Username);
+            if ( !user.Name.IsNull() )      UpdateValue(Table, "username", username, "name", user.Name);
+            if ( !user.Password.IsNull() )  UpdateValue(Table, "username", username, "password", user.Password);
+            if ( !user.Bio.IsNull() )       UpdateValue(Table, "username", username, "bio", user.Bio);
+            if ( !user.Image.IsNull() )     UpdateValue(Table, "username", username, "image", user.Image);
         }
     }
 }

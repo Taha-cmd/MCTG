@@ -64,10 +64,10 @@ namespace MCTGClassLibrary.Database.Repositories
 
             if(reader.Read())
             {
-                stats.Points = reader.GetFieldValue<int>(reader.GetOrdinal("points"));
-                stats.Battles = reader.GetFieldValue<int>(reader.GetOrdinal("battles"));
-                stats.WonBattles = reader.GetFieldValue<int>(reader.GetOrdinal("won_battles"));
-                stats.LostBattles = reader.GetFieldValue<int>(reader.GetOrdinal("lost_battles"));
+                stats.Points = reader.GetValue<int>("points");
+                stats.Battles = reader.GetValue<int>("battles");
+                stats.WonBattles = reader.GetValue<int>("won_battles");
+                stats.LostBattles = reader.GetValue<int>("lost_battles");
             }
 
             return stats;
