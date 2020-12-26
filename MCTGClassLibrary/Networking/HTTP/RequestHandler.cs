@@ -30,8 +30,7 @@ namespace MCTGClassLibrary
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"Error in RequestHandler from {ex.Source}:" + ex.Message);
-                Console.WriteLine($"Stack call {ex.StackTrace}");
+                ex.Log();
             }
 
             return ResponseManager.InternalServerError();

@@ -9,43 +9,18 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
     public class Packages : EndpointHandlerBase
     {
-
-
         // post to packages => create package
         protected override Response PostHandler(Request request)
         {
             if (request.Payload.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("No Payload");
 
-            try
-            {
-                CardData[] cardDataArray;
+            CardData[] cardDataArray = JsonSerializer.Deserialize<CardData[]>(request.Payload);
 
-                try
-                {
-                    cardDataArray = JsonSerializer.Deserialize<CardData[]>(request.Payload);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error in PostHandler in Packages: " + ex.Message);
-                    return ResponseManager.BadRequest("Invalid Json Format");
-                }
+            PackagesRepository packages = new PackagesRepository();
+            packages.AddPackage(cardDataArray);
 
-                PackagesRepository packages = new PackagesRepository();
-                packages.AddPackage(cardDataArray);
-
-                return ResponseManager.Created("Package added successfully");
-            }
-            catch(InvalidDataException ex)
-            {
-                return ResponseManager.BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error in PostHandler in Packages: " + ex.Message);
-            }
-
-            return ResponseManager.InternalServerError();
+            return ResponseManager.Created("Package added successfully");
         }
     }
 }

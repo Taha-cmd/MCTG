@@ -20,48 +20,23 @@ namespace MCTG
     {
           static void Main(string[] args)
           {
-            HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
 
-            //RequestHandler.RequestHandled += gameHandler.EventListener;
+            HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
             server.Start();
 
             while (true)
             {
                 TcpClient client = server.AcceptClient();
-                Thread requestHandlingThread;
 
                 try
                 {
-                    requestHandlingThread = new Thread(() => server.HandleClient(client));
-                    requestHandlingThread.Start();
+                    new Thread(() => server.HandleClient(client)).Start();
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    ex.Log();
                 }
             }  
-
-
-
-            /*  Player p1 = new Player("player1");
-              Player p2 = new Player("player2");
-
-              p1.MakeDeck(
-                  CardsManager.RandomCard(),
-                  CardsManager.RandomCard(),
-                  CardsManager.RandomCard(),
-                  CardsManager.RandomCard()
-                  );
-
-              p2.MakeDeck(
-                  CardsManager.RandomCard(),
-                  CardsManager.RandomCard(),
-                  CardsManager.RandomCard(),
-                  CardsManager.RandomCard()
-                  );
-
-            GameHandler.Instance.EnqueuePlayer(p1);
-            GameHandler.Instance.EnqueuePlayer(p2);  */
         } 
     }
 }

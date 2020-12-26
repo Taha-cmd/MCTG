@@ -15,8 +15,8 @@ namespace MCTGClassLibrary.Database.Repositories
         }
         public void AddPackage(params CardData[] cards)
         {
-            if (cards.Length != 5)
-                throw new InvalidDataException("Error adding package: Package size must be 5");
+            if (cards.Length != Config.PACKAGESIZE)
+                throw new InvalidDataException($"Error adding package: Package size must be {Config.PACKAGESIZE}");
 
             CardsRepository cardsRepo = new CardsRepository();
 

@@ -21,26 +21,13 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized("Authorization Failed!, check your username and password");
 
-            CardData[] cardDataArray = new UsersRepository().GetStack( ExtractUserNameFromAuthoriazionHeader(request.Authorization) );
+            CardData[] cardDataArray = new UsersRepository().GetStack(ExtractUserNameFromAuthoriazionHeader(request.Authorization));
 
             if (cardDataArray.Length == 0)
                 return ResponseManager.OK("Stack is empty");
 
-            try
-            {
-                string data = JsonSerializer.Serialize<CardData[]>(cardDataArray);
-                return ResponseManager.OK(data);
-            }
-            catch(InvalidDataException ex)
-            {
-                return ResponseManager.BadRequest(ex.Message);
-            }
-            catch(Exception x)
-            {
-                Console.WriteLine("error in GetHandler in Cards: " + x.Message);
-            }
+            return ResponseManager.OK( JsonSerializer.Serialize<CardData[]>(cardDataArray) );
 
-            return ResponseManager.InternalServerError();
         }
     }
 }

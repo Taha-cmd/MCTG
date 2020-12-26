@@ -52,10 +52,21 @@ namespace MCTGClassLibrary
             // string.IsNullOrWhiteSpace(str)
             // str.IsNullOrWhiteSpace()
         }
-
         public static T GetValue<T>(this NpgsqlDataReader reader, string key)
         {
             return reader.GetFieldValue<T>(reader.GetOrdinal(key));
+        }
+
+        public static void Log(this Exception ex)
+        {
+            ConsoleColor currentColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            Console.WriteLine($"Error from {ex.Source}: {ex.Message}");
+            Console.WriteLine("Stack Trace: ");
+            Console.WriteLine(ex.StackTrace);
+
+            Console.ForegroundColor = currentColor;
         }
     }
 }

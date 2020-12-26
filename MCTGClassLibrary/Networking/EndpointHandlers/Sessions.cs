@@ -16,36 +16,15 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (request.Payload.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("no payload");
 
-            try
-            {
-                UserData user;
+            UserData user = JsonSerializer.Deserialize<UserData>(request.Payload);
 
-                try
-                {
-                    user = JsonSerializer.Deserialize<UserData>(request.Payload);
-                }
-                catch(Exception ex)
-                {
-                    return ResponseManager.BadRequest("Invalid json");
-                }
+            if (user.Username.IsNullOrWhiteSpace() || user.Password.IsNullOrWhiteSpace())
+                return ResponseManager.BadRequest("empty username or password");
 
-                if (user.Username.IsNullOrWhiteSpace() || user.Password.IsNullOrWhiteSpace())
-                    return ResponseManager.BadRequest("empty username or password");
+            var users = new UsersRepository();
 
-                var users = new UsersRepository();
+            return users.Verify(user) ? ResponseManager.OK(GenerateToken(user.Username)) : ResponseManager.Unauthorized();
 
-                return users.Verify(user) ? ResponseManager.OK(GenerateToken(user.Username)) : ResponseManager.Unauthorized();
-            }
-            catch(InvalidDataException ex)
-            {
-                return ResponseManager.BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine("Error in Sessions PostHandler: " + ex.Message);
-            }
-
-            return ResponseManager.InternalServerError();
         }
 
         private string GenerateToken(string username)

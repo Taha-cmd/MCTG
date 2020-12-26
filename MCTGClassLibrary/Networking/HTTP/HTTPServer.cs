@@ -59,7 +59,7 @@ namespace MCTGClassLibrary
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ex.Log();
             }
 
         }

@@ -19,32 +19,16 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized("Authorization Failed!, check your username and password");
 
-            try
-            {
-                string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
-                string destination = GetNthTokenFromRoute(2, request.Route);
+            string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
+            string destination = GetNthTokenFromRoute(2, request.Route);
 
-                switch(destination.ToLower())
-                {
-                    case "packages": AcquirePackage(username); break;
-                }
-
-                return ResponseManager.OK("success");
-            }
-            catch(InvalidDataException ex)
+            switch (destination.ToLower())
             {
-                return ResponseManager.BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"Error from {ex.Source} in Transactions PostHandler: " + ex.Message);
+                case "packages": AcquirePackage(username); break;
             }
 
-            return ResponseManager.InternalServerError();
+            return ResponseManager.OK("success");
         }
-
-
-
 
 
         private void AcquirePackage(string username)
