@@ -20,7 +20,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized("This action requires authorization");
 
-            string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
             Player player = new Player(username);
 
             var decksRepo = new DecksRepository();

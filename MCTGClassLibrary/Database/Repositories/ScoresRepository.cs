@@ -71,7 +71,33 @@ namespace MCTGClassLibrary.Database.Repositories
             }
 
             return stats;
+        }
 
+        public List<UserStats> ScoreBoard()
+        {
+            using var conn = database.GetConnection();
+            using var command = new NpgsqlCommand($"SELECT * FROM \"{Table}\" JOIN \"user\" ON \"{Table}\".user_id = \"user\".id ORDER BY \"points\" DESC", conn);
+            var reader = command.ExecuteReader();
+
+            List<UserStats> scoreBoard = new List<UserStats>();
+
+            while(reader.Read())
+            {
+                scoreBoard.Add
+                (
+                    new UserStats
+                    {
+                        UserId = reader.GetValue<int>("user_id"),
+                        Username = reader.GetValue<string>("username"),
+                        Points = reader.GetValue<int>("points"),
+                        Battles = reader.GetValue<int>("battles"),
+                        WonBattles = reader.GetValue<int>("won_battles"),
+                        LostBattles = reader.GetValue<int>("lost_battles")
+                    }
+                );
+            }
+
+            return scoreBoard;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized("check your username and password");
 
-            string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
 
             var deckRepo = new DecksRepository();
             if (deckRepo.Empty(username))
@@ -45,7 +45,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized("check your username and password");
 
-            string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
             var cards = JsonSerializer.Deserialize<List<string>>(request.Payload);
 
             // easy solution - accept only four cards. what if user wants to change only one card?

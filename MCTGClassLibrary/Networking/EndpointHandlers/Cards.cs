@@ -21,7 +21,8 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized("Authorization Failed!, check your username and password");
 
-            CardData[] cardDataArray = new UsersRepository().GetStack(ExtractUserNameFromAuthoriazionHeader(request.Authorization));
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
+            CardData[] cardDataArray = new UsersRepository().GetStack(username);
 
             if (cardDataArray.Length == 0)
                 return ResponseManager.OK("Stack is empty");

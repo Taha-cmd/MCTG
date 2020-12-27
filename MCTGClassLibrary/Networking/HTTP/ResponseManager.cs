@@ -19,11 +19,11 @@ namespace MCTGClassLibrary.Networking.HTTP
 
 
         // 4xx
-        static public Response BadRequest(string payload = "")          => new Response("400", "Bad Request", payload);
-        static public Response Unauthorized(string payload = "")        => new Response("401", "Unauthorized", payload);
-        static public Response Forbidden(string payload = "")           => new Response("403", "Forbidden", payload);
-        static public Response NotFound(string payload = "")            => new Response("404", "Not Found", payload);
-        static public Response MethodNotAllowed(string payload = "")    => new Response("405", "Method Not Allowed", payload);
+        static public Response BadRequest(string payload = "")                      => new Response("400", "Bad Request", payload);
+        static public Response Unauthorized(string payload = "Unauthorized")        => new Response("401", "Unauthorized", payload);
+        static public Response Forbidden(string payload = "")                       => new Response("403", "Forbidden", payload);
+        static public Response NotFound(string payload = "")                        => new Response("404", "Not Found", payload);
+        static public Response MethodNotAllowed(string payload = "")                => new Response("405", "Method Not Allowed", payload);
 
 
         // 5xx

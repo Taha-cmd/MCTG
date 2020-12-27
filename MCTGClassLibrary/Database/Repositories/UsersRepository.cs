@@ -33,6 +33,10 @@ namespace MCTGClassLibrary.Database.Repositories
             return GetValue<string, int>(Table, "id", id, "username");
         }
 
+        // for now just assume that username "admin" is the admin
+        // still good to have the method, in case I implement an actual admin functionality, only this method has to change
+        public bool IsAdmin(string username) => username.ToLower().Trim() == "admin";
+
         public bool UserExists(string username) => Exists(Table, "username", username);
         public bool UserExists(int id) => Exists(Table, "id", id);
         public int Coins(int id) => GetValue<int, int>(Table, "id", id, "coins");

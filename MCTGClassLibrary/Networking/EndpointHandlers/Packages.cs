@@ -15,10 +15,15 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (request.Payload.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("No Payload");
 
-            CardData[] cardDataArray = JsonSerializer.Deserialize<CardData[]>(request.Payload);
+            if (!Authorized(request.Authorization))
+                return ResponseManager.Unauthorized();
 
-            PackagesRepository packages = new PackagesRepository();
-            packages.AddPackage(cardDataArray);
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
+            if (!new UsersRepository().IsAdmin(username))
+                return ResponseManager.Unauthorized("only admins can add new packages");
+
+            CardData[] cardDataArray = JsonSerializer.Deserialize<CardData[]>(request.Payload);
+            new PackagesRepository().AddPackage(cardDataArray);
 
             return ResponseManager.Created("Package added successfully");
         }

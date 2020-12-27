@@ -1,10 +1,6 @@
 current state - target state
 
-anyone can add a package - only admin should add packages
 you can configure deck with cards you don't own! - cards in deck should be only from the stack
-an authorized user can edit other users data! - an authorization is only for the authorized user
-
-
 
 
 bugs from unkown source:

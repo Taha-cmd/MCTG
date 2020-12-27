@@ -17,9 +17,9 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 return ResponseManager.BadRequest("Authoriazion Header required");
 
             if (!Authorized(request.Authorization))
-                return ResponseManager.Unauthorized("Authorization Failed!, check your username and password");
+                return ResponseManager.Unauthorized();
 
-            string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
             string destination = GetNthTokenFromRoute(2, request.Route);
 
             switch (destination.ToLower())
@@ -27,7 +27,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 case "packages": AcquirePackage(username); break;
             }
 
-            return ResponseManager.OK("success");
+            return ResponseManager.Created($"package for {username} successfully acquired");
         }
 
 

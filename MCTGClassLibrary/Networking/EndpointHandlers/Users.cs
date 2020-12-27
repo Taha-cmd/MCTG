@@ -16,7 +16,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (request.Payload.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("No payload");
 
-            UserData user = user = JsonSerializer.Deserialize<UserData>(request.Payload);
+            UserData user = JsonSerializer.Deserialize<UserData>(request.Payload);
 
             if (user.Username.IsNullOrWhiteSpace() || user.Password.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("Username or Password Empty");
@@ -42,13 +42,15 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
 
-            string username = GetUserNameFromRoute(request.Route);
+            string requestedUsername = GetUserNameFromRoute(request.Route);
+            if (requestedUsername != Session.GetUsername( ExtractAuthorizationToken(request.Authorization)) )
+                return ResponseManager.Unauthorized($"you are not {requestedUsername}");
+
             UsersRepository usersRepo = new UsersRepository();
+            if (!usersRepo.UserExists(requestedUsername))
+                return ResponseManager.NotFound($"Username {requestedUsername} does not exist");
 
-            if (!usersRepo.UserExists(username))
-                return ResponseManager.NotFound($"Username {username} does not exist");
-
-            UserData user = usersRepo.GetUser(username);
+            UserData user = usersRepo.GetUser(requestedUsername);
             return ResponseManager.OK( JsonSerializer.Serialize<UserData>(user) );
         }
 
@@ -64,16 +66,19 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
 
-            string username = GetUserNameFromRoute(request.Route);
+            string requestedUsername = GetUserNameFromRoute(request.Route);
+            if (requestedUsername != Session.GetUsername(ExtractAuthorizationToken(request.Authorization)))
+                return ResponseManager.Unauthorized($"you are not {requestedUsername}");
+
             UsersRepository usersRepo = new UsersRepository();
 
-            if (!usersRepo.UserExists(username))
-                return ResponseManager.BadRequest($"Username {username} does not exist");
+            if (!usersRepo.UserExists(requestedUsername))
+                return ResponseManager.BadRequest($"Username {requestedUsername} does not exist");
 
             UserData user = JsonSerializer.Deserialize<UserData>(request.Payload);
 
-            usersRepo.UpdateUser(username, user);
-            return ResponseManager.OK("user's info updated successfully");
+            usersRepo.UpdateUser(requestedUsername, user);
+            return ResponseManager.OK($"info for user {requestedUsername} updated successfully");
 
         }
 

@@ -13,27 +13,20 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
     {
         protected EndpointHandlerBase() { }
 
-        protected bool Authorized(string authorizationString)
+        protected bool Authorized(string authorizationString) => Session.TokenExists(ExtractAuthorizationToken(authorizationString));
+        protected string ExtractAuthorizationToken(string authorizationString)
         {
-            string username = ExtractUserNameFromAuthoriazionHeader(authorizationString);
-            return new UsersRepository().UserExists(username);
-        }
-
-        protected string ExtractUserNameFromAuthoriazionHeader(string authorizationString)
-        {
-            string username;
-
+            // Basic <name>-mctgToken
+            // trim off the 'Basic '
             try
             {
-                username = authorizationString.Substring(authorizationString.IndexOf(" ") + 1);
-                username = username.Substring(0, username.IndexOf("-"));
+                // hard coded index for simplicity
+                return authorizationString.Substring(5).Trim();
             }
             catch(Exception)
             {
-                throw new InvalidDataException("Error extracting name from authorization header. Invalid format");
+                throw new InvalidDataException("Invalid Token format");
             }
-
-            return username;
         }
 
         protected string GetNthTokenFromRoute(int index, string route)

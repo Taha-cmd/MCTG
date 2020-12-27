@@ -64,10 +64,13 @@ Endpoints in Detail:
 	*******************************************************************************
 	5) sessions
 		
-		*) POST /sessions payload: "{"Username":"<username>", "Password":"<password>"}" => generate token
+		*) POST /sessions payload: "{"Username":"<username>", "Password":"<password>"}" => generate token and create a session
+		*) DELETE /sessions => delete the current active session. Authorization required.
 
 	*******************************************************************************
 	6) score
+
+		*) GET /score => display descending sorted scoreboard. Requires Authorization 
 
 	*******************************************************************************
 	7) /tradings

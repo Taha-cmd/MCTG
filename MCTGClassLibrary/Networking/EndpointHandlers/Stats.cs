@@ -16,11 +16,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (request.Authorization.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("Authoriazion Header required");
 
-
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
 
-            string username = ExtractUserNameFromAuthoriazionHeader(request.Authorization);
+            string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
             if (!new UsersRepository().UserExists(username))
                 return ResponseManager.NotFound($"Username {username} does not exist");
 
