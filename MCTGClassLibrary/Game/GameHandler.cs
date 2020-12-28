@@ -28,11 +28,16 @@ namespace MCTGClassLibrary
         }
 
         public static GameHandler Instance { get { return instance; } } // access point
+        public ManualResetEvent ResetEvent { get; private set; }
+
+        // https://www.c-sharpcorner.com/UploadFile/1d42da/synchronization-events-and-wait-handles-in-C-Sharp/
+        // https://docs.microsoft.com/en-us/dotnet/api/system.threading.manualresetevent?view=net-5.0
 
         private Queue<Player> queue;
         private GameHandler()
         {
             queue = new Queue<Player>();
+            ResetEvent = new ManualResetEvent(false);
         }
 
         public int PlayersInQueueCount() => queue.Count;
@@ -54,16 +59,12 @@ namespace MCTGClassLibrary
             Monitor.Exit(this);
         }
 
-        // https://www.c-sharpcorner.com/UploadFile/1d42da/synchronization-events-and-wait-handles-in-C-Sharp/
-        // https://docs.microsoft.com/en-us/dotnet/api/system.threading.manualresetevent?view=net-5.0
-        public ManualResetEvent ResetEvent { get; private set; } = new ManualResetEvent(false);
-
         private void StartBattle(Player player1, Player player2)
         {
             var random = new Random();
             bool draw = true;
-            string? winner = null;
-            string? loser = null;
+            string winner = null;
+            string loser = null;
 
             // at least 4 rounds, each round describe both cards
             var stringBuilder = new StringBuilder(player1.Deck.GetRandomCard().Description().Length * 10);

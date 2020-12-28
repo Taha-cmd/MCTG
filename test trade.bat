@@ -61,20 +61,6 @@ curl -X POST http://localhost:10001/packages --header "Content-Type: application
 echo.
 echo.
 
-echo extended test (invalid json)
-curl -X POST http://localhost:10001/packages --header "Content-Type: application/json" --header "Authorization: Basic %ADMIN_TOKEN%" -d "\"Id\":\"845f0dc7-37d0-426e-994e-43fc3ac83c08\", \"Name\":\"WaterGoblin\", \"Damage\": 10.0}, {\"Id\":\"99f8f8dc-e25e-4a95-aa2c-782823f36e2a\", \"Name\":\"Dragon\", \"Damage\": 50.0}, {\"Id\":\"e85e3976-7c86-4d06-9a80-641c2019a79f\", \"Name\":\"WaterSpell\", \"Damage\": 20.0}, {\"Id\":\"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Name\":\"Ork\", \"Damage\": 45.0}, {\"Id\":\"dfdd758f-649c-40f9-ba3a-8657f4b3439f\", \"Name\":\"FireSpell\",    \"Damage\": 25.0}]"
-echo.
-echo extended test (not an admin)
-curl -X POST http://localhost:10001/packages --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "[{\"Id\":\"845f0dc7-37d0-426e-994e-43fc3ac83c08\", \"Name\":\"WaterGoblin\", \"Damage\": 10.0}, {\"Id\":\"99f8f8dc-e25e-4a95-aa2c-782823f36e2a\", \"Name\":\"Dragon\", \"Damage\": 50.0}, {\"Id\":\"e85e3976-7c86-4d06-9a80-641c2019a79f\", \"Name\":\"WaterSpell\", \"Damage\": 20.0}, {\"Id\":\"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Name\":\"Ork\", \"Damage\": 45.0}, {\"Id\":\"dfdd758f-649c-40f9-ba3a-8657f4b3439f\", \"Name\":\"FireSpell\",    \"Damage\": 25.0}]"
-echo.
-echo extended test (wrong package size)
-curl -X POST http://localhost:10001/packages --header "Content-Type: application/json" --header "Authorization: Basic %ADMIN_TOKEN%" -d "[{\"Id\":\"99f8f8dc-e25e-4a95-aa2c-782823f36e2a\", \"Name\":\"Dragon\", \"Damage\": 50.0}, {\"Id\":\"e85e3976-7c86-4d06-9a80-641c2019a79f\", \"Name\":\"WaterSpell\", \"Damage\": 20.0}, {\"Id\":\"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Name\":\"Ork\", \"Damage\": 45.0}, {\"Id\":\"dfdd758f-649c-40f9-ba3a-8657f4b3439f\", \"Name\":\"FireSpell\",    \"Damage\": 25.0}]"
-echo.
-echo extended test (allready exists)
-curl -X POST http://localhost:10001/packages --header "Content-Type: application/json" --header "Authorization: Basic %ADMIN_TOKEN%" -d "[{\"Id\":\"845f0dc7-37d0-426e-994e-43fc3ac83c08\", \"Name\":\"WaterGoblin\", \"Damage\": 10.0}, {\"Id\":\"99f8f8dc-e25e-4a95-aa2c-782823f36e2a\", \"Name\":\"Dragon\", \"Damage\": 50.0}, {\"Id\":\"e85e3976-7c86-4d06-9a80-641c2019a79f\", \"Name\":\"WaterSpell\", \"Damage\": 20.0}, {\"Id\":\"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Name\":\"Ork\", \"Damage\": 45.0}, {\"Id\":\"dfdd758f-649c-40f9-ba3a-8657f4b3439f\", \"Name\":\"FireSpell\",    \"Damage\": 25.0}]"
-echo.
-echo.
-
 REM --------------------------------------------------
 echo 4) acquire packages kienboec
 curl -X POST http://localhost:10001/transactions/packages --header "Content-Type: application/json" --header "Authorization: Basic %KIENBOEC_TOKEN%" -d ""
@@ -122,28 +108,8 @@ curl -X POST http://localhost:10001/transactions/packages --header "Content-Type
 echo.
 echo.
 
-REM --------------------------------------------------
-echo 8) show all acquired cards kienboec
-curl -X GET http://localhost:10001/cards --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo should fail (no token)
-curl -X GET http://localhost:10001/cards 
-echo.
-curl -X GET http://localhost:10001/cards --header "Authorization: Basic blabla"
-echo.
 
-REM --------------------------------------------------
-echo 9) show all acquired cards altenhof
-curl -X GET http://localhost:10001/cards --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
 
-REM --------------------------------------------------
-echo 10) show unconfigured deck
-curl -X GET http://localhost:10001/deck --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-curl -X GET http://localhost:10001/deck --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
 
 REM --------------------------------------------------
 echo 11) configure deck
@@ -167,89 +133,7 @@ curl -X PUT http://localhost:10001/deck --header "Content-Type: application/json
 echo.
 
 
-REM --------------------------------------------------
-echo 12) show configured deck 
-curl -X GET http://localhost:10001/deck --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-curl -X GET http://localhost:10001/deck --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
 
-REM --------------------------------------------------
-echo 13) show configured deck different representation
-echo kienboec
-curl -X GET http://localhost:10001/deck?format=plain --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo.
-echo altenhof
-curl -X GET http://localhost:10001/deck?format=plain --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
-
-REM --------------------------------------------------
-echo 14) edit user data
-echo.
-curl -X GET http://localhost:10001/users/kienboec --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-curl -X GET http://localhost:10001/users/altenhof --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-curl -X PUT http://localhost:10001/users/kienboec --header "Content-Type: application/json" --header "Authorization: Basic %KIENBOEC_TOKEN%" -d "{\"Name\": \"Kienboeck\",  \"Bio\": \"me playin...\", \"Image\": \":-)\"}"
-echo.
-curl -X PUT http://localhost:10001/users/altenhof --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "{\"Name\": \"Altenhofer\", \"Bio\": \"me codin...\",  \"Image\": \":-D\"}"
-echo.
-curl -X GET http://localhost:10001/users/kienboec --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-curl -X GET http://localhost:10001/users/altenhof --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
-echo should fail:
-curl -X GET http://localhost:10001/users/altenhof --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-curl -X GET http://localhost:10001/users/kienboec --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-curl -X PUT http://localhost:10001/users/kienboec --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "{\"Name\": \"Hoax\",  \"Bio\": \"me playin...\", \"Image\": \":-)\"}"
-echo.
-curl -X PUT http://localhost:10001/users/altenhof --header "Content-Type: application/json" --header "Authorization: Basic %KIENBOEC_TOKEN%" -d "{\"Name\": \"Hoax\", \"Bio\": \"me codin...\",  \"Image\": \":-D\"}"
-echo.
-curl -X GET http://localhost:10001/users/someGuy  --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo.
-
-REM --------------------------------------------------
-echo 15) stats
-curl -X GET http://localhost:10001/stats --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-curl -X GET http://localhost:10001/stats --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
-
-REM --------------------------------------------------
-echo 16) scoreboard
-curl -X GET http://localhost:10001/score --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo.
-
-REM --------------------------------------------------
-echo 17) battle
-start /b "kienboec battle" curl -X POST http://localhost:10001/battles --header "Authorization: Basic %KIENBOEC_TOKEN%"
-start /b "altenhof battle" curl -X POST http://localhost:10001/battles --header "Authorization: Basic %ALTENHOF_TOKEN%"
-ping localhost -n 2 >NUL 2>NUL
-
-REM --------------------------------------------------
-echo 18) Stats 
-echo kienboec
-curl -X GET http://localhost:10001/stats --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo altenhof
-curl -X GET http://localhost:10001/stats --header "Authorization: Basic %ALTENHOF_TOKEN%"
-echo.
-echo.
-
-REM --------------------------------------------------
-echo 19) scoreboard
-curl -X GET http://localhost:10001/score --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo.
 
 REM --------------------------------------------------
 echo 20) trade
@@ -257,7 +141,7 @@ echo check trading deals
 curl -X GET http://localhost:10001/tradings --header "Authorization: Basic %KIENBOEC_TOKEN%"
 echo.
 echo create trading deal
-curl -X POST http://localhost:10001/tradings --header "Content-Type: application/json" --header "Authorization: Basic %KIENBOEC_TOKEN%" -d "{\"Id\": \"6cd85277-4590-49d4-b0cf-ba0a921faad0\", \"CardId\": \"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"CardType\": \"monster\", \"MinimumDamage\": 15}"
+curl -X POST http://localhost:10001/tradings --header "Content-Type: application/json" --header "Authorization: Basic %KIENBOEC_TOKEN%" -d "{\"Id\": \"6cd85277-4590-49d4-b0cf-ba0a921faad0\", \"CardToTrade\": \"1cb6ab86-bdb2-47e5-b6e4-68c5ab389334\", \"Type\": \"monster\", \"MinimumDamage\": 15}"
 echo.
 echo check trading deals
 curl -X GET http://localhost:10001/tradings --header "Authorization: Basic %KIENBOEC_TOKEN%"
@@ -292,28 +176,6 @@ curl -X GET http://localhost:10001/tradings --header "Authorization: Basic %ALTE
 echo.
 echo.
 
-REM --------------------------------------------------
-echo 22) terminate session
-echo should fail(no authorization header)
-curl -X DELETE http://localhost:10001/sessions
-echo.
-echo should fail(wrong token)
-curl -X DELETE http://localhost:10001/sessions  --header "Authorization: Basic kienblablaboec-mtcgToken"
-echo.
-echo should work
-curl -X DELETE http://localhost:10001/sessions  --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo should fail(session allready deleted)
-curl -X DELETE http://localhost:10001/sessions  --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo should fail (try action that needs authorization. for example show cards)
-curl -X GET http://localhost:10001/cards --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo login and try again
-FOR /F "tokens=*" %%g IN ('curl -X POST http://localhost:10001/sessions --header "Content-Type: application/json" -d "{\"Username\":\"kienboec\",\"Password\":\"daniel\"}"') do (SET KIENBOEC_TOKEN=%%g)
-curl -X GET http://localhost:10001/cards --header "Authorization: Basic %KIENBOEC_TOKEN%"
-echo.
-echo.
 
 curl -X DELETE http://localhost:10001/sessions  --header "Authorization: Basic %KIENBOEC_TOKEN%"
 echo.

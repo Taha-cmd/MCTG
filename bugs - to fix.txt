@@ -1,7 +1,2 @@
 current state - target state
 
-you can configure deck with cards you don't own! - cards in deck should be only from the stack
-
-
-bugs from unkown source:
-sometimes confirgures deck throws an exception. PUT => /deck

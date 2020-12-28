@@ -18,8 +18,8 @@ namespace MCTG
 {
     class Program
     {
-          static void Main(string[] args)
-          {
+        static void Main(string[] args)
+        {
 
             HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
             server.Start();
@@ -32,11 +32,11 @@ namespace MCTG
                 {
                     new Thread(() => server.HandleClient(client)).Start();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     ex.Log();
                 }
-            }  
-        } 
+            }
+        }
     }
 }

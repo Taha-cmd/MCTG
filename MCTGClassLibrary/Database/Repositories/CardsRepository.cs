@@ -4,6 +4,7 @@ using MCTGClassLibrary.Enums;
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Text;
 
@@ -55,6 +56,28 @@ namespace MCTGClassLibrary.Database.Repositories
 
         public bool CardExists(string id) => Exists(Table, "id", id);
 
+        public CardData GetCard(string cardID)
+        {
+            if (!CardExists(cardID))
+                throw new InvalidDataException($"card {cardID} does not exist");
+
+            using var conn = database.GetConnection();
+            using var command = new NpgsqlCommand($"SELECT * FROM \"{Table}\" where \"{Table}\".id = @cardID", conn);
+            command.Parameters.AddWithValue("cardID", cardID);
+
+            var reader = command.ExecuteReader();
+            reader.Read();
+
+            return new CardData
+            {
+                Id = reader.GetValue<string>("id"),
+                Name = reader.GetValue<string>("name"),
+                Damage = reader.GetValue<double>("damage"),
+                Weakness = reader.GetValue<double>("weakness")
+            };
+        }
+
+        public CardData[] GetCards(string username) => GetCards(new UsersRepository().GetUserID(username));
         public CardData[] GetCards(int userId = -1)
         {
             List<CardData> cards = new List<CardData>();
@@ -84,8 +107,11 @@ namespace MCTGClassLibrary.Database.Repositories
                     ));
             }
 
-
             return cards.ToArray();
         }
+
+        public bool InStack(int userID, string cardID) => GetCards(userID).Any(card => card.Id == cardID);
+        public bool InStack(string username, string cardID) => GetCards(username).Any(card => card.Id == cardID);
+
     }
 }

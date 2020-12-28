@@ -59,8 +59,14 @@ namespace MCTGClassLibrary.Database.Repositories
             var cardsRepo = new CardsRepository();
 
             foreach (string cardID in cards)
+            {
                 if (!cardsRepo.CardExists(cardID))
                     throw new InvalidDataException($"Card with ID {cardID} does not exist");
+                
+                if(!cardsRepo.InStack(userID, cardID))
+                    throw new InvalidDataException($"Card with ID {cardID} is not in your stack");
+            }
+
 
             int cardsToInsert = Config.DECKSIZE - Size(userID);
             int cardsToUpdate = 1 - cardsToInsert;
@@ -69,7 +75,6 @@ namespace MCTGClassLibrary.Database.Repositories
             for(; index < cardsToInsert; index++)
                 InsertRecord(userID, cards[index]);
 
-            
             // consider refactoring this ugly shit
             for (; index < cardsToUpdate; index++)
             {
@@ -79,7 +84,6 @@ namespace MCTGClassLibrary.Database.Repositories
                     if (!card.Id.In(cards))
                         UpdateValue<string, string>(Table, "card_id", card.Id, "card_id", cards[index]);
             }
-
         }
 
         private void InsertRecord(int userID, string cardID)

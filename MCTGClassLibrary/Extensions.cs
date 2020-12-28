@@ -13,7 +13,11 @@ namespace MCTGClassLibrary
         public static bool IsEven(this int num) => num % 2 == 0;
         public static bool In<T>(this T obj, params T[] list) => new List<T>(list).Contains(obj);
         public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str);
-        public static T GetValue<T>(this NpgsqlDataReader reader, string key) => reader.GetFieldValue<T>(reader.GetOrdinal(key));
+        public static T GetValue<T>(this NpgsqlDataReader reader, string key)
+        {
+            int index = reader.GetOrdinal(key);
+            return  reader.IsDBNull(index) ? default(T) : reader.GetFieldValue<T>(index);
+        }
 
         public static void Log(this Exception ex)
         {

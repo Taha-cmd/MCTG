@@ -61,9 +61,9 @@ namespace MCTGClassLibrary.Database.Repositories
             string statement = $"INSERT INTO \"{Table}\" (username, password, coins, name, image, bio) " +
                                "VALUES (@username, @password, @coins, @name, @image, @bio)";
 
-            var name    = user.Name == null ? new NpgsqlParameter("name", DBNull.Value) : new NpgsqlParameter<string>("name", user.Name);
-            var image   = user.Image == null ? new NpgsqlParameter("image", DBNull.Value) : new NpgsqlParameter<string>("image", user.Image);
-            var bio     = user.Bio == null ? new NpgsqlParameter("bio", DBNull.Value) : new NpgsqlParameter<string>("bio", user.Bio);
+            var name    = user.Name.IsNull() ? new NpgsqlParameter("name", DBNull.Value) : new NpgsqlParameter<string>("name", user.Name);
+            var image   = user.Image.IsNull() ? new NpgsqlParameter("image", DBNull.Value) : new NpgsqlParameter<string>("image", user.Image);
+            var bio     = user.Bio.IsNull() ? new NpgsqlParameter("bio", DBNull.Value) : new NpgsqlParameter<string>("bio", user.Bio);
 
             int rowsAffected = database.ExecuteNonQuery(
                     statement,
