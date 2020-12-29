@@ -1,10 +1,6 @@
-﻿using MCTGClassLibrary.Database.Repositories;
-using MCTGClassLibrary.DataObjects;
+﻿using MCTGClassLibrary.Networking.HTTP;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using MCTGClassLibrary.Networking.HTTP;
 using System.Text.Json;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
@@ -16,7 +12,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
         protected bool Authorized(string authorizationString) => Session.TokenExists(ExtractAuthorizationToken(authorizationString));
         protected string ExtractAuthorizationToken(string authorizationString)
         {
-            // Basic <name>-mctgToken
+            // Basic <token>
             // trim off the 'Basic '
             try
             {

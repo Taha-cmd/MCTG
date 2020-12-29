@@ -1,9 +1,6 @@
 ﻿using MCTGClassLibrary.Database.Repositories;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using MCTGClassLibrary.Networking.HTTP;
+using System.IO;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {

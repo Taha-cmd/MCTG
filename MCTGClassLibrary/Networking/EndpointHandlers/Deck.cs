@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using MCTGClassLibrary.Database.Repositories;
+﻿using MCTGClassLibrary.Database.Repositories;
 using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Networking.HTTP;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {

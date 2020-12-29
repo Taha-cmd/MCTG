@@ -2,7 +2,6 @@
 using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Networking.HTTP;
 using System;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
 
@@ -54,8 +53,8 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         //username not needed anymore
         private string GenerateToken(string username = null) => RandomString(64);
-            //return username + "-mtcgToken";
-            
+        //private string GenerateToken(string username) => username + "-mtcgToken";
+
         private string RandomString(int length)
         {
             // credits: https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings

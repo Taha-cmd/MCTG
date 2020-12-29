@@ -2,11 +2,9 @@
 using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
 using Npgsql;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
+using System.Linq;
 
 namespace MCTGClassLibrary.Database.Repositories
 {

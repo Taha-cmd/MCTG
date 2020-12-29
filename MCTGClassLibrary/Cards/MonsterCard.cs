@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MCTGClassLibrary.DataObjects;
+﻿using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
 
 namespace MCTGClassLibrary

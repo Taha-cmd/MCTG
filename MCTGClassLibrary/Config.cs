@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-
-namespace MCTGClassLibrary.Database.Repositories
+﻿namespace MCTGClassLibrary.Database.Repositories
 {
     public class Config
     {

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MCTGClassLibrary.Cards.Monsters;
+﻿using MCTGClassLibrary.Cards.Monsters;
 using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
+using System;
 
 namespace MCTGClassLibrary.Cards
 {

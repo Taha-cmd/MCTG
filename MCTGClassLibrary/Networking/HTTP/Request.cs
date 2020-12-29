@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 
 namespace MCTGClassLibrary
 {
@@ -16,6 +15,7 @@ namespace MCTGClassLibrary
         public string Payload { get; private set; }
         public string Authorization { get; private set; }
         public string Route { get; private set; }
+        public string[] RouteTokens { get; private set; }
 
         public Request(NetworkStream clientStream)
         {
@@ -31,8 +31,8 @@ namespace MCTGClassLibrary
 
             ParseRequest();
             ParseQueryParams();
+            ParseRouteTokens();
         }
-
         public override void Display(ConsoleColor color = ConsoleColor.Green)
         {
             base.Display(color);
@@ -104,18 +104,23 @@ namespace MCTGClassLibrary
             if (!Values["Route"].Contains('?'))
                 return;
 
-            string[] tokens = Values["Route"].Split("?");
+            // SkipWhile not skipping last element? use where
+            QueryParams =    Values["Route"].Split("?")
+                            .Where(el => el.Contains("="))
+                            .ToDictionary
+                             (
+                                el => el.Substring(0, el.IndexOf("=")).Trim(), // key selector
+                                el => el.Substring(el.IndexOf("=") + 1).Trim() // value selector
+                             );
+        }
+        private void ParseRouteTokens()
+        {
+            string route = Route.Contains("?") ? Route.Substring(0, Route.IndexOf("?")) : Route;
+            RouteTokens =   route.Split("/")
+                            .SkipWhile(el => el.IsNullOrWhiteSpace())
+                            .ToArray();
 
-            foreach(var val in tokens)
-            {
-                if(val.Contains("="))
-                {
-                    int splitIndex = val.IndexOf("=");
-                    string key = val.Substring(0, splitIndex).Trim();
-                    string value = val.Substring(splitIndex + 1).Trim();
-                    QueryParams.Add(key, value);
-                }
-            }
+            Values.Add("RouteTokens", RouteTokens.Serialize());
         }
     }
 }

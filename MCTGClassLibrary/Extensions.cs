@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.Json;
 
 namespace MCTGClassLibrary
 {
@@ -13,6 +13,7 @@ namespace MCTGClassLibrary
         public static bool IsEven(this int num) => num % 2 == 0;
         public static bool In<T>(this T obj, params T[] list) => new List<T>(list).Contains(obj);
         public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrEmpty(str) || string.IsNullOrWhiteSpace(str);
+        public static string Serialize(this string[] array) => JsonSerializer.Serialize(array);
         public static T GetValue<T>(this NpgsqlDataReader reader, string key)
         {
             int index = reader.GetOrdinal(key);
@@ -30,7 +31,6 @@ namespace MCTGClassLibrary
 
             Console.ForegroundColor = currentColor;
         }
-
         public static bool IsNumeric(this object obj)
         {
 

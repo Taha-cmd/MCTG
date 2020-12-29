@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MCTGClassLibrary.DataObjects;
+using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using MCTGClassLibrary.DataObjects;
-using Npgsql;
 
 namespace MCTGClassLibrary.Database.Repositories
 {

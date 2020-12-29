@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
+﻿using MCTGClassLibrary;
+using MCTGClassLibrary.Database.Repositories;
+using System;
 using System.Net.Sockets;
 using System.Threading;
-using MCTGClassLibrary;
-using MCTGClassLibrary.Cards;
-using MCTGClassLibrary.Database;
-using MCTGClassLibrary.Database.Repositories;
-using MCTGClassLibrary.Enums;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using MCTGClassLibrary.DataObjects;
-using MCTGClassLibrary.Networking.HTTP;
 
 namespace MCTG
 {

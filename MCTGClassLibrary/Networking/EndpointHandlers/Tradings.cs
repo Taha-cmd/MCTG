@@ -1,14 +1,10 @@
-﻿using MCTGClassLibrary.Networking.HTTP;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Linq;
-using MCTGClassLibrary.DataObjects;
+﻿using MCTGClassLibrary.Cards;
 using MCTGClassLibrary.Database.Repositories;
-using System.Text.Json;
+using MCTGClassLibrary.DataObjects;
 using MCTGClassLibrary.Enums;
-using MCTGClassLibrary.Cards;
+using MCTGClassLibrary.Networking.HTTP;
+using System.Linq;
+using System.Text.Json;
 
 namespace MCTGClassLibrary.Networking.EndpointHandlers
 {
@@ -34,23 +30,20 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
 
-            // token 2 is deal id => index 1
-            string[] routeTokens = request.Route.Split("/").SkipWhile(el => el.IsNullOrWhiteSpace()).ToArray();
-
-            if (routeTokens.Length != 2)
+            if (request.RouteTokens.Length != 2)
                 return ResponseManager.BadRequest("invalid request");
 
             TradeDealsRepository dealer = new TradeDealsRepository();
 
-            if (!dealer.DealExists(routeTokens[1]))
-                return ResponseManager.NotFound($"Deal {routeTokens[1]} not found");
+            if (!dealer.DealExists(request.RouteTokens[1]))
+                return ResponseManager.NotFound($"Deal {request.RouteTokens[1]} not found");
 
             string username = Session.GetUsername(ExtractAuthorizationToken(request.Authorization));
-            if (!dealer.HasDeal(username, routeTokens[1]))
-                return ResponseManager.BadRequest($"Deal {routeTokens[1]} is not yours!");
+            if (!dealer.HasDeal(username, request.RouteTokens[1]))
+                return ResponseManager.BadRequest($"Deal {request.RouteTokens[1]} is not yours!");
 
-            dealer.RemoveDeal(routeTokens[1]);
-            return ResponseManager.OK($"Deal {routeTokens[1]} successfully deleted");
+            dealer.RemoveDeal(request.RouteTokens[1]);
+            return ResponseManager.OK($"Deal {request.RouteTokens[1]} successfully deleted");
         }
         protected override Response PostHandler(Request request)
         {
@@ -62,13 +55,11 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
-
-            string[] routeTokens = request.Route.Split("/").SkipWhile(el => el.IsNullOrWhiteSpace()).ToArray();
             
-            switch(routeTokens.Length)
+            switch(request.RouteTokens.Length)
             {
                 case 1: return CreateTradeDeal(request);
-                case 2: return HandleTradeDeal(request, routeTokens[1]); 
+                case 2: return HandleTradeDeal(request, request.RouteTokens[1]); 
             } 
 
             return ResponseManager.InternalServerError();

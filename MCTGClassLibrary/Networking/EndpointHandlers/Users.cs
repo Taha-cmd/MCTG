@@ -42,7 +42,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
 
-            string requestedUsername = GetUserNameFromRoute(request.Route);
+            if (request.RouteTokens.Length != 2)
+                return ResponseManager.BadRequest("Invalid format");
+
+            string requestedUsername = request.RouteTokens[1];
             if (requestedUsername != Session.GetUsername( ExtractAuthorizationToken(request.Authorization)) )
                 return ResponseManager.Unauthorized($"you are not {requestedUsername}");
 
@@ -66,7 +69,10 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (!Authorized(request.Authorization))
                 return ResponseManager.Unauthorized();
 
-            string requestedUsername = GetUserNameFromRoute(request.Route);
+            if (request.RouteTokens.Length != 2)
+                return ResponseManager.BadRequest("Invalid format");
+
+            string requestedUsername = request.RouteTokens[1];
             if (requestedUsername != Session.GetUsername(ExtractAuthorizationToken(request.Authorization)))
                 return ResponseManager.Unauthorized($"you are not {requestedUsername}");
 
@@ -80,23 +86,6 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             usersRepo.UpdateUser(requestedUsername, user);
             return ResponseManager.OK($"info for user {requestedUsername} updated successfully");
 
-        }
-
-        // helper methods
-        private string GetUserNameFromRoute(string route)
-        {
-            try
-            {
-                route = route.Contains("?") ? route.Substring(0, route.IndexOf("?")) : route;
-                string[] tokens = route.Split("/");
-                route = tokens[2];
-            }
-            catch (Exception)
-            {
-                throw new InvalidDataException("Invalid request to this endpoint. Could not extract username");
-            }
-
-            return route;
         }
     }
 }
