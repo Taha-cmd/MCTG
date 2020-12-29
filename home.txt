@@ -24,7 +24,8 @@ Endpoints:
 
 * some of the endpoints don't support all methods
 * endpoints are case-insensitive
-* some actions require authorization. send the http header "Authorization: Basic <username>-mtcgToken" to authorize
+* some actions require authorization. send the http header "Authorization: Basic <token>" to authorize
+* you can get the authorization token by sending your username and password to /sessions
 
 -------------------------------------------------------------
 
@@ -74,6 +75,14 @@ Endpoints in Detail:
 
 	*******************************************************************************
 	7) /tradings
+		*) GET /tradings => display current trade deals. Requires Authorization
+
+		*) POST /tradings payload: "{"Id":"<Id>", "CardId":"<CardId>", "CardType":"<CardType>",
+			 "CardElement":"<CardElement>", "MinimumDamage":"<MinimumDamage>", "MaximumWeakness":"<MaximumWeakness>"}"
+			=> create new trade deal. Requires Authorization
+
+		*) POST /tradings/<DealId> payload: CardId => make offer for a trade deal
+		*) DELETE /tradings/<DealId> => delete an existing deal you own. Requires Authorization
 
 	*******************************************************************************
 	8) deck

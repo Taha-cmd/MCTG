@@ -19,7 +19,24 @@ namespace MCTGClassLibrary.Database.Repositories
         public int Size(string username) => Size(new UsersRepository().GetUserID(username));
         public CardData[] GetDeck(string username) => GetDeck(new UsersRepository().GetUserID(username));
         public void UpdateDeck(string username, params string[] cards) => UpdateDeck(new UsersRepository().GetUserID(username), cards);
+        public bool HasCardInDeck(string username, string cardID) => HasCardInDeck(new UsersRepository().GetUserID(username), cardID);
 
+        public bool HasCardInDeck(int userID, string cardID)
+        {
+            if (!new CardsRepository().CardExists(cardID))
+                throw new InvalidDataException($"card {cardID} does not exist");
+
+            string statement = $"SELECT COUNT(*) FROM \"{Table}\" WHERE card_id = @card_id AND user_id = @user_id";
+            var conn = database.GetConnection();
+            var command = new NpgsqlCommand(statement, conn);
+            command.Parameters.AddWithValue("card_id", cardID);
+            command.Parameters.AddWithValue("user_id", userID);
+
+            var reader = command.ExecuteReader();
+            reader.Read();
+
+            return reader.GetFieldValue<int>(0) == 1;
+        }
         public CardData[] GetDeck(int id)
         {
             if (Empty(id))
@@ -85,12 +102,10 @@ namespace MCTGClassLibrary.Database.Repositories
                         UpdateValue<string, string>(Table, "card_id", card.Id, "card_id", cards[index]);
             }
         }
-
         private void InsertRecord(int userID, string cardID)
         {
             string statement = $"INSERT INTO \"{Table}\" (user_id, card_id) VALUES(@user_id, @card_id)";
             database.ExecuteNonQuery(statement, new NpgsqlParameter("user_id", userID), new NpgsqlParameter("card_id", cardID));
         }
-
     }
 }

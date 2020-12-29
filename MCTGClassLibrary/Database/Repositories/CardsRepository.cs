@@ -110,6 +110,9 @@ namespace MCTGClassLibrary.Database.Repositories
             return cards.ToArray();
         }
 
+        public void TransferOwnership(int newOwner, string cardID) => UpdateValue<string, int>(Table, "id", cardID, "owner_id", newOwner);
+        public void TransferOwnership(string newOwner, string cardID) => TransferOwnership(new UsersRepository().GetUserID(newOwner), cardID);
+
         public bool InStack(int userID, string cardID) => GetCards(userID).Any(card => card.Id == cardID);
         public bool InStack(string username, string cardID) => GetCards(username).Any(card => card.Id == cardID);
 

@@ -284,6 +284,15 @@ curl -X POST http://localhost:10001/tradings/6cd85277-4590-49d4-b0cf-ba0a921faad
 echo.
 echo try to trade 
 echo.
+echo extended test should fail (does not own offered card)
+curl -X POST http://localhost:10001/tradings/6cd85277-4590-49d4-b0cf-ba0a921faad0 --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "\"65ff5f23-1e70-4b79-b3bd-f6eb679dd3b5\""
+echo.
+echo extended test should fail (offered card is not a monster)
+curl -X POST http://localhost:10001/tradings/6cd85277-4590-49d4-b0cf-ba0a921faad0 --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "\"74635fae-8ad3-4295-9139-320ab89c2844\""
+echo.
+echo extended test should fail (card is in deck - locked)
+curl -X POST http://localhost:10001/tradings/6cd85277-4590-49d4-b0cf-ba0a921faad0 --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "\"d6e9c720-9b5a-40c7-a6b2-bc34752e3463\""
+echo.
 curl -X POST http://localhost:10001/tradings/6cd85277-4590-49d4-b0cf-ba0a921faad0 --header "Content-Type: application/json" --header "Authorization: Basic %ALTENHOF_TOKEN%" -d "\"951e886a-0fbf-425d-8df5-af2ee4830d85\""
 echo.
 curl -X GET http://localhost:10001/tradings --header "Authorization: Basic %KIENBOEC_TOKEN%"
@@ -293,7 +302,7 @@ echo.
 echo.
 
 REM --------------------------------------------------
-echo 22) terminate session
+echo 22) terminate session (extended tests)
 echo should fail(no authorization header)
 curl -X DELETE http://localhost:10001/sessions
 echo.

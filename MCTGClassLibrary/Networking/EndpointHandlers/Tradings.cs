@@ -91,7 +91,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             if (request.Payload.IsNullOrWhiteSpace())
                 return ResponseManager.BadRequest("no payload");
 
-            string offeredCardId = request.Payload;
+            string offeredCardId = request.Payload.Replace('\"', ' ').Trim();
             var cards = new CardsRepository();
 
             if (!cards.CardExists(offeredCardId))
@@ -102,9 +102,16 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
             var offeredCard = cards.GetCard(offeredCardId);
 
+            if (new DecksRepository().HasCardInDeck(username, offeredCardId))
+                return ResponseManager.BadRequest($"card {deal.CardId} is in the deck for {username}. You can't trade cards in the deck");
+
             if (OfferMeatsDealRequirements(offeredCard, deal))
             {
-                // trade logic here
+                cards.TransferOwnership(deal.OwnerId, offeredCardId);
+                cards.TransferOwnership(username, deal.CardId);
+                dealer.RemoveDeal(deal.Id);
+
+                return ResponseManager.Created($"trade deal successfully closed.");
             }
 
             return ResponseManager.BadRequest($"Deal requirements not met!");
@@ -123,7 +130,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
         private bool CardTypeForTradeIsOk(string offeredCardName, string requiredCardType)
         {
-            if (requiredCardType.IsNull() || requiredCardType.ToLower() == "any")
+            if (requiredCardType.IsNullOrWhiteSpace() || requiredCardType.ToLower() == "any")
                 return true;
 
             CardType offeredCardType = CardsManager.ExtractCardType(offeredCardName);
@@ -134,12 +141,12 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
                 return offeredCardType == CardType.Monster;
 
             MonsterType monsterType = CardsManager.ExtractMonsterType(offeredCardName);
-            return requiredCardType == monsterType.ToString().ToLower();
+            return requiredCardType.ToLower() == monsterType.ToString().ToLower();
         }
 
         private bool ElementTypeForTradeIsOk(string offeredCardName, string requiredElementType)
         {
-            if (requiredElementType.IsNull() || requiredElementType.ToLower() == "any")
+            if (requiredElementType.IsNullOrWhiteSpace() || requiredElementType.ToLower() == "any")
                 return true;
 
             ElementType offeredCardElementType = CardsManager.ExtractElementType(offeredCardName);
@@ -156,6 +163,7 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             CardsRepository cardsRepo = new CardsRepository();
             UsersRepository usersRepo = new UsersRepository();
             TradeDealsRepository dealer = new TradeDealsRepository();
+            DecksRepository decksRepo = new DecksRepository();
 
             if (!deal.Validate())
                 return ResponseManager.BadRequest("invalid format for trade deal json object");
@@ -171,6 +179,9 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
 
             if (!cardsRepo.InStack(username, deal.CardId))
                 return ResponseManager.NotFound($"you don't own card {deal.CardId}");
+
+            if (decksRepo.HasCardInDeck(username, deal.CardId))
+                return ResponseManager.BadRequest($"card {deal.CardId} is in the deck for {username}. You can't trade cards in the deck");
 
             deal.OwnerId = usersRepo.GetUserID(username);
             dealer.AddDeal(deal);
