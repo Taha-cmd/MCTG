@@ -17,7 +17,6 @@ namespace MCTGClassLibrary.Database.Repositories
         public void MakeEntry(int userID) => database.ExecuteNonQuery($"INSERT INTO \"{Table}\" (user_id) VALUES (@user_id)", new NpgsqlParameter("user_id", userID));
         public void MakeEntry(string username) => MakeEntry(new UsersRepository().GetUserID(username));
 
-        
         public int GetScore(int userID) => GetValue<int, int>(Table, "user_id", userID, "points");
         public int GetScore(string username) => GetScore(new UsersRepository().GetUserID(username));
 
@@ -70,6 +69,8 @@ namespace MCTGClassLibrary.Database.Repositories
                 stats.LostBattles = reader.GetValue<int>("lost_battles");
             }
 
+            stats.WinRatio = stats.Battles == 0 ? 0 : Convert.ToDouble((double)stats.WonBattles / (double)stats.Battles);
+            stats.LoseRatio = stats.Battles == 0 ? 0 : Convert.ToDouble((double)stats.LostBattles / (double)stats.Battles);
             return stats;
         }
 
@@ -95,6 +96,12 @@ namespace MCTGClassLibrary.Database.Repositories
                         LostBattles = reader.GetValue<int>("lost_battles")
                     }
                 );
+            }
+
+            foreach(var stats in scoreBoard)
+            {
+                stats.WinRatio = stats.Battles == 0 ? 0 : Convert.ToDouble((double)stats.WonBattles / (double)stats.Battles);
+                stats.LoseRatio = stats.Battles == 0 ? 0 : Convert.ToDouble((double)stats.LostBattles / (double)stats.Battles);
             }
 
             return scoreBoard;

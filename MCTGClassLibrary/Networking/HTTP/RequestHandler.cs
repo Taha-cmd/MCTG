@@ -21,8 +21,6 @@ namespace MCTGClassLibrary
             if (endpointHandler.IsNull())
                 return ResponseManager.BadRequest($"Endpoint {request.Endpoint} does not exist");
 
-            //OnRequestHandled(new RequestEventArgs());
-
             try
             {
                 Response resp = endpointHandler.HandleRequest(request);
@@ -35,16 +33,6 @@ namespace MCTGClassLibrary
 
             return ResponseManager.InternalServerError();
             
-        }
-
-        //fire event every time a request is handled
-        // gamehandler will subscribe to this event
-        public static event EventHandler<RequestEventArgs> RequestHandled;
-        protected static void OnRequestHandled(RequestEventArgs args)
-        {
-            RequestHandled?.Invoke(null, args);
-            // cannot use this in a static method
-            // send null instead
         }
     }
 }

@@ -14,6 +14,8 @@ namespace MCTGClassLibrary.DataObjects
         public int? Battles { get; set; } = null;
         public int? WonBattles { get; set; } = null;
         public int? LostBattles { get; set; } = null;
+        public double WinRatio { get; set; } = 0;
+        public double LoseRatio { get; set; } = 0;
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -23,6 +25,8 @@ namespace MCTGClassLibrary.DataObjects
             info.AddValue("Battles", Battles);
             info.AddValue("WonBattles", WonBattles);
             info.AddValue("LostBattles", LostBattles);
+            info.AddValue("WinRatio", WinRatio);
+            info.AddValue("LoseRatio", LoseRatio);
         }
     }
 }

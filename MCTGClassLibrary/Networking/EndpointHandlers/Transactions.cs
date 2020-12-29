@@ -30,7 +30,6 @@ namespace MCTGClassLibrary.Networking.EndpointHandlers
             return ResponseManager.Created($"package for {username} successfully acquired");
         }
 
-
         private void AcquirePackage(string username)
         {
             var users = new UsersRepository();

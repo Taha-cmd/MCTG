@@ -139,12 +139,13 @@ namespace MCTGClassLibrary
             var battlesRepo = new BattlesRepository();
             battlesRepo.AddBattle(decks[attackerIndex].Owner, decks[defenderIndex].Owner, winner, stringBuilder.ToString(), i+1);
 
-            if(!draw)
-            {
-                var scoreBoard = new ScoresRepository();
-                scoreBoard.IncreaseBattles(winner);
-                scoreBoard.IncreaseBattles(loser);
+            var scoreBoard = new ScoresRepository();
+            scoreBoard.IncreaseBattles(decks[defenderIndex].Owner);
+            scoreBoard.IncreaseBattles(decks[attackerIndex].Owner);
+            // increase battles count for both players
 
+            if (!draw)
+            {
                 scoreBoard.WonBattle(winner);
                 scoreBoard.LostBattle(loser);
 
@@ -167,11 +168,5 @@ namespace MCTGClassLibrary
             BattleEnded?.Invoke(this, args);
             //BattleEnded = null; // clear event handlers after firing it
         }
-
-        /*public void EventListener(object publisher, RequestEventArgs args)
-        {
-            Console.WriteLine(args.Test);
-        } */
-
     }
 }
