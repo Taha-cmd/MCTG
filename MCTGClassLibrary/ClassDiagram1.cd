@@ -1,0 +1,387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="MCTGClassLibrary.Cards.Monsters.Dragon" Collapsed="true">
+    <Position X="1.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\Dragon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.Monsters.FireElf" Collapsed="true">
+    <Position X="3.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\FireElf.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.Monsters.Goblin" Collapsed="true">
+    <Position X="6" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\Goblin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.Monsters.Knight" Collapsed="true">
+    <Position X="8.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\Knight.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.Monsters.Kraken" Collapsed="true">
+    <Position X="10.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\Kraken.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.Monsters.Ork" Collapsed="true">
+    <Position X="12.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\Ork.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.Monsters.Wizzard" Collapsed="true">
+    <Position X="15" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Monsters\Wizzard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Card" Collapsed="true">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBACAAAAggAAAgAAAACQAAIwAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\Card.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.MonsterCard" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Cards\MonsterCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.SpellCard" Collapsed="true">
+    <Position X="17.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAA=</HashCode>
+      <FileName>Cards\SpellCard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Deck" Collapsed="true">
+    <Position X="26.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIAAACAAAAEgAAAAAoABAQAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Game\Deck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.GameHandler" Collapsed="true">
+    <Position X="32" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAQAAAQAAAAAIABIAAAAAABBAAAASQAAAAAAAAA=</HashCode>
+      <FileName>Game\GameHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Player" Collapsed="true">
+    <Position X="26.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACgQAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Game\Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.HTTPServer" Collapsed="true">
+    <Position X="33.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAACAAAAAAAAAAAAAIAIAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\HTTP\HTTPServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Request" Collapsed="true">
+    <Position X="3" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAACAgAIEAwAQAAAAAACAAAAAAQAAAABAA=</HashCode>
+      <FileName>Networking\HTTP\Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.RequestHandler" Collapsed="true">
+    <Position X="28.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\HTTP\RequestHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Response" Collapsed="true">
+    <Position X="0.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAABAAAEAAAQBAAAAAAAAAAAAAAIAACAI=</HashCode>
+      <FileName>Networking\HTTP\Response.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.ResponseRequestBase" Collapsed="true">
+    <Position X="2" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAQAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Networking\HTTP\ResponseRequestBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Extensions" Collapsed="true">
+    <Position X="30.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gIAAAAgAIAAAAAAAAAAAAAAAACgAAAAIAAAAAAAAACg=</HashCode>
+      <FileName>Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Cards.CardsManager" Collapsed="true">
+    <Position X="30.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAIAAAAAAAAAAAAAEEAAAAAAAEAAAJQAEAAAAAA=</HashCode>
+      <FileName>Cards\CardsManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.BattlesRepository" Collapsed="true">
+    <Position X="8" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Repositories\BattlesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.CardsRepository" Collapsed="true">
+    <Position X="10.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEoAAAAAAAAAAIAAAAAAAAQAAAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Repositories\CardsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.DecksRepository" Collapsed="true">
+    <Position X="12.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAgAAAQAIAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Repositories\DecksRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.PackagesRepository" Collapsed="true">
+    <Position X="14.75" Y="8.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACCIAAAAAABAAAAAAACAAAAAIAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Database\Repositories\PackagesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.RepositoryBase" Collapsed="true">
+    <Position X="8" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAACIBAAAAAQAQAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Database\Repositories\RepositoryBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.ScoresRepository" Collapsed="true">
+    <Position X="1.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAwBAAIAAAAAAAAEAAAAAAECAAAAAABAAgAAAAAA=</HashCode>
+      <FileName>Database\Repositories\ScoresRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.TradeDealsRepository" Collapsed="true">
+    <Position X="3.5" Y="8.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACQBCACAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Repositories\TradeDealsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.UsersRepository" Collapsed="true">
+    <Position X="5.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQAAAAAAAAAAAQgAQAAACAAACQCAAAAAFAAAAAAAAAA=</HashCode>
+      <FileName>Database\Repositories\UsersRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Repositories.Config" Collapsed="true">
+    <Position X="32" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEIAAAMAAAAAAQCBAAAAEQAAgAgAABAAQQAAAEAAAA=</HashCode>
+      <FileName>Config.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Database.Database" Collapsed="true">
+    <Position X="33.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAgAAAAAAEBACAAACAACAAAAABAAAAA=</HashCode>
+      <FileName>Database\Database.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.DataObjects.CardData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAACAAAAAAAAAAAAAACQgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataObjects\CardData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MCTGClassLibrary.DataObjects.TradeDeal" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="33.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBAAIAACAAAAEAAAAAAAhAAgAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>DataObjects\TradeDeal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MCTGClassLibrary.DataObjects.UserData" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACQAACAQgAAAAABACAAAAAAAAAAA=</HashCode>
+      <FileName>DataObjects\UserData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MCTGClassLibrary.DataObjects.UserStats" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAABAAAAgAAAAQIAAAggAAAAAAAAAAAABAAACAA=</HashCode>
+      <FileName>DataObjects\UserStats.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="MCTGClassLibrary.Game.BattleEndedEventArgs" Collapsed="true">
+    <Position X="26.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\BattleEndedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Battles" Collapsed="true">
+    <Position X="17.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Battles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Cards" Collapsed="true">
+    <Position X="22" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Cards.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Deck" Collapsed="true">
+    <Position X="1.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAEAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Deck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.EndpointHandlerBase" Collapsed="true">
+    <Position X="13" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAQACABAAAAAAAAAgAIAAAEACAAAEAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\EndpointHandlerBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.EndpointHandlerManager" Collapsed="true">
+    <Position X="28.5" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\EndpointHandlerManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Home" Collapsed="true">
+    <Position X="10.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Home.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Packages" Collapsed="true">
+    <Position X="13" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Packages.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Score" Collapsed="true">
+    <Position X="15.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Score.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Sessions" Collapsed="true">
+    <Position X="19.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Sessions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Stats" Collapsed="true">
+    <Position X="24.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Stats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Tradings" Collapsed="true">
+    <Position X="4" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAABABAAAAAAAAAAAAgAAgAAAAAAACAAABCAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Tradings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Transactions" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Transactions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.EndpointHandlers.Users" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAACAAAEAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\Users.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.Session" Collapsed="true">
+    <Position X="32" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAQAAAAAAoBAAAAAEAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\Session.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MCTGClassLibrary.Networking.HTTP.ResponseManager" Collapsed="true">
+    <Position X="30.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAQAAIAAAAAAAgAAEAAAAAAAEAAAQAAAAhAAAEAAA=</HashCode>
+      <FileName>Networking\HTTP\ResponseManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="MCTGClassLibrary.Networking.IEndpointHandler" Collapsed="true">
+    <Position X="26.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\EndpointHandlers\IEndpointHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="MCTGClassLibrary.Enums.CardType" Collapsed="true">
+    <Position X="26.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAgAAAAAAAAA=</HashCode>
+      <FileName>Enums\CardType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MCTGClassLibrary.Enums.ElementType" Collapsed="true">
+    <Position X="28.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums\ElementType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MCTGClassLibrary.Enums.MonsterType" Collapsed="true">
+    <Position X="30.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAEAAAAABgAAAAAAAAAIAAAgAAAAAAAgAAA=</HashCode>
+      <FileName>Enums\MonsterType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
