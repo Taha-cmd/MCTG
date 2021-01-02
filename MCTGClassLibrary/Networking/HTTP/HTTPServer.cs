@@ -7,58 +7,35 @@ namespace MCTGClassLibrary
 {
     public class HTTPServer
     {
+        public delegate void ClientHandler(Request req, NetworkStream clientStream);
+
         private TcpListener listener;
+        private ClientHandler clientHandler;
+        
+        public HTTPServer(ClientHandler del)
+        {
+            clientHandler = del;
+        }
 
-        public bool Running { get; private set; }
-
-        public HTTPServer(int port)
+        public void Start(int port)
         {
             listener = new TcpListener(IPAddress.Any, port);
-        }
-
-        public void Start()
-        {
             listener.Start();
             Console.WriteLine("Server Running...");
-            Running = true;
-        }
 
-        public TcpClient AcceptClient()
-        {
-            TcpClient client = listener.AcceptTcpClient();
-            return client;
-        }
-
-        public void HandleClient(TcpClient client)
-        {
-            try
+            while(true)
             {
-                Request request = new Request(client.GetStream());
-
-                Monitor.Enter(this);
-                request.Display(ConsoleColor.Yellow);
-                Monitor.Exit(this);
-
-                RequestHandler handler = new RequestHandler();
-                Response response = handler.HandleRequest(request);
-
-                response.AddHeader("Content-Type", "text");
-                response.AddHeader("Server", "my shitty laptop");
-                response.AddHeader("Date", DateTime.Today.ToString());
-
-                Monitor.Enter(this);
-                response.Display(ConsoleColor.Green);
-                Console.WriteLine("----------------------------------------------------------------------------------\n");
-                Monitor.Exit(this);
-
-                response.Send(client.GetStream());
-                client.Close();
+                try
+                {
+                    var client = listener.AcceptTcpClient();
+                    var request = new Request(client.GetStream());
+                    new Thread(() => clientHandler(request, client.GetStream())).Start();  
+                }
+                catch(Exception ex)
+                {
+                    ex.Log();
+                }
             }
-            catch (Exception ex)
-            {
-                ex.Log();
-            }
-
         }
     }
 }

@@ -2,31 +2,39 @@
 using MCTGClassLibrary.Database.Repositories;
 using System;
 using System.Net.Sockets;
-using System.Threading;
 
 namespace MCTG
 {
     class Program
     {
+        private static object dummyobject = new object();
         static void Main(string[] args)
         {
 
-            HTTPServer server = new HTTPServer(Config.LISTENINGPORT);
-            server.Start();
-
-            while (true)
+            HTTPServer server = new HTTPServer((Request request, NetworkStream clientStream) =>
             {
-                TcpClient client = server.AcceptClient();
+                lock(dummyobject)
+                {
+                    request.Display(ConsoleColor.Yellow);
+                }
 
-                try
+                RequestHandler handler = new RequestHandler();
+                Response response = handler.HandleRequest(request);
+
+                response.AddHeader("Content-Type", "text");
+                response.AddHeader("Server", "my shitty laptop");
+                response.AddHeader("Date", DateTime.Today.ToString());
+
+                lock(dummyobject)
                 {
-                    new Thread(() => server.HandleClient(client)).Start();
+                    response.Display(ConsoleColor.Green);
+                    Console.WriteLine("----------------------------------------------------------------------------------\n");
                 }
-                catch (Exception ex)
-                {
-                    ex.Log();
-                }
-            }
+
+                response.Send(clientStream);
+            });
+
+            server.Start(Config.LISTENINGPORT);
         }
     }
 }
